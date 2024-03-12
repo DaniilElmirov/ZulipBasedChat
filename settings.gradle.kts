@@ -20,5 +20,5 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Homework_1"
-include(":app")
+include(":homework_1")
  
