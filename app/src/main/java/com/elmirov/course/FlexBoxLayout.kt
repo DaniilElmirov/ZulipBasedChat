@@ -2,7 +2,9 @@ package com.elmirov.course
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.core.view.children
 
 class FlexBoxLayout @JvmOverloads constructor(
@@ -13,21 +15,39 @@ class FlexBoxLayout @JvmOverloads constructor(
 ) : ViewGroup(context, attributeSet, defStyle, defTheme) {
 
     private companion object {
-        private const val MARGIN = 10
+        const val MARGIN_RIGHT = 10
+        const val MARGIN_TOP = 8
+    }
+
+    private val addIcon = ImageView(context, attributeSet, defStyle, defTheme).apply {
+        setImageResource(R.drawable.icon_add)
+        setBackgroundResource(R.drawable.icon_add_shape)
+        setPadding(
+            8.dp(context),
+            4.dp(context),
+            8.dp(context),
+            4.dp(context)
+        )
+    }
+
+    init {
+        addView(addIcon)
+    }
+
+    override fun addView(view: View) {
+        super.addView(view, childCount - 1)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val maxWidth = MeasureSpec.getSize(widthMeasureSpec)
-        var currentWidth = 0
-        var currentHeight = 0
-        var rowTop = paddingTop
-        var rowWidth = paddingLeft
-
         val maxHeight = if (childCount > 0) {
             children.maxOf {
                 it.measuredHeight
-            }
+            } + MARGIN_TOP.dp(context)
         } else 0
+        val maxWidth = MeasureSpec.getSize(widthMeasureSpec)
+        var currentWidth = 0
+        var currentRowHeight = 0
+        var rowWidth = paddingLeft
 
         children.forEach { view ->
             measureChildWithMargins(view, widthMeasureSpec, 0, heightMeasureSpec, 0)
@@ -36,22 +56,23 @@ class FlexBoxLayout @JvmOverloads constructor(
         children.forEach { view ->
             if (rowWidth + view.measuredWidth + paddingRight >= maxWidth) {
                 rowWidth = paddingLeft
-                rowTop += maxHeight
-                currentHeight += rowTop + maxHeight
+                currentRowHeight += maxHeight
             }
             view.apply {
                 left = rowWidth
-                top = rowTop
+                top = currentRowHeight
                 right = rowWidth + measuredWidth
-                bottom = top + measuredHeight
+                bottom = currentRowHeight + measuredHeight
             }
-            rowWidth += view.measuredWidth + MARGIN.dp(context)
+            rowWidth += view.measuredWidth + MARGIN_RIGHT.dp(context)
             currentWidth = maxOf(currentWidth, rowWidth)
         }
 
+        val currentHeight = currentRowHeight + maxHeight
+
         setMeasuredDimension(
             resolveSize(currentWidth, widthMeasureSpec),
-            resolveSize(maxOf(maxHeight, currentHeight), heightMeasureSpec)
+            resolveSize(currentHeight, heightMeasureSpec)
         )
     }
 
@@ -75,5 +96,11 @@ class FlexBoxLayout @JvmOverloads constructor(
         MarginLayoutParams(
             LayoutParams.WRAP_CONTENT,
             LayoutParams.WRAP_CONTENT
-        ) //TODO заменить на MATCH_PARENT
+        )
+
+    fun onIconAddClick(listener: (FlexBoxLayout) -> Unit) {
+        addIcon.setOnClickListener {
+            listener.invoke(this@FlexBoxLayout)
+        }
+    }
 }

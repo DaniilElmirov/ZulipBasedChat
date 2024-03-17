@@ -18,16 +18,21 @@ class MessageLayout @JvmOverloads constructor(
         MessageLayoutBinding.inflate(LayoutInflater.from(context), this)
     }
 
+    private val avatar = binding.avatar
+    private val name = binding.name
+    private val messageText = binding.messageText
+    private val reactions = binding.reactions
+
     var userName: String
-        get() = binding.name.text.toString()
+        get() = name.text.toString()
         set(value) {
-            binding.name.text = value
+            name.text = value
         }
 
-    var messageText: String
-        get() = binding.message.text.toString()
+    var message: String
+        get() = messageText.text.toString()
         set(value) {
-            binding.message.text = value
+            messageText.text = value
         }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -38,8 +43,7 @@ class MessageLayout @JvmOverloads constructor(
             children.maxOf {
                 it.getWidthWithMargins()
             }
-        } else
-            0
+        } else 0
 
         children.forEach {
             measureChildWithMargins(
@@ -50,7 +54,7 @@ class MessageLayout @JvmOverloads constructor(
                 currentHeight
             )
             currentHeight += it.getHeightWithMargins()
-            currentWidth = binding.avatar.getWidthWithMargins() + paddingLeft
+            currentWidth = avatar.getWidthWithMargins() + paddingLeft
         }
 
         val width = currentWidth + maxChildWidth
@@ -63,18 +67,16 @@ class MessageLayout @JvmOverloads constructor(
         var currentWidth = paddingLeft
         var currentHeight = paddingTop
 
-        binding.apply {
-            avatar.layoutWithMargins(currentWidth, currentHeight)
-            currentWidth += avatar.getWidthWithMargins()
+        avatar.layoutWithMargins(currentWidth, currentHeight)
+        currentWidth += avatar.getWidthWithMargins()
 
-            name.layoutWithMargins(currentWidth, currentHeight)
-            currentHeight += name.getHeightWithMargins()
+        name.layoutWithMargins(currentWidth, currentHeight)
+        currentHeight += name.getHeightWithMargins()
 
-            message.layoutWithMargins(currentWidth, currentHeight)
-            currentHeight += message.getHeightWithMargins()
+        messageText.layoutWithMargins(currentWidth, currentHeight)
+        currentHeight += messageText.getHeightWithMargins()
 
-            reactions.layoutWithMargins(currentWidth, currentHeight)
-        }
+        reactions.layoutWithMargins(currentWidth, currentHeight)
     }
 
     override fun generateLayoutParams(attrs: AttributeSet?): LayoutParams {
@@ -86,4 +88,24 @@ class MessageLayout @JvmOverloads constructor(
             LayoutParams.WRAP_CONTENT,
             LayoutParams.WRAP_CONTENT
         )
+
+
+    fun addReaction(emoji: String, count: Int) {
+        val reactionView = ReactionView(context).apply {
+            reaction = emoji
+            this.count = count
+        }
+
+        reactions.addView(reactionView)
+    }
+
+    fun onIconAddClick(listener: (MessageLayout) -> Unit) {
+        reactions.onIconAddClick {
+            listener.invoke(this@MessageLayout)
+        }
+    }
+
+    fun setAvatar(resId: Int) {
+        avatar.setImageResource(resId)
+    }
 }
