@@ -2,14 +2,13 @@ package com.elmirov.course
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Rect
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.withStyledAttributes
 
-class EmojiView @JvmOverloads constructor(
+class ReactionView @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
     defStyle: Int = 0,
@@ -21,8 +20,7 @@ class EmojiView @JvmOverloads constructor(
         const val DEFAULT_EMOJI = "\uD83E\uDD28"
     }
 
-
-    var emoji: String = DEFAULT_EMOJI
+    var reaction: String = DEFAULT_EMOJI
         set(value) {
             if (field != value) {
                 field = value
@@ -42,13 +40,29 @@ class EmojiView @JvmOverloads constructor(
         context.withStyledAttributes(attributeSet, R.styleable.EmojiView) {
             getInt(R.styleable.EmojiView_count, DEFAULT_COUNT)
         }
+        setBackgroundResource(R.drawable.reaction_bg)
+        setPadding(
+            8.dp(context),
+            4.dp(context),
+            8.dp(context),
+            4.dp(context)
+        )
+        setOnClickListener {
+            isSelected = if (isSelected) {
+                count--
+                false
+            } else {
+                count++
+                true
+            }
+        }
     }
 
     private val textToDraw
-        get() = "$emoji $count"
+        get() = "$reaction $count"
 
     private val textPaint = TextPaint().apply {
-        color = Color.GREEN
+        color = context.getColor(R.color.reaction_text_color)
         textSize = 24f.sp(context)
     }
 
