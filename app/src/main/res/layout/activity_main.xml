@@ -1,16 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <com.elmirov.course.EmojiView
-        android:id="@+id/emoji"
+    <com.elmirov.course.MessageLayout
+        android:id="@+id/message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/set_avatar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/emoji_bg"
-        android:padding="16dp" />
+        android:text="Set avatar" />
 
-</FrameLayout>
+    <Button
+        android:id="@+id/set_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set name" />
+
+    <Button
+        android:id="@+id/set_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set message" />
+
+    <Button
+        android:id="@+id/add_reaction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add reaction" />
+</LinearLayout>
+
