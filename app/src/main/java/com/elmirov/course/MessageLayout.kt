@@ -20,7 +20,7 @@ class MessageLayout @JvmOverloads constructor(
 
     private val avatar = binding.avatar
     private val name = binding.name
-    private val messageText = binding.messageText
+    private val message = binding.message
     private val reactions = binding.reactions
 
     var userName: String
@@ -29,10 +29,10 @@ class MessageLayout @JvmOverloads constructor(
             name.text = value
         }
 
-    var message: String
-        get() = messageText.text.toString()
+    var messageText: String
+        get() = message.text.toString()
         set(value) {
-            messageText.text = value
+            message.text = value
         }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -73,8 +73,8 @@ class MessageLayout @JvmOverloads constructor(
         name.layoutWithMargins(currentWidth, currentHeight)
         currentHeight += name.getHeightWithMargins()
 
-        messageText.layoutWithMargins(currentWidth, currentHeight)
-        currentHeight += messageText.getHeightWithMargins()
+        message.layoutWithMargins(currentWidth, currentHeight)
+        currentHeight += message.getHeightWithMargins()
 
         reactions.layoutWithMargins(currentWidth, currentHeight)
     }

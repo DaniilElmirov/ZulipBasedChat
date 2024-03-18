@@ -4,11 +4,12 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/figma_background_color"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
     <com.elmirov.course.MessageLayout
-        android:id="@+id/message"
+        android:id="@+id/message_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

@@ -23,10 +23,10 @@ class FlexBoxLayout @JvmOverloads constructor(
         setImageResource(R.drawable.icon_add)
         setBackgroundResource(R.drawable.icon_add_shape)
         setPadding(
-            8.dp(context),
-            4.dp(context),
-            8.dp(context),
-            4.dp(context)
+            8.dpToPix(context).toInt(),
+            4.dpToPix(context).toInt(),
+            8.dpToPix(context).toInt(),
+            4.dpToPix(context).toInt()
         )
     }
 
@@ -42,7 +42,7 @@ class FlexBoxLayout @JvmOverloads constructor(
         val maxHeight = if (childCount > 0) {
             children.maxOf {
                 it.measuredHeight
-            } + MARGIN_TOP.dp(context)
+            } + MARGIN_TOP.dpToPix(context).toInt()
         } else 0
         val maxWidth = MeasureSpec.getSize(widthMeasureSpec)
         var currentWidth = 0
@@ -64,7 +64,7 @@ class FlexBoxLayout @JvmOverloads constructor(
                 right = rowWidth + measuredWidth
                 bottom = currentRowHeight + measuredHeight
             }
-            rowWidth += view.measuredWidth + MARGIN_RIGHT.dp(context)
+            rowWidth += view.measuredWidth + MARGIN_RIGHT.dpToPix(context).toInt()
             currentWidth = maxOf(currentWidth, rowWidth)
         }
 

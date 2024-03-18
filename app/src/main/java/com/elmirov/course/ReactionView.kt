@@ -42,10 +42,10 @@ class ReactionView @JvmOverloads constructor(
         }
         setBackgroundResource(R.drawable.reaction_bg)
         setPadding(
-            8.dp(context),
-            4.dp(context),
-            8.dp(context),
-            4.dp(context)
+            8.dpToPix(context).toInt(),
+            4.dpToPix(context).toInt(),
+            8.dpToPix(context).toInt(),
+            4.dpToPix(context).toInt()
         )
         setOnClickListener {
             isSelected = if (isSelected) {

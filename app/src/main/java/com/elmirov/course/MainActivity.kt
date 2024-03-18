@@ -37,31 +37,35 @@ class MainActivity : AppCompatActivity() {
 
         binding.apply {
             setAvatar.setOnClickListener {
-                message.setAvatar(R.drawable.ic_launcher_background)
+                messageLayout.setAvatar(R.drawable.ic_launcher_background)
             }
 
             setName.setOnClickListener {
-                message.userName = "Какое-то имя"
+                messageLayout.userName = "Какое-то имя"
             }
 
             setMessage.setOnClickListener {
-                message.message =
-                    "Какое-то сообщение Какое-то сообщение Какое-то сообщение Какое-то сообщение Какое-то сообщение"
+                messageLayout.messageText =
+                    "Какое-то сообщение Какое-то сообщение Какое-то сообщениеКакое-то сообщение Какое-то сообщениеtttttttttttt"
             }
 
-            message.apply {
+            messageLayout.apply {
                 onIconAddClick {
-                    it.addReaction(String(Character.toChars(emojis[0])), 12)
+                    it.addReaction(getRandomEmoji(), getRandomCount())
                 }
             }
 
             addReaction.setOnClickListener {
-                val emoji = emojis[Random.nextInt(0, emojis.size)]
-                message.addReaction(
-                    String(Character.toChars(emoji)),
-                    Random.nextInt(0, 100)
-                )
+                messageLayout.addReaction(getRandomEmoji(), getRandomCount())
             }
         }
     }
+
+    private fun getRandomEmoji(): String {
+        val emoji = emojis[Random.nextInt(0, emojis.size)]
+        return String(Character.toChars(emoji))
+    }
+
+    private fun getRandomCount(): Int =
+        Random.nextInt(1, 100)
 }

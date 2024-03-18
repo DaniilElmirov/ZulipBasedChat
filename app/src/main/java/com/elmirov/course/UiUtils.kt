@@ -13,10 +13,10 @@ fun Float.sp(context: Context): Float =
         TypedValue.COMPLEX_UNIT_SP, this, context.resources.displayMetrics
     )
 
-fun Int.dp(context: Context): Int =
+fun Int.dpToPix(context: Context): Float =
     TypedValue.applyDimension(
         TypedValue.COMPLEX_UNIT_DIP, toFloat(), context.resources.displayMetrics
-    ).toInt()
+    )
 
 fun View.getHeightWithMargins(): Int =
     measuredHeight + marginTop + marginBottom
