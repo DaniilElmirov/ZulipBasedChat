@@ -37,8 +37,8 @@ class ReactionView @JvmOverloads constructor(
         }
 
     init {
-        context.withStyledAttributes(attributeSet, R.styleable.EmojiView) {
-            getInt(R.styleable.EmojiView_count, DEFAULT_COUNT)
+        context.withStyledAttributes(attributeSet, R.styleable.ReactionView) {
+            getInt(R.styleable.ReactionView_count, DEFAULT_COUNT)
         }
         setBackgroundResource(R.drawable.reaction_bg)
         setPadding(
@@ -63,7 +63,7 @@ class ReactionView @JvmOverloads constructor(
 
     private val textPaint = TextPaint().apply {
         color = context.getColor(R.color.reaction_text_color)
-        textSize = 24f.sp(context)
+        textSize = 14f.sp(context)
     }
 
     private val textRect = Rect()
