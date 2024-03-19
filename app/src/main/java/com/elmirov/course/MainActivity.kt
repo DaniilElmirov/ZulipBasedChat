@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.apply {
             setAvatar.setOnClickListener {
-                messageLayout.setAvatar(R.drawable.ic_launcher_background)
+                messageLayout.setAvatar(R.drawable.ic_launcher_foreground)
             }
 
             setName.setOnClickListener {
@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
 
             setMessage.setOnClickListener {
                 messageLayout.messageText =
-                    "Какое-то сообщение Какое-то сообщение Какое-то сообщениеКакое-то сообщение Какое-то сообщениеtttttttttttt"
+                    "Какое-то сообщение Какое-то сообщение Какое-то сообщениеКакое-то сообщение Какое-то сообщение"
             }
 
             messageLayout.apply {

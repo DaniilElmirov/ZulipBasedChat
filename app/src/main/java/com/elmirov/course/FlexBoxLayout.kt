@@ -42,7 +42,7 @@ class FlexBoxLayout @JvmOverloads constructor(
         val maxHeight = if (childCount > 0) {
             children.maxOf {
                 it.measuredHeight
-            } + MARGIN_TOP.dpToPix(context).toInt()
+            }
         } else 0
         val maxWidth = MeasureSpec.getSize(widthMeasureSpec)
         var currentWidth = 0
@@ -56,7 +56,7 @@ class FlexBoxLayout @JvmOverloads constructor(
         children.forEach { view ->
             if (rowWidth + view.measuredWidth + paddingRight >= maxWidth) {
                 rowWidth = paddingLeft
-                currentRowHeight += maxHeight
+                currentRowHeight += maxHeight + MARGIN_TOP.dpToPix(context).toInt()
             }
             view.apply {
                 left = rowWidth
