@@ -1,3 +1,11 @@
 <resources>
 	<string name="app_name">course</string>
+	<string name="set_avatar">Set avatar</string>
+	<string name="set_name">Set name</string>
+	<string name="set_message">Set message</string>
+	<string name="add_reaction">Add reaction</string>
+	<string name="name">Имя фамилия</string>
+	<string name="new_name">"Какое-то имя"</string>
+	<string name="message">Текст сообщения</string>
+	<string name="new_message">Какой-то текст сообщения Какой-то текст</string>
 </resources>

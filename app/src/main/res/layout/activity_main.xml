@@ -17,24 +17,24 @@
         android:id="@+id/set_avatar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Set avatar" />
+        android:text="@string/set_avatar" />
 
     <Button
         android:id="@+id/set_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Set name" />
+        android:text="@string/set_name" />
 
     <Button
         android:id="@+id/set_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Set message" />
+        android:text="@string/set_message" />
 
     <Button
         android:id="@+id/add_reaction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add reaction" />
+        android:text="@string/add_reaction" />
 </LinearLayout>
 

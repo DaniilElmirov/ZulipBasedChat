@@ -41,12 +41,11 @@ class MainActivity : AppCompatActivity() {
             }
 
             setName.setOnClickListener {
-                messageLayout.userName = "Какое-то имя"
+                messageLayout.userName = getString(R.string.new_name)
             }
 
             setMessage.setOnClickListener {
-                messageLayout.messageText =
-                    "Какое-то сообщение Какое-то сообщение Какое-то сообщениеКакое-то сообщение Какое-то сообщение"
+                messageLayout.messageText = getString(R.string.new_message)
             }
 
             messageLayout.apply {
