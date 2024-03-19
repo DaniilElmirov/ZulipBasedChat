@@ -55,6 +55,10 @@ class ReactionView @JvmOverloads constructor(
                 count++
                 true
             }
+
+            if (count == 0) {
+                (parent as FlexBoxLayout).removeView(this)
+            }
         }
     }
 
