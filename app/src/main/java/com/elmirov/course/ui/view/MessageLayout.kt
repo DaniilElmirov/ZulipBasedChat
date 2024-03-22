@@ -1,4 +1,4 @@
-package com.elmirov.course
+package com.elmirov.course.ui.view
 
 import android.content.Context
 import android.graphics.Canvas
@@ -8,7 +8,12 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.children
+import com.elmirov.course.R
 import com.elmirov.course.databinding.MessageLayoutBinding
+import com.elmirov.course.util.dpToPix
+import com.elmirov.course.util.getHeightWithMargins
+import com.elmirov.course.util.getWidthWithMargins
+import com.elmirov.course.util.layoutWithMargins
 
 class MessageLayout @JvmOverloads constructor(
     context: Context,

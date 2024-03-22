@@ -1,4 +1,4 @@
-package com.elmirov.course
+package com.elmirov.course.ui.view
 
 import android.content.Context
 import android.graphics.Canvas
@@ -7,6 +7,9 @@ import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.withStyledAttributes
+import com.elmirov.course.R
+import com.elmirov.course.util.dpToPix
+import com.elmirov.course.util.sp
 
 class ReactionView @JvmOverloads constructor(
     context: Context,

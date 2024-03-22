@@ -1,4 +1,4 @@
-package com.elmirov.course
+package com.elmirov.course.util
 
 import android.content.Context
 import android.util.TypedValue

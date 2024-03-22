@@ -1,4 +1,4 @@
-package com.elmirov.course
+package com.elmirov.course.ui.view
 
 import android.content.Context
 import android.util.AttributeSet
@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.view.children
+import com.elmirov.course.R
+import com.elmirov.course.util.dpToPix
 
 class FlexBoxLayout @JvmOverloads constructor(
     context: Context,
