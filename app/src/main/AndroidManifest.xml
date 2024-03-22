@@ -9,7 +9,7 @@
 		android:supportsRtl="false"
 		android:theme="@style/Theme.Homework_1">
 		<activity
-			android:name=".MainActivity"
+			android:name=".ui.activity.MainActivity"
 			android:exported="true">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
