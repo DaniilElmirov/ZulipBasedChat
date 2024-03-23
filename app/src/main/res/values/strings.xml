@@ -8,4 +8,5 @@
 	<string name="new_name">"Какое-то имя"</string>
 	<string name="message">Текст сообщения</string>
 	<string name="new_message">Какой-то текст сообщения Какой-то текст</string>
+    <string name="write">Написать…</string>
 </resources>

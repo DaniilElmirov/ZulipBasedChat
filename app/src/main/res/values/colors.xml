@@ -8,4 +8,5 @@
 	<color name="name_message_background_color">#1C1C1C</color>
 	<color name="figma_background_color">#121212</color>
 	<color name="input_background_color">#1E1E1E</color>
+	<color name="message_hint_text_color">#CCCCCC</color>
 </resources>
