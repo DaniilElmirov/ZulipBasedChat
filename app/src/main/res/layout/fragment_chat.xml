@@ -7,4 +7,4 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-    tools:listitem="@layout/message_layout" />
+    tools:listitem="@layout/message_item" />
