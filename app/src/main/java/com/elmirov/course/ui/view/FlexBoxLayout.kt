@@ -41,6 +41,10 @@ class FlexBoxLayout @JvmOverloads constructor(
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        children.forEach { view ->
+            measureChildWithMargins(view, widthMeasureSpec, 0, heightMeasureSpec, 0)
+        }
+
         val maxHeight = if (childCount > 0) {
             children.maxOf {
                 it.measuredHeight
@@ -50,10 +54,6 @@ class FlexBoxLayout @JvmOverloads constructor(
         var currentWidth = 0
         var currentRowHeight = 0
         var rowWidth = paddingLeft
-
-        children.forEach { view ->
-            measureChildWithMargins(view, widthMeasureSpec, 0, heightMeasureSpec, 0)
-        }
 
         children.forEach { view ->
             if (rowWidth + view.measuredWidth + paddingRight >= maxWidth) {
