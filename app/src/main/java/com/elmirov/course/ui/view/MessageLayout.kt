@@ -184,4 +184,8 @@ class MessageLayout @JvmOverloads constructor(
     fun setAvatar(resId: Int) {
         avatar.setImageResource(resId)
     }
+
+    fun removeAddIcon() {
+        reactions.removeAddIcon()
+    }
 }

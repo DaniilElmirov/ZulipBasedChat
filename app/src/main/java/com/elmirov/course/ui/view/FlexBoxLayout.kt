@@ -105,4 +105,17 @@ class FlexBoxLayout @JvmOverloads constructor(
             listener.invoke(this@FlexBoxLayout)
         }
     }
+
+    fun removeAddIcon() {
+        removeView(addIcon)
+    }
+
+    fun addReaction(emoji: String, count: Int) {
+        val reactionView = ReactionView(context).apply {
+            reaction = emoji
+            this.count = count
+        }
+
+        addView(reactionView)
+    }
 }
