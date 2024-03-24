@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/message_item" />
+        tools:listitem="@layout/incoming_message_item" />
 
     <LinearLayout
         android:id="@+id/input_area"
@@ -39,8 +39,8 @@
             android:maxLines="3"
             android:paddingHorizontal="20dp"
             android:paddingVertical="16dp"
-            android:textColorHint="@color/message_hint_text_color"
-            android:textColor="@color/user_message_color"/>
+            android:textColor="@color/user_message_color"
+            android:textColorHint="@color/message_hint_text_color" />
 
         <ImageView
             android:id="@+id/send_or_attach"
