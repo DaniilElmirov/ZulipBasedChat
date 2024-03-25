@@ -20,7 +20,9 @@ class ReactionView @JvmOverloads constructor(
 
     private companion object {
         const val DEFAULT_COUNT = 1
+
         const val DEFAULT_EMOJI = "\uD83E\uDD28"
+        const val DEFAULT_EMOJI_SIZE = 14f
     }
 
     var reaction: String = DEFAULT_EMOJI
@@ -32,6 +34,22 @@ class ReactionView @JvmOverloads constructor(
         }
 
     var count: Int = DEFAULT_COUNT
+        set(value) {
+            if (field != value) {
+                field = value
+                requestLayout()
+            }
+        }
+
+    var countVisible: Boolean = true
+        set(value) {
+            if (field != value) {
+                field = value
+                requestLayout()
+            }
+        }
+
+    var size: Float = DEFAULT_EMOJI_SIZE
         set(value) {
             if (field != value) {
                 field = value
@@ -66,16 +84,16 @@ class ReactionView @JvmOverloads constructor(
     }
 
     private val textToDraw
-        get() = "$reaction $count"
+        get() = if (countVisible) "$reaction $count" else reaction
 
     private val textPaint = TextPaint().apply {
         color = context.getColor(R.color.reaction_text_color)
-        textSize = 14f.sp(context)
     }
 
     private val textRect = Rect()
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        textPaint.textSize = size.sp(context)
         textPaint.getTextBounds(textToDraw, 0, textToDraw.length, textRect)
 
         val actualWidth = resolveSize(
