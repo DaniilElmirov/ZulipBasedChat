@@ -1,9 +1,7 @@
 package com.elmirov.course.domain
 
-import java.util.UUID
-
 data class Message(
-    val id: UUID = UUID.randomUUID(),
+    val id: Int,
     val userId: Int,
     val data: String? = null,
     val authorName: String,
