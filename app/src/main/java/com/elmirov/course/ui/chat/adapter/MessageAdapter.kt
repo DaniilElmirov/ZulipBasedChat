@@ -6,7 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.elmirov.course.domain.Message
 
 class MessageAdapter(
-    private val onAddIconClick: (Int) -> Unit
+    private val onAddIconClick: (Int) -> Unit,
+    private val onMessageLongClick: () -> Unit,
 ) : ListAdapter<Message, RecyclerView.ViewHolder>(MessageDiffUtil()) {
 
     private companion object {
@@ -18,8 +19,18 @@ class MessageAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
         when (viewType) {
-            INCOMING_MESSAGE -> IncomingMessageViewHolder(parent, onAddIconClick)
-            OUTGOING_MESSAGE -> OutgoingMessageViewHolder(parent)
+            INCOMING_MESSAGE -> IncomingMessageViewHolder(
+                parent,
+                onAddIconClick,
+                onMessageLongClick
+            )
+
+            OUTGOING_MESSAGE -> OutgoingMessageViewHolder(
+                parent,
+                onAddIconClick,
+                onMessageLongClick
+            )
+
             else -> throw IllegalStateException()
         }
 

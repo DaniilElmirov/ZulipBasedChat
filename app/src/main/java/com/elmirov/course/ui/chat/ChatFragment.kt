@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import com.elmirov.course.R
 import com.elmirov.course.databinding.FragmentChatBinding
 import com.elmirov.course.domain.Message
-import com.elmirov.course.domain.Reaction
 import com.elmirov.course.presentation.ChatViewModel
 import com.elmirov.course.ui.chat.adapter.MessageAdapter
 import com.elmirov.course.util.collectLifecycleFlow
@@ -34,10 +33,12 @@ class ChatFragment : Fragment() {
     private val messagesAdapter by lazy {
         MessageAdapter(
             onAddIconClick = {
-                viewModel.addReactionToMessage(
-                    Reaction(0x1f602, it),
-                    it
-                )
+                ChooseReactionFragment.newInstance()
+                    .show(requireActivity().supportFragmentManager, ChooseReactionFragment.TAG)
+            },
+            onMessageLongClick = {
+                ChooseReactionFragment.newInstance()
+                    .show(requireActivity().supportFragmentManager, ChooseReactionFragment.TAG)
             }
         )
     }

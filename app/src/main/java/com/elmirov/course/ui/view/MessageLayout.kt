@@ -167,15 +167,6 @@ class MessageLayout @JvmOverloads constructor(
             LayoutParams.WRAP_CONTENT
         )
 
-    fun addReaction(emoji: String, count: Int) {
-        val reactionView = ReactionView(context).apply {
-            reaction = emoji
-            this.count = count
-        }
-
-        reactions.addView(reactionView)
-    }
-
     fun addReactions(reactions: List<Reaction>) {
         this.reactions.addReactions(reactions)
     }
@@ -192,5 +183,12 @@ class MessageLayout @JvmOverloads constructor(
 
     fun removeAddIcon() {
         reactions.removeAddIcon()
+    }
+
+    fun setLongClickListener(listener: () -> Unit) {
+        setOnLongClickListener {
+            listener.invoke()
+            true
+        }
     }
 }

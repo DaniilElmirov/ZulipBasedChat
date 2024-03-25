@@ -68,7 +68,7 @@ class ChatViewModel : ViewModel() {
             data = "14.12.2002",
             authorName = "AN",
             text = "теусуцуываы",
-            reactions = null
+            reactions = mapOf(0x1f600 to 12, 0x1f600 to 12, 0x1f601 to 11),
         ),
         Message(
             id = 8,
