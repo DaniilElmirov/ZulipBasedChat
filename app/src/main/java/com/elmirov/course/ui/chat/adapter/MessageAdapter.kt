@@ -5,7 +5,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.elmirov.course.domain.Message
 
-class MessageAdapter : ListAdapter<Message, RecyclerView.ViewHolder>(MessageDiffUtil()) {
+class MessageAdapter(
+    private val onAddIconClick: (Int) -> Unit
+) : ListAdapter<Message, RecyclerView.ViewHolder>(MessageDiffUtil()) {
 
     private companion object {
         private const val INCOMING_MESSAGE = 0
@@ -16,7 +18,7 @@ class MessageAdapter : ListAdapter<Message, RecyclerView.ViewHolder>(MessageDiff
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
         when (viewType) {
-            INCOMING_MESSAGE -> IncomingMessageViewHolder(parent)
+            INCOMING_MESSAGE -> IncomingMessageViewHolder(parent, onAddIconClick)
             OUTGOING_MESSAGE -> OutgoingMessageViewHolder(parent)
             else -> throw IllegalStateException()
         }

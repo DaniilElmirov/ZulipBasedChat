@@ -9,14 +9,16 @@ import androidx.fragment.app.Fragment
 import com.elmirov.course.R
 import com.elmirov.course.databinding.FragmentChatBinding
 import com.elmirov.course.domain.Message
+import com.elmirov.course.domain.Reaction
+import com.elmirov.course.presentation.ChatViewModel
 import com.elmirov.course.ui.chat.adapter.MessageAdapter
+import com.elmirov.course.util.collectLifecycleFlow
 
 class ChatFragment : Fragment() {
 
     companion object {
 
         private const val OWN_ID = 0
-        private const val OTHER_ID = -1
 
         fun newInstance(): ChatFragment = ChatFragment()
     }
@@ -25,84 +27,20 @@ class ChatFragment : Fragment() {
     private val binding
         get() = _binding!!
 
-    private val messagesAdapter by lazy {
-        MessageAdapter()
+    private val viewModel by lazy {
+        ChatViewModel()
     }
 
-    private val testData = listOf(
-        Message(
-            id = 1,
-            userId = OTHER_ID,
-            data = "12.02.2002",
-            authorName = "AN",
-            text = "ajdjklajdsjdsajkladsajdjklajdsjdsajkladsajdjklajdsjdsajkladsajdjklajdsjdsajkladsajdjklajdsjdsajkladsajdjklajdsjdsajkladsajdjklajdsjdsajklads",
-            reactions = mapOf(0x1f600 to 12, 0x1f600 to 12, 0x1f601 to 11)
-        ),
-        Message(
-            id = 2,
-            userId = OTHER_ID,
-            data = "12.02.2002",
-            authorName = "AN",
-            text = "ajdjklajdsjdsajklads",
-            reactions = mapOf(0x1f601 to 11)
-        ),
-        Message(
-            id = 3,
-            userId = OTHER_ID,
-            data = "12.02.2002",
-            authorName = "AN",
-            text = "ajdjklajdsjdsajklads",
-            reactions = mapOf(0x1f600 to 12)
-        ),
-        Message(
-            id = 4,
-            userId = OTHER_ID,
-            data = "14.02.2002",
-            authorName = "AN",
-            text = "ajdjklajdsjdsajklads",
-            reactions = mapOf(0x1f600 to 12)
-        ),
-        Message(
-            id = 5,
-            userId = OTHER_ID,
-            data = "14.12.2002",
-            authorName = "AN",
-            text = "ajdjklajdsjdsajklads",
-            reactions = mapOf(0x1f600 to 12)
-        ),
-        Message(
-            id = 6,
-            userId = OTHER_ID,
-            data = "14.12.2002",
-            authorName = "AN",
-            text = "ajdjklajdsjdsajklads",
-            reactions = null
-        ),
-        Message(
-            id = 7,
-            userId = OWN_ID,
-            data = "14.12.2002",
-            authorName = "AN",
-            text = "теусуцуываы",
-            reactions = null
-        ),
-        Message(
-            id = 8,
-            userId = OTHER_ID,
-            data = "14.12.2002",
-            authorName = "AN",
-            text = "фывфывыфыфыфв",
-            reactions = null
-        ),
-        Message(
-            id = 9,
-            userId = OWN_ID,
-            data = "14.12.2002",
-            authorName = "AN",
-            text = "теусуцуываы",
-            reactions = null
-        ),
-    )
+    private val messagesAdapter by lazy {
+        MessageAdapter(
+            onAddIconClick = {
+                viewModel.addReactionToMessage(
+                    Reaction(0x1f602, it),
+                    it
+                )
+            }
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -117,7 +55,9 @@ class ChatFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.chat.adapter = messagesAdapter
-        messagesAdapter.submitList(testData)
+        collectLifecycleFlow(viewModel.messages) {
+            messagesAdapter.submitList(it.data)
+        }
 
         binding.newMessage.doOnTextChanged { text, _, _, _ ->
             binding.sendOrAttach.apply {
@@ -138,15 +78,8 @@ class ChatFragment : Fragment() {
                 authorName = "I",
                 text = messageText,
             )
+            viewModel.sendMessage(newMessage)
             binding.newMessage.text = null
-
-            val currentList = messagesAdapter.currentList.toMutableList()
-            currentList.add(newMessage)
-            messagesAdapter.submitList(currentList)
-
-            binding.chat.apply {
-                scrollToPosition(messagesAdapter.itemCount - 1)
-            }
         }
     }
 

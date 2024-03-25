@@ -6,26 +6,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.elmirov.course.R
 import com.elmirov.course.databinding.IncomingMessageItemBinding
 import com.elmirov.course.domain.Message
-import kotlin.random.Random
+import com.elmirov.course.domain.Reaction
 
 class IncomingMessageViewHolder(
     parent: ViewGroup,
+    private val onAddIconClick: (Int) -> Unit
 ) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.incoming_message_item, parent, false)
 ) {
 
     private val binding = IncomingMessageItemBinding.bind(itemView)
-
-    private val emojis = intArrayOf(
-        0x1f600,
-        0x1f603,
-        0x1f604,
-        0x1f601,
-        0x1f606,
-        0x1f605,
-        0x1f923,
-        0x1f602,
-    )
 
     fun bind(message: Message) {
         binding.apply {
@@ -36,21 +26,14 @@ class IncomingMessageViewHolder(
             if (message.reactions.isNullOrEmpty()) {
                 incomingMessage.removeAddIcon()
             } else {
-                message.reactions.forEach {
-                    incomingMessage.addReaction(String(Character.toChars(it.key)), it.value)
+                val reactList = message.reactions.map {
+                    Reaction(it.key, it.value)
                 }
+                incomingMessage.addReactions(reactList)
                 incomingMessage.onIconAddClick {
-                    it.addReaction(getRandomEmoji(), getRandomCount())
+                    onAddIconClick(message.id)
                 }
             }
         }
     }
-
-    private fun getRandomEmoji(): String {
-        val emoji = emojis[Random.nextInt(0, emojis.size)]
-        return String(Character.toChars(emoji))
-    }
-
-    private fun getRandomCount(): Int =
-        Random.nextInt(1, 100)
 }
