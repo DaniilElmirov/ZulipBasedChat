@@ -4,17 +4,17 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.elmirov.course.R
-import com.elmirov.course.databinding.MessageItemBinding
+import com.elmirov.course.databinding.OutgoingMessageItemBinding
 import com.elmirov.course.domain.Message
 import kotlin.random.Random
 
-class MessageViewHolder(
+class OutgoingMessageViewHolder(
     parent: ViewGroup,
 ) : RecyclerView.ViewHolder(
-    LayoutInflater.from(parent.context).inflate(R.layout.message_item, parent, false)
+    LayoutInflater.from(parent.context).inflate(R.layout.outgoing_message_item, parent, false)
 ) {
 
-    private val binding = MessageItemBinding.bind(itemView)
+    private val binding = OutgoingMessageItemBinding.bind(itemView)
 
     private val emojis = intArrayOf(
         0x1f600,
@@ -29,15 +29,17 @@ class MessageViewHolder(
 
     fun bind(message: Message) {
         binding.apply {
-            this.message.userName = message.authorName
-            this.message.messageText = message.text
-            this.message.setAvatar(R.drawable.ic_launcher_foreground)
-            message.reactions.forEach {
-                this.message.addReaction(String(Character.toChars(it.key)), it.value)
+            if (message.reactions.isNullOrEmpty()) {
+                reactions.removeAddIcon()
+            } else {
+                message.reactions.forEach {
+                    reactions.addReaction(String(Character.toChars(it.key)), it.value)
+                }
+                reactions.onIconAddClick {
+                    it.addReaction(getRandomEmoji(), getRandomCount())
+                }
             }
-            this.message.onIconAddClick {
-                it.addReaction(getRandomEmoji(), getRandomCount())
-            }
+            messageText.text = message.text
         }
     }
 

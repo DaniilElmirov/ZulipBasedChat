@@ -115,8 +115,8 @@ class MessageLayout @JvmOverloads constructor(
         )
         currentHeight += reactions.getHeightWithMargins()
 
-        val width = currentWidth + maxChildWidth
-        val height = currentHeight + paddingBottom
+        val width = currentWidth + maxChildWidth + correctionLeft + correctionRight
+        val height = currentHeight + paddingBottom - correctionTop
 
         backgroundRect.set(
             rectLeft.toFloat(),
