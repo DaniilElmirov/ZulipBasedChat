@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.view.children
 import com.elmirov.course.R
+import com.elmirov.course.domain.Reaction
 import com.elmirov.course.util.dpToPix
 
 class FlexBoxLayout @JvmOverloads constructor(
@@ -30,10 +31,6 @@ class FlexBoxLayout @JvmOverloads constructor(
             8.dpToPix(context).toInt(),
             4.dpToPix(context).toInt()
         )
-    }
-
-    init {
-        addView(addIcon)
     }
 
     override fun addView(view: View) {
@@ -117,5 +114,18 @@ class FlexBoxLayout @JvmOverloads constructor(
         }
 
         addView(reactionView)
+    }
+
+    fun addReactions(reactions: List<Reaction>) {
+        removeAllViews()
+        addView(addIcon)
+        reactions.forEach {
+            val reactionView = ReactionView(context).apply {
+                reaction = String(Character.toChars(it.emoji))
+                count = it.count
+            }
+
+            addView(reactionView)
+        }
     }
 }
