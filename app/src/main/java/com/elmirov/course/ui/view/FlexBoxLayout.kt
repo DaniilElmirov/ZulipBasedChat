@@ -107,25 +107,24 @@ class FlexBoxLayout @JvmOverloads constructor(
         removeView(addIcon)
     }
 
-    fun addReaction(emoji: String, count: Int) {
-        val reactionView = ReactionView(context).apply {
-            reaction = emoji
-            this.count = count
-        }
-
-        addView(reactionView)
-    }
-
     fun addReactions(reactions: List<Reaction>) {
         removeAllViews()
         addView(addIcon)
         reactions.forEach {
             val reactionView = ReactionView(context).apply {
-                reaction = String(Character.toChars(it.emoji))
+                reaction = it.emoji
                 count = it.count
             }
 
             addView(reactionView)
+        }
+    }
+
+    fun setOnReactionClick(listener: (ReactionView) -> Unit) {
+        repeat(children.count()) { index ->
+            getChildAt(index).setOnClickListener {
+                listener.invoke(it as ReactionView)
+            }
         }
     }
 }

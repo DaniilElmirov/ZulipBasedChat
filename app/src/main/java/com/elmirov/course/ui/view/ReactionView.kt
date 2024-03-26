@@ -21,11 +21,11 @@ class ReactionView @JvmOverloads constructor(
     private companion object {
         const val DEFAULT_COUNT = 1
 
-        const val DEFAULT_EMOJI = "\uD83E\uDD28"
+        const val DEFAULT_EMOJI = 0x1f921
         const val DEFAULT_EMOJI_SIZE = 14f
     }
 
-    var reaction: String = DEFAULT_EMOJI
+    var reaction: Int = DEFAULT_EMOJI
         set(value) {
             if (field != value) {
                 field = value
@@ -84,7 +84,9 @@ class ReactionView @JvmOverloads constructor(
     }
 
     private val textToDraw
-        get() = if (countVisible) "$reaction $count" else reaction
+        get() = if (countVisible) "${String(Character.toChars(reaction))} $count" else String(
+            Character.toChars(reaction)
+        )
 
     private val textPaint = TextPaint().apply {
         color = context.getColor(R.color.reaction_text_color)
