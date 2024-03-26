@@ -44,4 +44,5 @@ dependencies {
 	implementation(libs.androidx.activity)
 	implementation(libs.androidx.constraintlayout)
 	implementation(libs.lifecycle.runtime.ktx)
+	implementation (libs.androidx.fragment.ktx)
 }
