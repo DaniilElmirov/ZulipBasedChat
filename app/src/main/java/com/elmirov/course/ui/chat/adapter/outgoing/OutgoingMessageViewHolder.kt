@@ -1,4 +1,4 @@
-package com.elmirov.course.ui.chat.adapter
+package com.elmirov.course.ui.chat.adapter.outgoing
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,8 +10,7 @@ import com.elmirov.course.domain.Reaction
 
 class OutgoingMessageViewHolder(
     parent: ViewGroup,
-    private val onAddIconClick: (Int) -> Unit,
-    private val onMessageLongClick: (Int) -> Unit,
+    private val addReaction: (Int) -> Unit,
 ) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.outgoing_message_item, parent, false)
 ) {
@@ -20,23 +19,22 @@ class OutgoingMessageViewHolder(
 
     fun bind(message: Message) {
         binding.apply {
-
             messageText.text = message.text
 
             outgoingMessage.setOnLongClickListener {
-                onMessageLongClick(message.id)
+                addReaction(message.id)
                 true
             }
 
             if (message.reactions.isNullOrEmpty()) {
-                reactions.removeAddIcon()
+                reactions.removeAllViews()
             } else {
                 val reactList = message.reactions.map {
                     Reaction(it.key, it.value)
                 }
                 reactions.addReactions(reactList)
                 reactions.onIconAddClick {
-                    onAddIconClick(message.id)
+                    addReaction(message.id)
                 }
             }
         }

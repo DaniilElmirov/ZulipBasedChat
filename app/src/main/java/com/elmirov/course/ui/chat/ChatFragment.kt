@@ -11,16 +11,17 @@ import com.elmirov.course.R
 import com.elmirov.course.databinding.FragmentChatBinding
 import com.elmirov.course.domain.Message
 import com.elmirov.course.presentation.ChatViewModel
-import com.elmirov.course.ui.chat.adapter.MessageAdapter
+import com.elmirov.course.ui.chat.adapter.MainAdapter
+import com.elmirov.course.ui.chat.adapter.incoming.IncomingMessageDelegate
+import com.elmirov.course.ui.chat.adapter.outgoing.OutgoingMessageDelegate
 import com.elmirov.course.util.collectLifecycleFlow
+import com.elmirov.course.util.toDelegateItems
 
 class ChatFragment : Fragment() {
 
     companion object {
 
         private const val OWN_ID = 0
-
-        fun newInstance(): ChatFragment = ChatFragment()
     }
 
     private var _binding: FragmentChatBinding? = null
@@ -29,19 +30,11 @@ class ChatFragment : Fragment() {
 
     private val viewModel: ChatViewModel by viewModels()
 
-    private val messagesAdapter by lazy {
-        MessageAdapter(
-            onAddIconClick = {
-                val dialog = ChooseReactionFragment.newInstance(it)
-                dialog.show(requireActivity().supportFragmentManager, ChooseReactionFragment.TAG)
-                dialog.click = viewModel::addReactionToMessage
-            },
-            onMessageLongClick = {
-                val dialog = ChooseReactionFragment.newInstance(it)
-                dialog.show(requireActivity().supportFragmentManager, ChooseReactionFragment.TAG)
-                dialog.click = viewModel::addReactionToMessage
-            }
-        )
+    private val messagesAdapter: MainAdapter by lazy {
+        MainAdapter().apply {
+            addDelegate(OutgoingMessageDelegate(::showDialog))
+            addDelegate(IncomingMessageDelegate(::showDialog))
+        }
     }
 
     override fun onCreateView(
@@ -57,8 +50,11 @@ class ChatFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.chat.adapter = messagesAdapter
+
         collectLifecycleFlow(viewModel.messages) {
-            messagesAdapter.submitList(it.data)
+            messagesAdapter.submitList(
+                it.data.toDelegateItems(OWN_ID)
+            )
         }
 
         binding.newMessage.doOnTextChanged { text, _, _, _ ->
@@ -76,13 +72,22 @@ class ChatFragment : Fragment() {
             val messageText = binding.newMessage.text.toString()
             val newMessage = Message(
                 id = currentId++,
-                userId = OWN_ID,
+                userId = if (currentId % 2 == 0) -1 else 0,
                 authorName = "I",
                 text = messageText,
             )
             viewModel.sendMessage(newMessage)
             binding.newMessage.text = null
         }
+    }
+
+    private fun showDialog(messageId: Int) {
+        val dialog = ChooseReactionFragment.newInstance(messageId)
+        dialog.show(
+            requireActivity().supportFragmentManager,
+            ChooseReactionFragment.TAG
+        )
+        dialog.click = viewModel::addReactionToMessage
     }
 
     override fun onDestroy() {

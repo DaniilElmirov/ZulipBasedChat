@@ -171,9 +171,9 @@ class MessageLayout @JvmOverloads constructor(
         this.reactions.addReactions(reactions)
     }
 
-    fun onIconAddClick(listener: (MessageLayout) -> Unit) {
+    fun onIconAddClick(listener: () -> Unit) {
         reactions.onIconAddClick {
-            listener.invoke(this@MessageLayout)
+            listener.invoke()
         }
     }
 
@@ -181,8 +181,8 @@ class MessageLayout @JvmOverloads constructor(
         avatar.setImageResource(resId)
     }
 
-    fun removeAddIcon() {
-        reactions.removeAddIcon()
+    fun removeAllReactions() {
+        reactions.removeAllViews()
     }
 
     fun setLongClickListener(listener: () -> Unit) {
