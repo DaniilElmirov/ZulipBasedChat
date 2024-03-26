@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.elmirov.course.R
 import com.elmirov.course.databinding.FragmentChatBinding
 import com.elmirov.course.domain.Message
@@ -26,19 +27,19 @@ class ChatFragment : Fragment() {
     private val binding
         get() = _binding!!
 
-    private val viewModel by lazy {
-        ChatViewModel()
-    }
+    private val viewModel: ChatViewModel by viewModels()
 
     private val messagesAdapter by lazy {
         MessageAdapter(
             onAddIconClick = {
-                ChooseReactionFragment.newInstance()
-                    .show(requireActivity().supportFragmentManager, ChooseReactionFragment.TAG)
+                val dialog = ChooseReactionFragment.newInstance(it)
+                dialog.show(requireActivity().supportFragmentManager, ChooseReactionFragment.TAG)
+                dialog.click = viewModel::addReactionToMessage
             },
             onMessageLongClick = {
-                ChooseReactionFragment.newInstance()
-                    .show(requireActivity().supportFragmentManager, ChooseReactionFragment.TAG)
+                val dialog = ChooseReactionFragment.newInstance(it)
+                dialog.show(requireActivity().supportFragmentManager, ChooseReactionFragment.TAG)
+                dialog.click = viewModel::addReactionToMessage
             }
         )
     }

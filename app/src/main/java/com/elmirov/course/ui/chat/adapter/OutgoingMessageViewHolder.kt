@@ -11,7 +11,7 @@ import com.elmirov.course.domain.Reaction
 class OutgoingMessageViewHolder(
     parent: ViewGroup,
     private val onAddIconClick: (Int) -> Unit,
-    private val onMessageLongClick: () -> Unit,
+    private val onMessageLongClick: (Int) -> Unit,
 ) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.outgoing_message_item, parent, false)
 ) {
@@ -24,7 +24,7 @@ class OutgoingMessageViewHolder(
             messageText.text = message.text
 
             outgoingMessage.setOnLongClickListener {
-                onMessageLongClick()
+                onMessageLongClick(message.id)
                 true
             }
 

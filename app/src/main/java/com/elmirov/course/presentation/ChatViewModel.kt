@@ -100,7 +100,11 @@ class ChatViewModel : ViewModel() {
         val targetItem = testData.find {
             it.id == messageId
         }
-        val newReactions = targetItem?.reactions?.plus(Pair(reaction.emoji, reaction.count))
+        val newReactions =
+            if (targetItem?.reactions == null)
+                mapOf(reaction.emoji to reaction.count)
+            else
+                targetItem.reactions.plus(Pair(reaction.emoji, reaction.count))
 
         val targetIndex = testData.indexOf(targetItem)
         testData[targetIndex] = testData[targetIndex].copy(reactions = newReactions)

@@ -11,7 +11,7 @@ import com.elmirov.course.domain.Reaction
 class IncomingMessageViewHolder(
     parent: ViewGroup,
     private val onAddIconClick: (Int) -> Unit,
-    private val onMessageLongClick: () -> Unit
+    private val onMessageLongClick: (Int) -> Unit
 ) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.incoming_message_item, parent, false)
 ) {
@@ -25,7 +25,7 @@ class IncomingMessageViewHolder(
             incomingMessage.setAvatar(R.drawable.ic_launcher_foreground)
 
             incomingMessage.setLongClickListener {
-                onMessageLongClick()
+                onMessageLongClick(message.id)
             }
 
             if (message.reactions.isNullOrEmpty()) {

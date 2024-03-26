@@ -7,7 +7,7 @@ import com.elmirov.course.domain.Message
 
 class MessageAdapter(
     private val onAddIconClick: (Int) -> Unit,
-    private val onMessageLongClick: () -> Unit,
+    private val onMessageLongClick: (Int) -> Unit,
 ) : ListAdapter<Message, RecyclerView.ViewHolder>(MessageDiffUtil()) {
 
     private companion object {

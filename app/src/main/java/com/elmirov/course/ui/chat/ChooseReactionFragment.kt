@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.elmirov.course.databinding.FragmentChooseReactionBinding
+import com.elmirov.course.domain.Reaction
 import com.elmirov.course.ui.view.ReactionView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -18,7 +19,14 @@ class ChooseReactionFragment : BottomSheetDialogFragment() {
 
         private const val EMOJI_SIZE = 40f
 
-        fun newInstance(): ChooseReactionFragment = ChooseReactionFragment()
+        private const val KEY_MESSAGE_ID = "KEY_MESSAGE_ID"
+
+        fun newInstance(messageId: Int): ChooseReactionFragment =
+            ChooseReactionFragment().apply {
+                arguments = Bundle().apply {
+                    putInt(KEY_MESSAGE_ID, messageId)
+                }
+            }
     }
 
     private val emojis = intArrayOf(
@@ -46,6 +54,8 @@ class ChooseReactionFragment : BottomSheetDialogFragment() {
     private val binding
         get() = _binding!!
 
+    var click: ((Reaction, Int) -> Unit)? = null //TODO переделать
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -64,11 +74,16 @@ class ChooseReactionFragment : BottomSheetDialogFragment() {
 
         emojis.forEach {
             val reactionView = ReactionView(requireContext()).apply {
-                reaction = String(Character.toChars(it))
+                reaction = it
                 countVisible = false
                 size = EMOJI_SIZE
             }
             binding.reactions.addView(reactionView)
+        }
+
+        binding.reactions.setOnReactionClick {
+            click?.invoke(Reaction(it.reaction, 4), requireArguments().getInt(KEY_MESSAGE_ID))
+            dismiss()
         }
     }
 
