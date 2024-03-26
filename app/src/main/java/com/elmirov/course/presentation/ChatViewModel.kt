@@ -17,7 +17,7 @@ class ChatViewModel : ViewModel() {
         Message(
             id = 1,
             userId = OTHER_ID,
-            data = "12.02.2002",
+            date = "12.02.2002",
             authorName = "AN",
             text = "ajdjklajdsjdsajkladsajdjklajdsjdsajkladsajdjklajdsjdsajkladsajdjklajdsjdsajkladsajdjklajdsjdsajkladsajdjklajdsjdsajkladsajdjklajdsjdsajklads",
             reactions = mapOf(0x1f600 to 12, 0x1f600 to 12, 0x1f601 to 11)
@@ -25,7 +25,7 @@ class ChatViewModel : ViewModel() {
         Message(
             id = 2,
             userId = OTHER_ID,
-            data = "12.02.2002",
+            date = "12.02.2002",
             authorName = "AN",
             text = "ajdjklajdsjdsajklads",
             reactions = mapOf(0x1f601 to 11)
@@ -33,7 +33,7 @@ class ChatViewModel : ViewModel() {
         Message(
             id = 3,
             userId = OTHER_ID,
-            data = "12.02.2002",
+            date = "12.02.2002",
             authorName = "AN",
             text = "ajdjklajdsjdsajklads",
             reactions = mapOf(0x1f600 to 12)
@@ -41,7 +41,7 @@ class ChatViewModel : ViewModel() {
         Message(
             id = 4,
             userId = OTHER_ID,
-            data = "14.02.2002",
+            date = "14.02.2002",
             authorName = "AN",
             text = "ajdjklajdsjdsajklads",
             reactions = mapOf(0x1f600 to 12)
@@ -49,7 +49,7 @@ class ChatViewModel : ViewModel() {
         Message(
             id = 5,
             userId = OTHER_ID,
-            data = "14.12.2002",
+            date = "14.12.2002",
             authorName = "AN",
             text = "ajdjklajdsjdsajklads",
             reactions = mapOf(0x1f600 to 12)
@@ -57,7 +57,7 @@ class ChatViewModel : ViewModel() {
         Message(
             id = 6,
             userId = OTHER_ID,
-            data = "14.12.2002",
+            date = "14.12.2002",
             authorName = "AN",
             text = "ajdjklajdsjdsajklads",
             reactions = null
@@ -65,7 +65,7 @@ class ChatViewModel : ViewModel() {
         Message(
             id = 7,
             userId = OWN_ID,
-            data = "14.12.2002",
+            date = "14.12.2002",
             authorName = "AN",
             text = "теусуцуываы",
             reactions = mapOf(0x1f600 to 12, 0x1f600 to 12, 0x1f601 to 11),
@@ -73,7 +73,7 @@ class ChatViewModel : ViewModel() {
         Message(
             id = 8,
             userId = OTHER_ID,
-            data = "14.12.2002",
+            date = "14.12.2002",
             authorName = "AN",
             text = "фывфывыфыфыфв",
             reactions = null
@@ -81,7 +81,7 @@ class ChatViewModel : ViewModel() {
         Message(
             id = 9,
             userId = OWN_ID,
-            data = "14.12.2002",
+            date = "14.12.2002",
             authorName = "AN",
             text = "теусуцуываы",
             reactions = null

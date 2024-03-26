@@ -12,10 +12,13 @@ import com.elmirov.course.databinding.FragmentChatBinding
 import com.elmirov.course.domain.Message
 import com.elmirov.course.presentation.ChatViewModel
 import com.elmirov.course.ui.chat.adapter.MainAdapter
+import com.elmirov.course.ui.chat.adapter.date.DateDelegate
 import com.elmirov.course.ui.chat.adapter.incoming.IncomingMessageDelegate
 import com.elmirov.course.ui.chat.adapter.outgoing.OutgoingMessageDelegate
 import com.elmirov.course.util.collectLifecycleFlow
 import com.elmirov.course.util.toDelegateItems
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class ChatFragment : Fragment() {
 
@@ -34,6 +37,7 @@ class ChatFragment : Fragment() {
         MainAdapter().apply {
             addDelegate(OutgoingMessageDelegate(::showDialog))
             addDelegate(IncomingMessageDelegate(::showDialog))
+            addDelegate(DateDelegate())
         }
     }
 
@@ -73,6 +77,7 @@ class ChatFragment : Fragment() {
             val newMessage = Message(
                 id = currentId++,
                 userId = if (currentId % 2 == 0) -1 else 0,
+                date = getCurrentDate(),
                 authorName = "I",
                 text = messageText,
             )
@@ -88,6 +93,12 @@ class ChatFragment : Fragment() {
             ChooseReactionFragment.TAG
         )
         dialog.click = viewModel::addReactionToMessage
+    }
+
+    private fun getCurrentDate(): String {
+        val currentDateTime = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+        return currentDateTime.format(formatter)
     }
 
     override fun onDestroy() {
