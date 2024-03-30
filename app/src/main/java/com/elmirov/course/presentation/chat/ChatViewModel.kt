@@ -1,4 +1,4 @@
-package com.elmirov.course.presentation
+package com.elmirov.course.presentation.chat
 
 import androidx.lifecycle.ViewModel
 import com.elmirov.course.domain.Message

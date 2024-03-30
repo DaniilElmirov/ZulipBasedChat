@@ -10,7 +10,7 @@ import androidx.fragment.app.viewModels
 import com.elmirov.course.R
 import com.elmirov.course.databinding.FragmentChatBinding
 import com.elmirov.course.domain.Message
-import com.elmirov.course.presentation.ChatViewModel
+import com.elmirov.course.presentation.chat.ChatViewModel
 import com.elmirov.course.ui.chat.adapter.MainAdapter
 import com.elmirov.course.ui.chat.adapter.date.DateDelegate
 import com.elmirov.course.ui.chat.adapter.incoming.IncomingMessageDelegate
