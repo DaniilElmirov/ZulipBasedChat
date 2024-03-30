@@ -1,0 +1,22 @@
+package com.elmirov.course.ui.users.adapter
+
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import com.elmirov.course.R
+import com.elmirov.course.databinding.UserItemBinding
+import com.elmirov.course.domain.User
+
+class UserViewHolder(
+    parent: ViewGroup
+) : RecyclerView.ViewHolder(
+    LayoutInflater.from(parent.context).inflate(R.layout.user_item, parent, false)
+) {
+
+    private val binding = UserItemBinding.bind(itemView)
+
+    fun bind(user: User) {
+        binding.name.text = user.name
+        binding.mail.text = user.mail
+    }
+}
