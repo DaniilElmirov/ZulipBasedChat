@@ -10,4 +10,5 @@
 	<color name="input_background_color">#1E1E1E</color>
 	<color name="message_hint_text_color">#CCCCCC</color>
 	<color name="date_text_color">#999999</color>
+	<color name="channel_divider_color">#282828</color>
 </resources>
