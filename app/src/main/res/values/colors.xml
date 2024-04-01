@@ -11,4 +11,6 @@
 	<color name="message_hint_text_color">#CCCCCC</color>
 	<color name="date_text_color">#999999</color>
 	<color name="channel_divider_color">#282828</color>
+	<color name="top_bar_color">#1E1E1E</color>
+	<color name="tab_indicator_color">#219653</color>
 </resources>
