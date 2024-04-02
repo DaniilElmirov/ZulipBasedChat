@@ -1,18 +1,22 @@
 package com.elmirov.course.ui.users
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
+import com.elmirov.course.CourseApplication
 import com.elmirov.course.databinding.FragmentUsersBinding
 import com.elmirov.course.domain.User
+import com.elmirov.course.presentation.ViewModelFactory
 import com.elmirov.course.presentation.users.UsersState
 import com.elmirov.course.presentation.users.UsersViewModel
 import com.elmirov.course.ui.users.adapter.UsersAdapter
 import com.elmirov.course.util.collectLifecycleFlow
+import javax.inject.Inject
 
 class UsersFragment : Fragment() {
 
@@ -25,11 +29,29 @@ class UsersFragment : Fragment() {
     private val binding
         get() = _binding!!
 
-    private val usersAdapter by lazy {
-        UsersAdapter()
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
+    private val viewModel by lazy {
+        ViewModelProvider(this, viewModelFactory)[UsersViewModel::class.java]
     }
 
-    private val viewModel: UsersViewModel by viewModels()
+    private val component by lazy {
+        (requireActivity().application as CourseApplication).component
+    }
+
+    private val usersAdapter by lazy {
+        UsersAdapter(
+            onUserClick = {
+                viewModel.openUserProfile()
+            }
+        )
+    }
+
+    override fun onAttach(context: Context) {
+        component.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

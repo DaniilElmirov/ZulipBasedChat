@@ -1,8 +1,8 @@
 package com.elmirov.course.di.module
 
 import com.elmirov.course.di.annotation.ApplicationScope
-import com.elmirov.course.navigation.router.MainFragmentRouter
-import com.elmirov.course.navigation.router.MainFragmentRouterImpl
+import com.elmirov.course.navigation.router.GlobalRouter
+import com.elmirov.course.navigation.router.GlobalRouterImpl
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
@@ -32,6 +32,6 @@ interface NavigationBindModule {
 
     @Binds
     @ApplicationScope
-    fun bindMainFragmentRouter(impl: MainFragmentRouterImpl): MainFragmentRouter
+    fun bindGlobalRouter(impl: GlobalRouterImpl): GlobalRouter
 }
 

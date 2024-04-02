@@ -3,12 +3,16 @@ package com.elmirov.course.presentation.users
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elmirov.course.domain.User
+import com.elmirov.course.navigation.router.GlobalRouter
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class UsersViewModel : ViewModel() {
+class UsersViewModel @Inject constructor(
+    private val router: GlobalRouter
+) : ViewModel() {
 
     private val testData = listOf(
         User(
@@ -105,5 +109,9 @@ class UsersViewModel : ViewModel() {
             delay(1000)
             _users.value = UsersState.Content(testData)
         }
+    }
+
+    fun openUserProfile() {
+        router.openUserProfile()
     }
 }

@@ -8,7 +8,8 @@ import com.elmirov.course.databinding.UserItemBinding
 import com.elmirov.course.domain.User
 
 class UserViewHolder(
-    parent: ViewGroup
+    parent: ViewGroup,
+    private val onUserClick: (Int) -> Unit,
 ) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.user_item, parent, false)
 ) {
@@ -18,5 +19,8 @@ class UserViewHolder(
     fun bind(user: User) {
         binding.name.text = user.name
         binding.mail.text = user.mail
+        binding.root.setOnClickListener {
+            onUserClick(user.id)
+        }
     }
 }

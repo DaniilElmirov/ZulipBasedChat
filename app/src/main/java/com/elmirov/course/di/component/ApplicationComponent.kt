@@ -7,6 +7,7 @@ import com.elmirov.course.di.module.NavigationModule
 import com.elmirov.course.di.module.ViewModelModule
 import com.elmirov.course.ui.activity.MainActivity
 import com.elmirov.course.ui.main.MainFragment
+import com.elmirov.course.ui.users.UsersFragment
 import dagger.BindsInstance
 import dagger.Component
 
@@ -23,7 +24,9 @@ interface ApplicationComponent {
 
     fun inject(activity: MainActivity)
 
-    fun inject(fragment: MainFragment)
+    //fun inject(fragment: MainFragment)
+
+    fun inject(fragment: UsersFragment)
 
     @Component.Factory
     interface Factory {
