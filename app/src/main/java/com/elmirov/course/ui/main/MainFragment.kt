@@ -1,53 +1,43 @@
 package com.elmirov.course.ui.main
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import com.elmirov.course.CourseApplication
 import com.elmirov.course.R
 import com.elmirov.course.databinding.FragmentMainBinding
-import com.elmirov.course.presentation.ViewModelFactory
-import com.elmirov.course.presentation.main.MainViewModel
+import com.elmirov.course.navigation.Screens
+import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.NavigatorHolder
+import com.github.terrakok.cicerone.Router
 import com.github.terrakok.cicerone.androidx.AppNavigator
 import com.google.android.material.navigation.NavigationBarView.OnItemSelectedListener
-import javax.inject.Inject
 
 class MainFragment : Fragment(), OnItemSelectedListener {
+
+    companion object {
+        fun newInstance(): MainFragment =
+            MainFragment()
+    }
 
     private var _binding: FragmentMainBinding? = null
     private val binding
         get() = _binding!!
 
-    @Inject
-    lateinit var navigatorHolder: NavigatorHolder
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    private val viewModel by lazy {
-        ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
-    }
-
-    private val component by lazy {
-        (requireActivity().application as CourseApplication).component
-    }
-
-    override fun onAttach(context: Context) {
-        component.inject(this)
-        super.onAttach(context)
-    }
+    private lateinit var localRouter: Router
+    private lateinit var localNavigatorHolder: NavigatorHolder
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val cicerone = Cicerone.create()
+        localRouter = cicerone.router
+        localNavigatorHolder = cicerone.getNavigatorHolder()
+
         if (savedInstanceState == null)
-            viewModel.openChannels()
+            localRouter.newRootScreen(Screens.ChannelsScreen())
     }
 
     override fun onCreateView(
@@ -63,20 +53,30 @@ class MainFragment : Fragment(), OnItemSelectedListener {
         super.onViewCreated(view, savedInstanceState)
 
         binding.bottomNavigation.setOnItemSelectedListener(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
 
         val localNavigator =
             AppNavigator(requireActivity(), R.id.main_fragment_container, childFragmentManager)
-        navigatorHolder.setNavigator(localNavigator)
+        localNavigatorHolder.setNavigator(localNavigator)
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        localNavigatorHolder.removeNavigator()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
 
         when (item.itemId) {
-            R.id.channels -> viewModel.openChannels()
+            R.id.channels -> localRouter.navigateTo(Screens.ChannelsScreen())
 
-            R.id.people -> viewModel.openUsers()
+            R.id.people -> localRouter.navigateTo(Screens.UsersScreen())
 
-            R.id.profile -> viewModel.openOwnProfile()
+            R.id.profile -> localRouter.navigateTo(Screens.ProfileScreen(own = true))
         }
 
         return true
