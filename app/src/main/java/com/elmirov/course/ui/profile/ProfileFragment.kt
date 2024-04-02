@@ -9,6 +9,11 @@ import com.elmirov.course.databinding.FragmentProfileBinding
 
 class ProfileFragment : Fragment() {
 
+    companion object {
+        fun newInstance(): ProfileFragment =
+            ProfileFragment()
+    }
+
     private var _binding: FragmentProfileBinding? = null
     private val binding
         get() = _binding!!

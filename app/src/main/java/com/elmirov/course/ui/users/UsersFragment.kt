@@ -16,6 +16,11 @@ import com.elmirov.course.util.collectLifecycleFlow
 
 class UsersFragment : Fragment() {
 
+    companion object {
+        fun newInstance(): UsersFragment =
+            UsersFragment()
+    }
+
     private var _binding: FragmentUsersBinding? = null
     private val binding
         get() = _binding!!
