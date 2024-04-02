@@ -74,10 +74,13 @@ class ChatFragment : Fragment() {
 
         binding.newMessage.doOnTextChanged { text, _, _, _ ->
             binding.sendOrAttach.apply {
-                if (text.isNullOrEmpty())
+                if (text.isNullOrEmpty()) {
+                    isClickable = false
                     setImageResource(R.drawable.icon_attach)
-                else
+                } else {
+                    isClickable = true
                     setImageResource(R.drawable.icon_send)
+                }
             }
         }
 
