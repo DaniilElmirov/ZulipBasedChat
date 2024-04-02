@@ -15,5 +15,6 @@
 	<color name="tab_indicator_color">#219653</color>
 	<color name="odd_topic_color">#2A9D8F</color>
 	<color name="even_topic_color">#E9C46A</color>
+	<color name="in_chat_topic_color">#1C1C1C</color>
 	<color name="online_status_color">#4AB54D</color>
 </resources>
