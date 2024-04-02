@@ -4,6 +4,7 @@ import android.content.Context
 import com.elmirov.course.CourseApplication
 import com.elmirov.course.di.annotation.ApplicationScope
 import com.elmirov.course.di.module.NavigationModule
+import com.elmirov.course.di.module.ViewModelModule
 import com.elmirov.course.ui.activity.MainActivity
 import com.elmirov.course.ui.main.MainFragment
 import dagger.BindsInstance
@@ -13,11 +14,12 @@ import dagger.Component
 @Component(
     modules = [
         NavigationModule::class,
+        ViewModelModule::class,
     ]
 )
 interface ApplicationComponent {
 
-    fun inject(application:CourseApplication)
+    fun inject(application: CourseApplication)
 
     fun inject(activity: MainActivity)
 
