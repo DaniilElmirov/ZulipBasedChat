@@ -8,7 +8,8 @@ import com.elmirov.course.databinding.TopicItemBinding
 import com.elmirov.course.domain.Topic
 
 class TopicViewHolder(
-    parent: ViewGroup
+    parent: ViewGroup,
+    private val onTopicClick: () -> Unit
 ) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.topic_item, parent, false)
 ) {
@@ -25,5 +26,9 @@ class TopicViewHolder(
 
         val messageCountFormat = itemView.context.getString(R.string.message_count_mes)
         binding.messageCount.text = String.format(messageCountFormat, topic.messageCount)
+
+        binding.root.setOnClickListener {
+            onTopicClick()
+        }
     }
 }

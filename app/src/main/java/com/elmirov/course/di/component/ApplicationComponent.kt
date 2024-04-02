@@ -6,7 +6,8 @@ import com.elmirov.course.di.annotation.ApplicationScope
 import com.elmirov.course.di.module.NavigationModule
 import com.elmirov.course.di.module.ViewModelModule
 import com.elmirov.course.ui.activity.MainActivity
-import com.elmirov.course.ui.main.MainFragment
+import com.elmirov.course.ui.channels.all.AllChannelsFragment
+import com.elmirov.course.ui.channels.subscribed.SubscribedChannelsFragment
 import com.elmirov.course.ui.users.UsersFragment
 import dagger.BindsInstance
 import dagger.Component
@@ -24,9 +25,11 @@ interface ApplicationComponent {
 
     fun inject(activity: MainActivity)
 
-    //fun inject(fragment: MainFragment)
-
     fun inject(fragment: UsersFragment)
+
+    fun inject(fragment: AllChannelsFragment)
+
+    fun inject(fragment: SubscribedChannelsFragment)
 
     @Component.Factory
     interface Factory {

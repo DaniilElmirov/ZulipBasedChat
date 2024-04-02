@@ -6,9 +6,11 @@ import com.elmirov.course.domain.Topic
 import com.elmirov.course.ui.adapter.delegate.AdapterDelegate
 import com.elmirov.course.ui.adapter.delegate.DelegateItem
 
-class TopicDelegate: AdapterDelegate {
+class TopicDelegate(
+    private val onTopicClick: () -> Unit
+): AdapterDelegate {
     override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder =
-        TopicViewHolder(parent)
+        TopicViewHolder(parent, onTopicClick)
 
     override fun onBindViewHolder(
         holder: RecyclerView.ViewHolder,
