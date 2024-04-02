@@ -2,6 +2,7 @@ package com.elmirov.course.ui.channels.delegate.channel
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.elmirov.course.R
 import com.elmirov.course.databinding.ChannelItemBinding
@@ -9,7 +10,8 @@ import com.elmirov.course.domain.Channel
 
 class ChannelViewHolder(
     parent: ViewGroup,
-    private val onArrowClick: (Int) -> Unit
+    private val onArrowBottomClick: (Int) -> Unit,
+    private val onArrowTopClick: (Int) -> Unit,
 ) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.channel_item, parent, false)
 ) {
@@ -18,8 +20,21 @@ class ChannelViewHolder(
 
     fun bind(channel: Channel) {
         binding.channelName.text = channel.name
+
+        if (channel.topics.isNullOrEmpty()) {
+            binding.arrowBottom.isVisible = true
+            binding.arrowTop.isVisible = false
+        } else {
+            binding.arrowBottom.isVisible = false
+            binding.arrowTop.isVisible = true
+        }
+
         binding.arrowBottom.setOnClickListener {
-            onArrowClick(channel.id)
+            onArrowBottomClick(channel.id)
+        }
+
+        binding.arrowTop.setOnClickListener {
+            onArrowTopClick(channel.id)
         }
     }
 }

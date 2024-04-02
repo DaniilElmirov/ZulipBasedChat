@@ -47,4 +47,10 @@ class SubscribedChannelsViewModel : ViewModel() {
         testData[channelId] = channelWithTopics
         _subscribedChannels.value = SubscribedChannelsState.Content(testData.toList())
     }
+
+    fun closeTopics(channelId: Int) {
+        val channelWithoutTopics = testData[channelId].copy(topics = null)
+        testData[channelId] = channelWithoutTopics
+        _subscribedChannels.value = SubscribedChannelsState.Content(testData.toList())
+    }
 }

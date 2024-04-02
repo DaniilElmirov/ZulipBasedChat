@@ -46,4 +46,10 @@ class AllChannelsViewModel : ViewModel() {
         testData[channelId] = channelWithTopics
         _allChannels.value = AllChannelsState.Content(testData.toList())
     }
+
+    fun closeTopics(channelId: Int) {
+        val channelWithoutTopics = testData[channelId].copy(topics = null)
+        testData[channelId] = channelWithoutTopics
+        _allChannels.value = AllChannelsState.Content(testData.toList())
+    }
 }
