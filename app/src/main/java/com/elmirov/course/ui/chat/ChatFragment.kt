@@ -26,8 +26,14 @@ class ChatFragment : Fragment() {
 
         private const val OWN_ID = 0
 
-        fun newInstance(): ChatFragment =
-            ChatFragment()
+        private const val KEY_TOPIC_NAME = "KEY_TOPIC_NAME"
+
+        fun newInstance(topicName: String): ChatFragment =
+            ChatFragment().apply {
+                arguments = Bundle().apply {
+                    putString(KEY_TOPIC_NAME, topicName)
+                }
+            }
     }
 
     private var _binding: FragmentChatBinding? = null
@@ -58,6 +64,8 @@ class ChatFragment : Fragment() {
 
         binding.chat.adapter = messagesAdapter
 
+        parseArguments()
+
         collectLifecycleFlow(viewModel.messages) {
             messagesAdapter.submitList(
                 it.data.toDelegateItems(OWN_ID)
@@ -87,6 +95,12 @@ class ChatFragment : Fragment() {
             viewModel.sendMessage(newMessage)
             binding.newMessage.text = null
         }
+    }
+
+    private fun parseArguments() {
+        val topicName = requireArguments().getString(KEY_TOPIC_NAME)
+
+        binding.topic.text = String.format(getString(R.string.topic_with_name), topicName)
     }
 
     private fun showDialog(messageId: Int) {

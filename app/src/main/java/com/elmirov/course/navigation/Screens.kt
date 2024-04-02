@@ -25,7 +25,7 @@ object Screens {
         ProfileFragment.newInstance(own)
     }
 
-    fun ChatScreen(): FragmentScreen = FragmentScreen {
-        ChatFragment.newInstance()
+    fun ChatScreen(topicName: String): FragmentScreen = FragmentScreen {
+        ChatFragment.newInstance(topicName)
     }
 }

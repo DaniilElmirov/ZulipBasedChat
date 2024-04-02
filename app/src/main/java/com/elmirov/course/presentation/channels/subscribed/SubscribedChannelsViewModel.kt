@@ -58,7 +58,7 @@ class SubscribedChannelsViewModel @Inject constructor(
         _subscribedChannels.value = SubscribedChannelsState.Content(testData.toList())
     }
 
-    fun openChat() {
-        globalRouter.openChat()
+    fun openChat(topicName: String) {
+        globalRouter.openChat(topicName)
     }
 }

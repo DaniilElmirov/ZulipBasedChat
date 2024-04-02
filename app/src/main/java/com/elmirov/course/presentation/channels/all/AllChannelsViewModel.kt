@@ -57,7 +57,7 @@ class AllChannelsViewModel @Inject constructor(
         _allChannels.value = AllChannelsState.Content(testData.toList())
     }
 
-    fun openChat() {
-        globalRouter.openChat()
+    fun openChat(topicName: String) {
+        globalRouter.openChat(topicName)
     }
 }

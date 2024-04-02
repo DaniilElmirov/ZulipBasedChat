@@ -9,7 +9,7 @@ import com.elmirov.course.domain.Topic
 
 class TopicViewHolder(
     parent: ViewGroup,
-    private val onTopicClick: () -> Unit
+    private val onTopicClick: (String) -> Unit
 ) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.topic_item, parent, false)
 ) {
@@ -28,7 +28,7 @@ class TopicViewHolder(
         binding.messageCount.text = String.format(messageCountFormat, topic.messageCount)
 
         binding.root.setOnClickListener {
-            onTopicClick()
+            onTopicClick(topic.name)
         }
     }
 }
