@@ -1,15 +1,18 @@
 package com.elmirov.course.ui.chat
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
+import com.elmirov.course.CourseApplication
 import com.elmirov.course.R
 import com.elmirov.course.databinding.FragmentChatBinding
 import com.elmirov.course.domain.Message
+import com.elmirov.course.presentation.ViewModelFactory
 import com.elmirov.course.presentation.chat.ChatViewModel
 import com.elmirov.course.ui.adapter.MainAdapter
 import com.elmirov.course.ui.chat.delegate.date.DateDelegate
@@ -19,6 +22,7 @@ import com.elmirov.course.util.collectLifecycleFlow
 import com.elmirov.course.util.toDelegateItems
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import javax.inject.Inject
 
 class ChatFragment : Fragment() {
 
@@ -40,7 +44,16 @@ class ChatFragment : Fragment() {
     private val binding
         get() = _binding!!
 
-    private val viewModel: ChatViewModel by viewModels()
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
+    private val viewModel by lazy {
+        ViewModelProvider(this, viewModelFactory)[ChatViewModel::class.java]
+    }
+
+    private val component by lazy {
+        (requireActivity().application as CourseApplication).component
+    }
 
     private val messagesAdapter: MainAdapter by lazy {
         MainAdapter().apply {
@@ -48,6 +61,11 @@ class ChatFragment : Fragment() {
             addDelegate(IncomingMessageDelegate(::showDialog))
             addDelegate(DateDelegate())
         }
+    }
+
+    override fun onAttach(context: Context) {
+        component.inject(this)
+        super.onAttach(context)
     }
 
     override fun onCreateView(
@@ -97,6 +115,14 @@ class ChatFragment : Fragment() {
             )
             viewModel.sendMessage(newMessage)
             binding.newMessage.text = null
+        }
+
+        setNavigationIconClickListener()
+    }
+
+    private fun setNavigationIconClickListener() {
+        binding.toolbar.setNavigationOnClickListener {
+            viewModel.back()
         }
     }
 

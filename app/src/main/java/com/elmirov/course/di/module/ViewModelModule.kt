@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.elmirov.course.di.annotation.ViewModelKey
 import com.elmirov.course.presentation.channels.all.AllChannelsViewModel
 import com.elmirov.course.presentation.channels.subscribed.SubscribedChannelsViewModel
+import com.elmirov.course.presentation.chat.ChatViewModel
 import com.elmirov.course.presentation.users.UsersViewModel
 import dagger.Binds
 import dagger.Module
@@ -26,4 +27,9 @@ interface ViewModelModule {
     @IntoMap
     @ViewModelKey(SubscribedChannelsViewModel::class)
     fun bindSubscribedChannelsViewModel(viewModel: SubscribedChannelsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ChatViewModel::class)
+    fun bindChatViewModel(viewModel: ChatViewModel): ViewModel
 }

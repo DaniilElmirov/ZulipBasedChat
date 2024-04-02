@@ -3,10 +3,14 @@ package com.elmirov.course.presentation.chat
 import androidx.lifecycle.ViewModel
 import com.elmirov.course.domain.Message
 import com.elmirov.course.domain.Reaction
+import com.elmirov.course.navigation.router.GlobalRouter
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import javax.inject.Inject
 
-class ChatViewModel : ViewModel() {
+class ChatViewModel @Inject constructor(
+    private val globalRouter: GlobalRouter,
+) : ViewModel() {
 
     companion object {
         private const val OWN_ID = 0
@@ -110,5 +114,9 @@ class ChatViewModel : ViewModel() {
         testData[targetIndex] = testData[targetIndex].copy(reactions = newReactions)
 
         _messages.value = ChatState.Content(testData.toList())
+    }
+
+    fun back() {
+        globalRouter.back()
     }
 }
