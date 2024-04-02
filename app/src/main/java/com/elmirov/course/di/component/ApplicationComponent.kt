@@ -9,6 +9,7 @@ import com.elmirov.course.ui.activity.MainActivity
 import com.elmirov.course.ui.channels.all.AllChannelsFragment
 import com.elmirov.course.ui.channels.subscribed.SubscribedChannelsFragment
 import com.elmirov.course.ui.chat.ChatFragment
+import com.elmirov.course.ui.profile.ProfileFragment
 import com.elmirov.course.ui.users.UsersFragment
 import dagger.BindsInstance
 import dagger.Component
@@ -33,6 +34,8 @@ interface ApplicationComponent {
     fun inject(fragment: SubscribedChannelsFragment)
 
     fun inject(fragment: ChatFragment)
+
+    fun inject(fragment: ProfileFragment)
 
     @Component.Factory
     interface Factory {

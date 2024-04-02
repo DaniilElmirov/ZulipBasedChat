@@ -1,12 +1,18 @@
 package com.elmirov.course.ui.profile
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.elmirov.course.CourseApplication
 import com.elmirov.course.databinding.FragmentProfileBinding
+import com.elmirov.course.presentation.ViewModelFactory
+import com.elmirov.course.presentation.profile.ProfileViewModel
+import javax.inject.Inject
 
 class ProfileFragment : Fragment() {
 
@@ -35,10 +41,33 @@ class ProfileFragment : Fragment() {
         return binding.root
     }
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
+    private val viewModel by lazy {
+        ViewModelProvider(this, viewModelFactory)[ProfileViewModel::class.java]
+    }
+
+    private val component by lazy {
+        (requireActivity().application as CourseApplication).component
+    }
+
+    override fun onAttach(context: Context) {
+        component.inject(this)
+        super.onAttach(context)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         parseArguments()
+        setNavigationIconClickListener()
+    }
+
+    private fun setNavigationIconClickListener() {
+        binding.toolbar.setNavigationOnClickListener {
+            viewModel.back()
+        }
     }
 
     private fun parseArguments() {

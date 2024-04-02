@@ -5,6 +5,7 @@ import com.elmirov.course.di.annotation.ViewModelKey
 import com.elmirov.course.presentation.channels.all.AllChannelsViewModel
 import com.elmirov.course.presentation.channels.subscribed.SubscribedChannelsViewModel
 import com.elmirov.course.presentation.chat.ChatViewModel
+import com.elmirov.course.presentation.profile.ProfileViewModel
 import com.elmirov.course.presentation.users.UsersViewModel
 import dagger.Binds
 import dagger.Module
@@ -32,4 +33,9 @@ interface ViewModelModule {
     @IntoMap
     @ViewModelKey(ChatViewModel::class)
     fun bindChatViewModel(viewModel: ChatViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ProfileViewModel::class)
+    fun bindProfileViewModel(viewModel: ProfileViewModel): ViewModel
 }
