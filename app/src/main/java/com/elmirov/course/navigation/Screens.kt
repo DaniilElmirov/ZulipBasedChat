@@ -15,7 +15,7 @@ object Screens {
         UsersFragment.newInstance()
     }
 
-    fun ProfileScreen(): FragmentScreen = FragmentScreen {
-        ProfileFragment.newInstance()
+    fun ProfileScreen(own: Boolean): FragmentScreen = FragmentScreen {
+        ProfileFragment.newInstance(own)
     }
 }

@@ -68,15 +68,10 @@ class MainFragment : Fragment(), OnItemSelectedListener {
 
             R.id.people -> localRouter.navigateTo(UsersScreen())
 
-            R.id.profile -> localRouter.navigateTo(ProfileScreen())
+            R.id.profile -> localRouter.navigateTo(ProfileScreen(own = true))
         }
 
         return true
-    }
-
-    override fun onPause() {
-        navigatorHolder.removeNavigator()
-        super.onPause()
     }
 
     override fun onDestroy() {
