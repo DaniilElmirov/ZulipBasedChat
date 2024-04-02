@@ -81,22 +81,10 @@ class MessageLayout @JvmOverloads constructor(
         val rectLeft = currentWidth
         val rectTop = paddingTop
 
-        measureChildWithMargins(
-            name,
-            widthMeasureSpec,
-            currentWidth + correctionLeft + correctionRight,
-            heightMeasureSpec,
-            currentHeight + correctionTop
-        )
+        measureName(widthMeasureSpec, currentWidth, heightMeasureSpec, currentHeight)
         currentHeight += name.getHeightWithMargins()
 
-        measureChildWithMargins(
-            message,
-            widthMeasureSpec,
-            currentWidth + correctionLeft + correctionRight,
-            heightMeasureSpec,
-            currentHeight + correctionBottom
-        )
+        measureMessage(widthMeasureSpec, currentWidth, heightMeasureSpec, currentHeight)
         currentHeight += message.getHeightWithMargins()
 
         val rectRight = rectLeft + correctionLeft + correctionRight +
@@ -107,13 +95,7 @@ class MessageLayout @JvmOverloads constructor(
         val rectBottom = rectTop + correctionTop + correctionBottom +
                 message.getHeightWithMargins() + name.getHeightWithMargins()
 
-        measureChildWithMargins(
-            reactions,
-            widthMeasureSpec,
-            currentWidth,
-            heightMeasureSpec,
-            currentHeight
-        )
+        measureReactions(widthMeasureSpec, currentWidth, heightMeasureSpec, currentHeight)
         currentHeight += reactions.getHeightWithMargins()
 
         val width = currentWidth + maxChildWidth + correctionLeft + correctionRight
@@ -129,6 +111,51 @@ class MessageLayout @JvmOverloads constructor(
         setMeasuredDimension(
             resolveSize(width, widthMeasureSpec),
             resolveSize(height, heightMeasureSpec)
+        )
+    }
+
+    private fun measureName(
+        widthMeasureSpec: Int,
+        currentWidth: Int,
+        heightMeasureSpec: Int,
+        currentHeight: Int
+    ) {
+        measureChildWithMargins(
+            name,
+            widthMeasureSpec,
+            currentWidth + correctionLeft + correctionRight,
+            heightMeasureSpec,
+            currentHeight + correctionTop
+        )
+    }
+
+    private fun measureMessage(
+        widthMeasureSpec: Int,
+        currentWidth: Int,
+        heightMeasureSpec: Int,
+        currentHeight: Int
+    ) {
+        measureChildWithMargins(
+            message,
+            widthMeasureSpec,
+            currentWidth + correctionLeft + correctionRight,
+            heightMeasureSpec,
+            currentHeight + correctionBottom
+        )
+    }
+
+    private fun measureReactions(
+        widthMeasureSpec: Int,
+        currentWidth: Int,
+        heightMeasureSpec: Int,
+        currentHeight: Int
+    ) {
+        measureChildWithMargins(
+            reactions,
+            widthMeasureSpec,
+            currentWidth,
+            heightMeasureSpec,
+            currentHeight
         )
     }
 
