@@ -1,6 +1,9 @@
 package com.elmirov.course.util
 
+import com.elmirov.course.domain.Channel
 import com.elmirov.course.domain.Message
+import com.elmirov.course.ui.channels.adapter.delegate.channel.ChannelDelegateItem
+import com.elmirov.course.ui.channels.adapter.delegate.topic.TopicDelegateItem
 import com.elmirov.course.ui.chat.adapter.date.DateDelegateItem
 import com.elmirov.course.ui.chat.adapter.delegate.DelegateItem
 import com.elmirov.course.ui.chat.adapter.incoming.IncomingMessageDelegateItem
@@ -30,6 +33,22 @@ fun List<Message>.toDelegateItems(
                 delegates.add(OutgoingMessageDelegateItem(id = it.id, value = it))
             else
                 delegates.add(IncomingMessageDelegateItem(id = it.id, value = it))
+        }
+    }
+
+    return delegates
+}
+
+fun List<Channel>.toDelegateItems(): List<DelegateItem> {
+    val delegates = mutableListOf<DelegateItem>()
+
+    forEach { channel ->
+        delegates.add(ChannelDelegateItem(id = channel.id, value = channel))
+
+        if (!channel.topics.isNullOrEmpty()) {
+            channel.topics.forEach { topic ->
+                delegates.add(TopicDelegateItem(topic))
+            }
         }
     }
 

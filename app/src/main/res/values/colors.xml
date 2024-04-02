@@ -13,4 +13,6 @@
 	<color name="channel_divider_color">#282828</color>
 	<color name="top_bar_color">#1E1E1E</color>
 	<color name="tab_indicator_color">#219653</color>
+	<color name="odd_topic_color">#2A9D8F</color>
+	<color name="even_topic_color">#E9C46A</color>
 </resources>

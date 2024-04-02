@@ -8,8 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.elmirov.course.databinding.FragmentPageChannelsBinding
 import com.elmirov.course.presentation.channels.all.AllChannelsViewModel
-import com.elmirov.course.ui.channels.adapter.ChannelsAdapter
+import com.elmirov.course.ui.channels.adapter.delegate.channel.ChannelDelegate
+import com.elmirov.course.ui.channels.adapter.delegate.topic.TopicDelegate
+import com.elmirov.course.ui.chat.adapter.MainAdapter
 import com.elmirov.course.util.collectLifecycleFlow
+import com.elmirov.course.util.toDelegateItems
 
 class AllChannelsFragment : Fragment() {
 
@@ -25,7 +28,10 @@ class AllChannelsFragment : Fragment() {
     private val viewModel: AllChannelsViewModel by viewModels()
 
     private val allChannelsAdapter by lazy {
-        ChannelsAdapter()
+        MainAdapter().apply {
+            addDelegate(ChannelDelegate(viewModel::showTopics))
+            addDelegate(TopicDelegate())
+        }
     }
 
     override fun onCreateView(
@@ -43,7 +49,7 @@ class AllChannelsFragment : Fragment() {
         binding.channels.adapter = allChannelsAdapter
 
         collectLifecycleFlow(viewModel.allChannels) {
-            allChannelsAdapter.submitList(it.data)
+            allChannelsAdapter.submitList(it.data.toDelegateItems())
         }
     }
 
