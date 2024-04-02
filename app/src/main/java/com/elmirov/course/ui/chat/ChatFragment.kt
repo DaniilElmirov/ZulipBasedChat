@@ -25,6 +25,9 @@ class ChatFragment : Fragment() {
     companion object {
 
         private const val OWN_ID = 0
+
+        fun newInstance(): ChatFragment =
+            ChatFragment()
     }
 
     private var _binding: FragmentChatBinding? = null
