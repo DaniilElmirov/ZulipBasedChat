@@ -1,10 +1,10 @@
-package com.elmirov.course.ui.chat.adapter.outgoing
+package com.elmirov.course.ui.chat.delegate.outgoing
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.elmirov.course.domain.Message
-import com.elmirov.course.ui.chat.adapter.delegate.AdapterDelegate
-import com.elmirov.course.ui.chat.adapter.delegate.DelegateItem
+import com.elmirov.course.ui.adapter.delegate.AdapterDelegate
+import com.elmirov.course.ui.adapter.delegate.DelegateItem
 
 class OutgoingMessageDelegate(
     private val addReaction: (Int) -> Unit,

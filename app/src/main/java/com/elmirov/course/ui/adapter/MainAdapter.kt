@@ -1,11 +1,11 @@
-package com.elmirov.course.ui.chat.adapter
+package com.elmirov.course.ui.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.elmirov.course.ui.chat.adapter.delegate.AdapterDelegate
-import com.elmirov.course.ui.chat.adapter.delegate.DelegateAdapterItemCallback
-import com.elmirov.course.ui.chat.adapter.delegate.DelegateItem
+import com.elmirov.course.ui.adapter.delegate.AdapterDelegate
+import com.elmirov.course.ui.adapter.delegate.DelegateAdapterItemCallback
+import com.elmirov.course.ui.adapter.delegate.DelegateItem
 
 class MainAdapter :
     ListAdapter<DelegateItem, RecyclerView.ViewHolder>(DelegateAdapterItemCallback()) {

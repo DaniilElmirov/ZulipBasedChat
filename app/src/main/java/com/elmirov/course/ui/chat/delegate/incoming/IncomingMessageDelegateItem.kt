@@ -1,7 +1,7 @@
-package com.elmirov.course.ui.chat.adapter.incoming
+package com.elmirov.course.ui.chat.delegate.incoming
 
 import com.elmirov.course.domain.Message
-import com.elmirov.course.ui.chat.adapter.delegate.DelegateItem
+import com.elmirov.course.ui.adapter.delegate.DelegateItem
 
 class IncomingMessageDelegateItem(
     val id: Int,

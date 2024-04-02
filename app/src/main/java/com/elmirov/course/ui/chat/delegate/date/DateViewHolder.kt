@@ -1,13 +1,10 @@
-package com.elmirov.course.ui.chat.adapter.date
+package com.elmirov.course.ui.chat.delegate.date
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.elmirov.course.R
 import com.elmirov.course.databinding.DateItemBinding
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.util.Locale
 
 class DateViewHolder(
     parent: ViewGroup

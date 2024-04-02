@@ -8,9 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.elmirov.course.databinding.FragmentPageChannelsBinding
 import com.elmirov.course.presentation.channels.subscribed.SubscribedChannelsViewModel
-import com.elmirov.course.ui.channels.adapter.delegate.channel.ChannelDelegate
-import com.elmirov.course.ui.channels.adapter.delegate.topic.TopicDelegate
-import com.elmirov.course.ui.chat.adapter.MainAdapter
+import com.elmirov.course.ui.channels.delegate.channel.ChannelDelegate
+import com.elmirov.course.ui.channels.delegate.topic.TopicDelegate
+import com.elmirov.course.ui.adapter.MainAdapter
 import com.elmirov.course.util.collectLifecycleFlow
 import com.elmirov.course.util.toDelegateItems
 

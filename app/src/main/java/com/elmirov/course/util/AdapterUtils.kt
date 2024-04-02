@@ -2,12 +2,12 @@ package com.elmirov.course.util
 
 import com.elmirov.course.domain.Channel
 import com.elmirov.course.domain.Message
-import com.elmirov.course.ui.channels.adapter.delegate.channel.ChannelDelegateItem
-import com.elmirov.course.ui.channels.adapter.delegate.topic.TopicDelegateItem
-import com.elmirov.course.ui.chat.adapter.date.DateDelegateItem
-import com.elmirov.course.ui.chat.adapter.delegate.DelegateItem
-import com.elmirov.course.ui.chat.adapter.incoming.IncomingMessageDelegateItem
-import com.elmirov.course.ui.chat.adapter.outgoing.OutgoingMessageDelegateItem
+import com.elmirov.course.ui.channels.delegate.channel.ChannelDelegateItem
+import com.elmirov.course.ui.channels.delegate.topic.TopicDelegateItem
+import com.elmirov.course.ui.chat.delegate.date.DateDelegateItem
+import com.elmirov.course.ui.adapter.delegate.DelegateItem
+import com.elmirov.course.ui.chat.delegate.incoming.IncomingMessageDelegateItem
+import com.elmirov.course.ui.chat.delegate.outgoing.OutgoingMessageDelegateItem
 
 fun List<Message>.toDelegateItems(
     ownId: Int,

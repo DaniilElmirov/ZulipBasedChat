@@ -11,10 +11,10 @@ import com.elmirov.course.R
 import com.elmirov.course.databinding.FragmentChatBinding
 import com.elmirov.course.domain.Message
 import com.elmirov.course.presentation.chat.ChatViewModel
-import com.elmirov.course.ui.chat.adapter.MainAdapter
-import com.elmirov.course.ui.chat.adapter.date.DateDelegate
-import com.elmirov.course.ui.chat.adapter.incoming.IncomingMessageDelegate
-import com.elmirov.course.ui.chat.adapter.outgoing.OutgoingMessageDelegate
+import com.elmirov.course.ui.adapter.MainAdapter
+import com.elmirov.course.ui.chat.delegate.date.DateDelegate
+import com.elmirov.course.ui.chat.delegate.incoming.IncomingMessageDelegate
+import com.elmirov.course.ui.chat.delegate.outgoing.OutgoingMessageDelegate
 import com.elmirov.course.util.collectLifecycleFlow
 import com.elmirov.course.util.toDelegateItems
 import java.time.LocalDateTime

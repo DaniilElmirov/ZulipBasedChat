@@ -1,10 +1,10 @@
-package com.elmirov.course.ui.channels.adapter.delegate.channel
+package com.elmirov.course.ui.channels.delegate.channel
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.elmirov.course.domain.Channel
-import com.elmirov.course.ui.chat.adapter.delegate.AdapterDelegate
-import com.elmirov.course.ui.chat.adapter.delegate.DelegateItem
+import com.elmirov.course.ui.adapter.delegate.AdapterDelegate
+import com.elmirov.course.ui.adapter.delegate.DelegateItem
 
 class ChannelDelegate(private val onArrowClick: (Int) -> Unit) : AdapterDelegate {
     override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder =

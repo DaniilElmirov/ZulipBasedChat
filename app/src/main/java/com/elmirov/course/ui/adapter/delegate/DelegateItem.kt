@@ -1,4 +1,4 @@
-package com.elmirov.course.ui.chat.adapter.delegate
+package com.elmirov.course.ui.adapter.delegate
 
 interface DelegateItem {
 

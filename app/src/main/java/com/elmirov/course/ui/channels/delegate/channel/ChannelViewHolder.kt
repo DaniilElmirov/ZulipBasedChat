@@ -1,4 +1,4 @@
-package com.elmirov.course.ui.channels.adapter.delegate.channel
+package com.elmirov.course.ui.channels.delegate.channel
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

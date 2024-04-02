@@ -1,4 +1,4 @@
-package com.elmirov.course.ui.chat.adapter.incoming
+package com.elmirov.course.ui.chat.delegate.incoming
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
