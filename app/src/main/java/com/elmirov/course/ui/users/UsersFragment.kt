@@ -84,19 +84,19 @@ class UsersFragment : Fragment() {
         usersAdapter.submitList(content)
 
         binding.apply {
-            progressBar.isVisible = false
-
-            search.isVisible = true
             users.isVisible = true
+
+            shimmer.isVisible = false
+            shimmer.stopShimmer()
         }
     }
 
     private fun applyLoading() {
         binding.apply {
-            progressBar.isVisible = true
-
-            search.isVisible = false
             users.isVisible = false
+
+            shimmer.isVisible = true
+            shimmer.startShimmer()
         }
     }
 
