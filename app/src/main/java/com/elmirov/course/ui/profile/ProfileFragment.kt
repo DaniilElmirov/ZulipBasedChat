@@ -11,7 +11,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.elmirov.course.CourseApplication
 import com.elmirov.course.databinding.FragmentProfileBinding
 import com.elmirov.course.presentation.ViewModelFactory
+import com.elmirov.course.presentation.profile.ProfileState
 import com.elmirov.course.presentation.profile.ProfileViewModel
+import com.elmirov.course.util.collectLifecycleFlow
 import javax.inject.Inject
 
 class ProfileFragment : Fragment() {
@@ -60,25 +62,68 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        parseArguments()
+        applyState(isOwn())
         setNavigationIconClickListener()
+    }
+
+    private fun isOwn(): Boolean =
+        requireArguments().getBoolean(KEY_OWN_PROFILE)
+
+    private fun applyState(isOwn: Boolean) {
+        collectLifecycleFlow(viewModel.profile) { state ->
+            when (state) {
+                ProfileState.Content -> applyContent(isOwn) //TODO переделать нормально
+
+                ProfileState.Loading -> applyLoading(isOwn)
+            }
+        }
+    }
+
+    private fun applyContent(isOwn: Boolean) {
+        binding.apply {
+
+            if (isOwn) {
+                toolbar.isVisible = false
+                logOut.isVisible = true
+            } else {
+                toolbar.isVisible = true
+                logOut.isVisible = false
+            }
+
+            avatar.isVisible = true
+            name.isVisible = true
+            meetingStatus.isVisible = true
+            onlineStatus.isVisible = true
+
+            shimmer.isVisible = false
+            shimmer.stopShimmer()
+        }
+    }
+
+    private fun applyLoading(isOwn: Boolean) {
+        binding.apply {
+
+            if (isOwn) {
+                toolbar.isVisible = false
+                logOut.isVisible = false
+            } else {
+                toolbar.isVisible = true
+                logOut.isVisible = false
+            }
+
+            avatar.isVisible = false
+            name.isVisible = false
+            meetingStatus.isVisible = false
+            onlineStatus.isVisible = false
+
+            shimmer.isVisible = true
+            shimmer.startShimmer()
+        }
     }
 
     private fun setNavigationIconClickListener() {
         binding.toolbar.setNavigationOnClickListener {
             viewModel.back()
-        }
-    }
-
-    private fun parseArguments() {
-        val own = requireArguments().getBoolean(KEY_OWN_PROFILE)
-
-        if (own) {
-            binding.toolbar.isVisible = false
-            binding.logOut.isVisible = true
-        } else {
-            binding.toolbar.isVisible = true
-            binding.logOut.isVisible = false
         }
     }
 
