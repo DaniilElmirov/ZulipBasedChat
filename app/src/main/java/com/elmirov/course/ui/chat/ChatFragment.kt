@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -13,6 +14,7 @@ import com.elmirov.course.R
 import com.elmirov.course.databinding.FragmentChatBinding
 import com.elmirov.course.domain.Message
 import com.elmirov.course.presentation.ViewModelFactory
+import com.elmirov.course.presentation.chat.ChatState
 import com.elmirov.course.presentation.chat.ChatViewModel
 import com.elmirov.course.ui.adapter.MainAdapter
 import com.elmirov.course.ui.chat.delegate.date.DateDelegate
@@ -83,24 +85,9 @@ class ChatFragment : Fragment() {
         binding.chat.adapter = messagesAdapter
 
         parseArguments()
-
-        collectLifecycleFlow(viewModel.messages) {
-            messagesAdapter.submitList(
-                it.data.toDelegateItems(OWN_ID)
-            )
-        }
-
-        binding.newMessage.doOnTextChanged { text, _, _, _ ->
-            binding.sendOrAttach.apply {
-                if (text.isNullOrEmpty()) {
-                    isClickable = false
-                    setImageResource(R.drawable.icon_attach)
-                } else {
-                    isClickable = true
-                    setImageResource(R.drawable.icon_send)
-                }
-            }
-        }
+        applyState()
+        setTextChangeListener()
+        setNavigationIconClickListener()
 
         var currentId = 10 //TODO поменять на данные с бэка
 
@@ -116,20 +103,64 @@ class ChatFragment : Fragment() {
             viewModel.sendMessage(newMessage)
             binding.newMessage.text = null
         }
-
-        setNavigationIconClickListener()
-    }
-
-    private fun setNavigationIconClickListener() {
-        binding.toolbar.setNavigationOnClickListener {
-            viewModel.back()
-        }
     }
 
     private fun parseArguments() {
         val topicName = requireArguments().getString(KEY_TOPIC_NAME)
 
         binding.topic.text = String.format(getString(R.string.topic_with_name), topicName)
+    }
+
+    private fun applyState() {
+        collectLifecycleFlow(viewModel.messages) { state ->
+            when (state) {
+                is ChatState.Content -> applyContent(state.data)
+
+                ChatState.Loading -> applyLoading()
+            }
+        }
+    }
+
+    private fun applyContent(data: List<Message>) {
+        messagesAdapter.submitList(data.toDelegateItems(OWN_ID))
+
+        binding.apply {
+            chat.isVisible = true
+            inputArea.isVisible = true
+
+            shimmer.isVisible = false
+            shimmer.stopShimmer()
+        }
+    }
+
+    private fun applyLoading() {
+        binding.apply {
+            chat.isVisible = false
+            inputArea.isVisible = false
+
+            shimmer.isVisible = true
+            shimmer.startShimmer()
+        }
+    }
+
+    private fun setTextChangeListener() {
+        binding.newMessage.doOnTextChanged { text, _, _, _ ->
+            binding.sendOrAttach.apply {
+                if (text.isNullOrEmpty()) {
+                    isClickable = false
+                    setImageResource(R.drawable.icon_attach)
+                } else {
+                    isClickable = true
+                    setImageResource(R.drawable.icon_send)
+                }
+            }
+        }
+    }
+
+    private fun setNavigationIconClickListener() {
+        binding.toolbar.setNavigationOnClickListener {
+            viewModel.back()
+        }
     }
 
     private fun showDialog(messageId: Int) {

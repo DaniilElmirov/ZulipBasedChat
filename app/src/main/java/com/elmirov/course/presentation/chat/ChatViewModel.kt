@@ -1,11 +1,14 @@
 package com.elmirov.course.presentation.chat
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.elmirov.course.domain.Message
 import com.elmirov.course.domain.Reaction
 import com.elmirov.course.navigation.router.GlobalRouter
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ChatViewModel @Inject constructor(
@@ -15,6 +18,10 @@ class ChatViewModel @Inject constructor(
     companion object {
         private const val OWN_ID = 0
         private const val OTHER_ID = -1
+    }
+
+    init {
+        loadMessages()
     }
 
     private val testData = mutableListOf(
@@ -92,7 +99,7 @@ class ChatViewModel @Inject constructor(
         ),
     )
 
-    private val _messages = MutableStateFlow(ChatState.Content(testData.toList()))
+    private val _messages = MutableStateFlow<ChatState>(ChatState.Loading)
     val messages = _messages.asStateFlow()
 
     fun sendMessage(message: Message) {
@@ -118,5 +125,12 @@ class ChatViewModel @Inject constructor(
 
     fun back() {
         globalRouter.back()
+    }
+
+    private fun loadMessages() {
+        viewModelScope.launch {
+            delay(1000)
+            _messages.value = ChatState.Content(testData.toList())
+        }
     }
 }
