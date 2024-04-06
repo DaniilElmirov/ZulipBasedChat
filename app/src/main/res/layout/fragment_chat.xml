@@ -34,6 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
+        android:visibility="visible"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@id/input_area"
         app:layout_constraintEnd_toEndOf="parent"
@@ -41,12 +42,43 @@
         app:layout_constraintTop_toBottomOf="@id/topic"
         tools:listitem="@layout/incoming_message_item" />
 
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topic">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/incoming_message_placeholder" />
+
+            <include layout="@layout/incoming_message_placeholder" />
+
+            <include layout="@layout/outgoing_message_placeholder" />
+
+            <include layout="@layout/outgoing_message_placeholder" />
+
+            <include layout="@layout/incoming_message_placeholder" />
+
+            <include layout="@layout/incoming_message_placeholder" />
+
+        </LinearLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
     <LinearLayout
         android:id="@+id/input_area"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/input_background_color"
         android:orientation="horizontal"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
