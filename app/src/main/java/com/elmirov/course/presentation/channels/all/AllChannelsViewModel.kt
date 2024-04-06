@@ -1,16 +1,23 @@
 package com.elmirov.course.presentation.channels.all
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.elmirov.course.domain.Channel
 import com.elmirov.course.domain.Topic
 import com.elmirov.course.navigation.router.GlobalRouter
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class AllChannelsViewModel @Inject constructor(
     private val globalRouter: GlobalRouter,
 ) : ViewModel() {
+
+    init {
+        loadChannels()
+    }
 
     private val testData = mutableListOf(
         Channel(
@@ -42,7 +49,7 @@ class AllChannelsViewModel @Inject constructor(
         ),
     )
 
-    private val _allChannels = MutableStateFlow(AllChannelsState.Content(testData.toList()))
+    private val _allChannels = MutableStateFlow<AllChannelsState>(AllChannelsState.Loading)
     val allChannels = _allChannels.asStateFlow()
 
     fun showTopics(channelId: Int) {
@@ -59,5 +66,12 @@ class AllChannelsViewModel @Inject constructor(
 
     fun openChat(topicName: String) {
         globalRouter.openChat(topicName)
+    }
+
+    private fun loadChannels() {
+        viewModelScope.launch {
+            delay(1000)
+            _allChannels.value = AllChannelsState.Content(testData.toList())
+        }
     }
 }

@@ -5,11 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.elmirov.course.CourseApplication
 import com.elmirov.course.databinding.FragmentPageChannelsBinding
+import com.elmirov.course.domain.Channel
 import com.elmirov.course.presentation.ViewModelFactory
+import com.elmirov.course.presentation.channels.all.AllChannelsState
 import com.elmirov.course.presentation.channels.all.AllChannelsViewModel
 import com.elmirov.course.ui.adapter.MainAdapter
 import com.elmirov.course.ui.channels.delegate.channel.ChannelDelegate
@@ -71,8 +74,36 @@ class AllChannelsFragment : Fragment() {
 
         binding.channels.adapter = allChannelsAdapter
 
-        collectLifecycleFlow(viewModel.allChannels) {
-            allChannelsAdapter.submitList(it.data.toDelegateItems())
+        applyState()
+    }
+
+    private fun applyState() {
+        collectLifecycleFlow(viewModel.allChannels) { state ->
+            when (state) {
+                is AllChannelsState.Content -> applyContent(state.data)
+
+                AllChannelsState.Loading -> applyLoading()
+            }
+        }
+    }
+
+    private fun applyContent(data: List<Channel>) {
+        allChannelsAdapter.submitList(data.toDelegateItems())
+
+        binding.apply {
+            channels.isVisible = true
+
+            shimmer.isVisible = false
+            shimmer.stopShimmer()
+        }
+    }
+
+    private fun applyLoading() {
+        binding.apply {
+            channels.isVisible = false
+
+            shimmer.isVisible = true
+            shimmer.startShimmer()
         }
     }
 
