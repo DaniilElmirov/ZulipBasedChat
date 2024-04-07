@@ -15,13 +15,14 @@ import com.elmirov.course.presentation.ViewModelFactory
 import com.elmirov.course.presentation.channels.all.AllChannelsState
 import com.elmirov.course.presentation.channels.all.AllChannelsViewModel
 import com.elmirov.course.ui.adapter.MainAdapter
+import com.elmirov.course.ui.channels.AllChannelsCommunicator
 import com.elmirov.course.ui.channels.delegate.channel.ChannelDelegate
 import com.elmirov.course.ui.channels.delegate.topic.TopicDelegate
 import com.elmirov.course.util.collectLifecycleFlow
 import com.elmirov.course.util.toDelegateItems
 import javax.inject.Inject
 
-class AllChannelsFragment : Fragment() {
+class AllChannelsFragment : Fragment(), AllChannelsCommunicator {
 
     companion object {
         fun newInstance(): AllChannelsFragment =
@@ -111,5 +112,9 @@ class AllChannelsFragment : Fragment() {
         binding.channels.adapter = null
         _binding = null
         super.onDestroy()
+    }
+
+    override fun passSearchQueryInAll(query: String) {
+        viewModel.search(query)
     }
 }

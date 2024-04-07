@@ -74,4 +74,23 @@ class AllChannelsViewModel @Inject constructor(
             _allChannels.value = AllChannelsState.Content(testData.toList())
         }
     }
+
+    fun search(query: String) {
+        val currentState = _allChannels.value as? AllChannelsState.Content ?: return
+
+        if (query.isEmpty()) {
+            _allChannels.value = AllChannelsState.Content(testData.toList())
+            return
+        }
+
+        val searchedData = mutableListOf<Channel>()
+
+        currentState.data.forEach {
+            if (it.name.contains(query)) {
+                searchedData.add(it)
+            }
+        }
+
+        _allChannels.value = AllChannelsState.Content(searchedData.toList())
+    }
 }

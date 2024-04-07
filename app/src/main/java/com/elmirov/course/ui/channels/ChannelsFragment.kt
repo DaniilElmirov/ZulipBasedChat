@@ -32,9 +32,11 @@ class ChannelsFragment : Fragment() {
     private lateinit var tabLayoutMediator: TabLayoutMediator
 
     private var subscribedCommunicator: SubscribedChannelsCommunicator? = null
+    private var allCommunicator: AllChannelsCommunicator? = null
 
     override fun onAttach(context: Context) {
         subscribedCommunicator = context as SubscribedChannelsCommunicator
+        allCommunicator = context as AllChannelsCommunicator
         super.onAttach(context)
     }
 
@@ -88,7 +90,7 @@ class ChannelsFragment : Fragment() {
                 when (position) {
                     TAB_SUBSCRIBED -> setSubscribedTextChangeListener()
 
-                    TAB_ALL -> Unit
+                    TAB_ALL -> setAllTextChangeListener()
                 }
             }
         }
@@ -98,6 +100,12 @@ class ChannelsFragment : Fragment() {
     private fun setSubscribedTextChangeListener() {
         binding.search.doOnTextChanged { text, _, _, _ ->
             subscribedCommunicator?.passSearchQueryInSubscribed(text.toString().trim())
+        }
+    }
+
+    private fun setAllTextChangeListener() {
+        binding.search.doOnTextChanged { text, _, _, _ ->
+            allCommunicator?.passSearchQueryInAll(text.toString().trim())
         }
     }
 
