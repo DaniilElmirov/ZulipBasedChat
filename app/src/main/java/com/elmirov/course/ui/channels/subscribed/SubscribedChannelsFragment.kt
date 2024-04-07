@@ -15,6 +15,7 @@ import com.elmirov.course.presentation.ViewModelFactory
 import com.elmirov.course.presentation.channels.subscribed.SubscribedChannelsState
 import com.elmirov.course.presentation.channels.subscribed.SubscribedChannelsViewModel
 import com.elmirov.course.ui.adapter.MainAdapter
+import com.elmirov.course.ui.channels.SubscribedChannelsCommunicator
 import com.elmirov.course.ui.channels.delegate.channel.ChannelDelegate
 import com.elmirov.course.ui.channels.delegate.topic.TopicDelegate
 import com.elmirov.course.util.collectLifecycleFlow
@@ -22,7 +23,7 @@ import com.elmirov.course.util.toDelegateItems
 import javax.inject.Inject
 
 
-class SubscribedChannelsFragment : Fragment() {
+class SubscribedChannelsFragment : Fragment(), SubscribedChannelsCommunicator {
 
     companion object {
         fun newInstance(): SubscribedChannelsFragment =
@@ -75,7 +76,6 @@ class SubscribedChannelsFragment : Fragment() {
 
         binding.channels.adapter = subscribedChannelsAdapter
 
-
         applyState()
     }
 
@@ -113,5 +113,9 @@ class SubscribedChannelsFragment : Fragment() {
         binding.channels.adapter = null
         _binding = null
         super.onDestroy()
+    }
+
+    override fun passSearchQueryInSubscribed(query: String) {
+        viewModel.search(query)
     }
 }

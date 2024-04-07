@@ -69,6 +69,25 @@ class SubscribedChannelsViewModel @Inject constructor(
         globalRouter.openChat(topicName)
     }
 
+    fun search(query: String) {
+        val currentState = _subscribedChannels.value as? SubscribedChannelsState.Content ?: return
+
+        if (query.isEmpty()) {
+            _subscribedChannels.value = SubscribedChannelsState.Content(testData.toList())
+            return
+        }
+
+        val searchedData = mutableListOf<Channel>()
+
+        currentState.data.forEach {
+            if (it.name.contains(query)) {
+                searchedData.add(it)
+            }
+        }
+
+        _subscribedChannels.value = SubscribedChannelsState.Content(searchedData.toList())
+    }
+
     private fun loadChannels() {
         viewModelScope.launch {
             delay(1000)

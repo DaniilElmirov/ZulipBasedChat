@@ -1,10 +1,13 @@
 package com.elmirov.course.ui.channels
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.viewpager2.widget.ViewPager2
 import com.elmirov.course.R
 import com.elmirov.course.databinding.FragmentChannelsBinding
 import com.elmirov.course.ui.channels.all.AllChannelsFragment
@@ -28,6 +31,13 @@ class ChannelsFragment : Fragment() {
 
     private lateinit var tabLayoutMediator: TabLayoutMediator
 
+    private var subscribedCommunicator: SubscribedChannelsCommunicator? = null
+
+    override fun onAttach(context: Context) {
+        subscribedCommunicator = context as SubscribedChannelsCommunicator
+        super.onAttach(context)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -42,6 +52,7 @@ class ChannelsFragment : Fragment() {
 
         setupViewPager()
         setupTabLayout()
+        setupOnPageChangeCallback()
     }
 
     private fun setupViewPager() {
@@ -68,6 +79,26 @@ class ChannelsFragment : Fragment() {
             }
         }
         tabLayoutMediator.attach()
+    }
+
+    private fun setupOnPageChangeCallback() {
+        val callback = object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                when (position) {
+                    TAB_SUBSCRIBED -> setSubscribedTextChangeListener()
+
+                    TAB_ALL -> Unit
+                }
+            }
+        }
+        binding.pager.registerOnPageChangeCallback(callback)
+    }
+
+    private fun setSubscribedTextChangeListener() {
+        binding.search.doOnTextChanged { text, _, _, _ ->
+            subscribedCommunicator?.passSearchQueryInSubscribed(text.toString().trim())
+        }
     }
 
     override fun onDestroy() {
