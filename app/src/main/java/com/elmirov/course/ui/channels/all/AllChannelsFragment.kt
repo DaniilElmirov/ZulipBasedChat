@@ -15,7 +15,7 @@ import com.elmirov.course.presentation.ViewModelFactory
 import com.elmirov.course.presentation.channels.all.AllChannelsState
 import com.elmirov.course.presentation.channels.all.AllChannelsViewModel
 import com.elmirov.course.ui.adapter.MainAdapter
-import com.elmirov.course.ui.channels.AllChannelsCommunicator
+import com.elmirov.course.ui.channels.communicator.AllChannelsCommunicator
 import com.elmirov.course.ui.channels.delegate.channel.ChannelDelegate
 import com.elmirov.course.ui.channels.delegate.topic.TopicDelegate
 import com.elmirov.course.util.collectLifecycleFlow

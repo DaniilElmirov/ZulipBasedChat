@@ -1,4 +1,4 @@
-package com.elmirov.course.ui.channels
+package com.elmirov.course.ui.channels.communicator
 
 interface AllChannelsCommunicator {
 

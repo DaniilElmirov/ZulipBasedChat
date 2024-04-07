@@ -11,6 +11,8 @@ import androidx.viewpager2.widget.ViewPager2
 import com.elmirov.course.R
 import com.elmirov.course.databinding.FragmentChannelsBinding
 import com.elmirov.course.ui.channels.all.AllChannelsFragment
+import com.elmirov.course.ui.channels.communicator.AllChannelsCommunicator
+import com.elmirov.course.ui.channels.communicator.SubscribedChannelsCommunicator
 import com.elmirov.course.ui.channels.subscribed.SubscribedChannelsFragment
 import com.google.android.material.tabs.TabLayoutMediator
 

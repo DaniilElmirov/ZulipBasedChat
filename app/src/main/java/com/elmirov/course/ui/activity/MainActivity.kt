@@ -6,9 +6,9 @@ import com.elmirov.course.CourseApplication
 import com.elmirov.course.R
 import com.elmirov.course.databinding.ActivityMainBinding
 import com.elmirov.course.navigation.Screens
-import com.elmirov.course.ui.channels.AllChannelsCommunicator
+import com.elmirov.course.ui.channels.communicator.AllChannelsCommunicator
 import com.elmirov.course.ui.channels.ChannelsFragment
-import com.elmirov.course.ui.channels.SubscribedChannelsCommunicator
+import com.elmirov.course.ui.channels.communicator.SubscribedChannelsCommunicator
 import com.elmirov.course.ui.channels.all.AllChannelsFragment
 import com.elmirov.course.ui.channels.subscribed.SubscribedChannelsFragment
 import com.elmirov.course.ui.main.MainFragment
