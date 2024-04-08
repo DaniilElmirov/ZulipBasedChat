@@ -116,6 +116,6 @@ class SubscribedChannelsFragment : Fragment(), SubscribedChannelsCommunicator {
     }
 
     override fun passSearchQueryInSubscribed(query: String) {
-        viewModel.search(query)
+        viewModel.searchQueryPublisher.tryEmit(query)
     }
 }

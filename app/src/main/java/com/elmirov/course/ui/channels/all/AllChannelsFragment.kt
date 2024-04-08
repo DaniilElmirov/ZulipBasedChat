@@ -115,6 +115,6 @@ class AllChannelsFragment : Fragment(), AllChannelsCommunicator {
     }
 
     override fun passSearchQueryInAll(query: String) {
-        viewModel.search(query)
+        viewModel.searchQueryPublisher.tryEmit(query)
     }
 }

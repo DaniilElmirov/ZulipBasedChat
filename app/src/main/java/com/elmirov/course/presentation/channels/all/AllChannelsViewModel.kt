@@ -5,19 +5,24 @@ import androidx.lifecycle.viewModelScope
 import com.elmirov.course.domain.Channel
 import com.elmirov.course.domain.Topic
 import com.elmirov.course.navigation.router.GlobalRouter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.mapLatest
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class AllChannelsViewModel @Inject constructor(
     private val globalRouter: GlobalRouter,
 ) : ViewModel() {
-
-    init {
-        loadChannels()
-    }
 
     private val testData = mutableListOf(
         Channel(
@@ -52,6 +57,44 @@ class AllChannelsViewModel @Inject constructor(
     private val _allChannels = MutableStateFlow<AllChannelsState>(AllChannelsState.Loading)
     val allChannels = _allChannels.asStateFlow()
 
+    val searchQueryPublisher = MutableSharedFlow<String>(extraBufferCapacity = 1)
+
+    init {
+        loadChannels()
+        listenSearchQuery()
+    }
+
+    private fun loadChannels() {
+        viewModelScope.launch {
+            delay(1000)
+            _allChannels.value = AllChannelsState.Content(testData.toList())
+        }
+    }
+
+    @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
+    private fun listenSearchQuery() {
+        searchQueryPublisher
+            .debounce(500)
+            .mapLatest(::search)
+            .flowOn(Dispatchers.Default)
+            .onEach {
+                _allChannels.value = it
+            }
+            .launchIn(viewModelScope)
+    }
+
+    private fun search(query: String): AllChannelsState {
+
+        if (query.isEmpty())
+            return AllChannelsState.Content(testData.toList())
+
+        val searchedData = testData.filter {
+            it.name.contains(other = query, ignoreCase = true)
+        }
+
+        return AllChannelsState.Content(searchedData)
+    }
+
     fun showTopics(channelId: Int) {
         val channelWithTopics = testData[channelId].copy(topics = topics)
         testData[channelId] = channelWithTopics
@@ -66,31 +109,5 @@ class AllChannelsViewModel @Inject constructor(
 
     fun openChat(topicName: String) {
         globalRouter.openChat(topicName)
-    }
-
-    private fun loadChannels() {
-        viewModelScope.launch {
-            delay(1000)
-            _allChannels.value = AllChannelsState.Content(testData.toList())
-        }
-    }
-
-    fun search(query: String) {
-        val currentState = _allChannels.value as? AllChannelsState.Content ?: return
-
-        if (query.isEmpty()) {
-            _allChannels.value = AllChannelsState.Content(testData.toList())
-            return
-        }
-
-        val searchedData = mutableListOf<Channel>()
-
-        currentState.data.forEach {
-            if (it.name.contains(other = query, ignoreCase = true)) {
-                searchedData.add(it)
-            }
-        }
-
-        _allChannels.value = AllChannelsState.Content(searchedData.toList())
     }
 }
