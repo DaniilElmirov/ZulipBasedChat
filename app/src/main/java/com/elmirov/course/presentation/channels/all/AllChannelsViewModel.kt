@@ -86,7 +86,7 @@ class AllChannelsViewModel @Inject constructor(
         val searchedData = mutableListOf<Channel>()
 
         currentState.data.forEach {
-            if (it.name.contains(query)) {
+            if (it.name.contains(other = query, ignoreCase = true)) {
                 searchedData.add(it)
             }
         }
