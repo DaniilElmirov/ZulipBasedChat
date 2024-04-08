@@ -1,6 +1,5 @@
 package com.elmirov.course.ui.channels
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +15,7 @@ import com.elmirov.course.ui.channels.communicator.SubscribedChannelsCommunicato
 import com.elmirov.course.ui.channels.subscribed.SubscribedChannelsFragment
 import com.google.android.material.tabs.TabLayoutMediator
 
-class ChannelsFragment : Fragment() {
+class ChannelsFragment : Fragment(), SubscribedChannelsCommunicator, AllChannelsCommunicator {
 
     companion object {
 
@@ -32,15 +31,6 @@ class ChannelsFragment : Fragment() {
         get() = _binding!!
 
     private lateinit var tabLayoutMediator: TabLayoutMediator
-
-    private var subscribedCommunicator: SubscribedChannelsCommunicator? = null
-    private var allCommunicator: AllChannelsCommunicator? = null
-
-    override fun onAttach(context: Context) {
-        subscribedCommunicator = context as SubscribedChannelsCommunicator
-        allCommunicator = context as AllChannelsCommunicator
-        super.onAttach(context)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -101,15 +91,33 @@ class ChannelsFragment : Fragment() {
 
     private fun setSubscribedTextChangeListener() {
         binding.search.doOnTextChanged { text, _, _, _ ->
-            subscribedCommunicator?.passSearchQueryInSubscribed(text.toString().trim())
+            passSearchQueryInSubscribed(text.toString().trim())
         }
     }
 
     private fun setAllTextChangeListener() {
         binding.search.doOnTextChanged { text, _, _, _ ->
-            allCommunicator?.passSearchQueryInAll(text.toString().trim())
+            passSearchQueryInAll(text.toString().trim())
         }
     }
+
+    override fun passSearchQueryInSubscribed(query: String) {
+        getSubscribedFragment().passSearchQueryInSubscribed(query)
+    }
+
+    override fun passSearchQueryInAll(query: String) {
+        getAllFragment().passSearchQueryInAll(query)
+    }
+
+    private fun getSubscribedFragment(): SubscribedChannelsFragment =
+        childFragmentManager.fragments.find {
+            it is SubscribedChannelsFragment
+        } as SubscribedChannelsFragment
+
+    private fun getAllFragment(): AllChannelsFragment =
+        childFragmentManager.fragments.find {
+            it is AllChannelsFragment
+        } as AllChannelsFragment
 
     override fun onDestroy() {
         tabLayoutMediator.detach()

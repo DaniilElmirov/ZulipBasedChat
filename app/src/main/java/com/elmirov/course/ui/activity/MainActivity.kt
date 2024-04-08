@@ -6,18 +6,12 @@ import com.elmirov.course.CourseApplication
 import com.elmirov.course.R
 import com.elmirov.course.databinding.ActivityMainBinding
 import com.elmirov.course.navigation.Screens
-import com.elmirov.course.ui.channels.communicator.AllChannelsCommunicator
-import com.elmirov.course.ui.channels.ChannelsFragment
-import com.elmirov.course.ui.channels.communicator.SubscribedChannelsCommunicator
-import com.elmirov.course.ui.channels.all.AllChannelsFragment
-import com.elmirov.course.ui.channels.subscribed.SubscribedChannelsFragment
-import com.elmirov.course.ui.main.MainFragment
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
 import com.github.terrakok.cicerone.androidx.AppNavigator
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), SubscribedChannelsCommunicator, AllChannelsCommunicator {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -49,39 +43,4 @@ class MainActivity : AppCompatActivity(), SubscribedChannelsCommunicator, AllCha
         super.onPause()
         navigatorHolder.removeNavigator()
     }
-
-    override fun passSearchQueryInSubscribed(query: String) {
-
-        getSubscribedChannelsFragment().passSearchQueryInSubscribed(query)
-    }
-
-    override fun passSearchQueryInAll(query: String) {
-
-        getAllChannelsFragment().passSearchQueryInAll(query)
-    }
-
-    private fun getSubscribedChannelsFragment(): SubscribedChannelsFragment {
-        val channelsFragment = findChannelsFragment()
-
-        val subscribed = channelsFragment.childFragmentManager.fragments.find {
-            it is SubscribedChannelsFragment
-        } as SubscribedChannelsFragment
-
-        return subscribed
-    }
-
-    private fun getAllChannelsFragment(): AllChannelsFragment {
-        val channelsFragment = findChannelsFragment()
-
-        val all = channelsFragment.childFragmentManager.fragments.find {
-            it is AllChannelsFragment
-        } as AllChannelsFragment
-
-        return all
-    }
-
-    private fun findChannelsFragment(): ChannelsFragment =
-        binding.root.getFragment<MainFragment>().childFragmentManager.fragments.find {
-            it is ChannelsFragment
-        } as ChannelsFragment
 }
