@@ -8,6 +8,8 @@ import com.elmirov.course.ui.chat.delegate.date.DateDelegateItem
 import com.elmirov.course.ui.adapter.delegate.DelegateItem
 import com.elmirov.course.ui.chat.delegate.incoming.IncomingMessageDelegateItem
 import com.elmirov.course.ui.chat.delegate.outgoing.OutgoingMessageDelegateItem
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 fun List<Message>.toDelegateItems(
     ownId: Int,
@@ -16,10 +18,12 @@ fun List<Message>.toDelegateItems(
     val delegates = mutableListOf<DelegateItem>()
     val dates = mutableSetOf<String>()
 
-    val sortedMessages = sortedBy { it.date }
+    val format = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+
+    val sortedMessages = sortedBy { format.parse(it.date) }
 
     sortedMessages.forEach {
-        dates.add(it.date) //TODO переделать на нормальное сравнение дат
+        dates.add(it.date)
     }
 
     dates.forEach { messageDate ->
