@@ -5,6 +5,7 @@ import com.elmirov.course.domain.entity.ErrorType
 import com.elmirov.course.domain.entity.Result
 import com.elmirov.course.domain.entity.User
 import com.elmirov.course.domain.repository.UsersRepository
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -106,8 +107,10 @@ class UsersRepositoryImpl @Inject constructor(
                 delay(1000)
                 return@withContext Result.Success(testData)
             }
-        } catch (t: Throwable) {
-            when (t) {
+        } catch (cancellation: CancellationException) {
+            throw cancellation
+        } catch (exception: Exception) {
+            when (exception) {
                 is UnknownHostException, is SocketTimeoutException, is ConnectException -> {
                     Result.Error(errorType = ErrorType.CONNECTION)
                 }
@@ -118,4 +121,21 @@ class UsersRepositoryImpl @Inject constructor(
             }
         }
 
+    //TODO вместо рандомайзера
+    override suspend fun getError(): Result<List<User>> =
+        try {
+            throw RuntimeException()
+        } catch (cancellation: CancellationException) {
+            throw cancellation
+        } catch (exception: Exception) {
+            when (exception) {
+                is UnknownHostException, is SocketTimeoutException, is ConnectException -> {
+                    Result.Error(errorType = ErrorType.CONNECTION)
+                }
+
+                else -> {
+                    Result.Error(errorType = ErrorType.UNKNOWN)
+                }
+            }
+        }
 }
