@@ -75,6 +75,10 @@ class UsersFragment : Fragment() {
         binding.refresh.setOnClickListener {
             viewModel.loadUsers()
         }
+
+        binding.getError.setOnClickListener {
+            viewModel.loadUsersWithError()
+        }
     }
 
     private fun applyState() {
@@ -99,6 +103,8 @@ class UsersFragment : Fragment() {
 
             shimmer.isVisible = false
             shimmer.stopShimmer()
+
+            getError.isVisible = true
         }
     }
 
@@ -110,6 +116,8 @@ class UsersFragment : Fragment() {
 
             shimmer.isVisible = true
             shimmer.startShimmer()
+
+            getError.isVisible = false
         }
     }
 
@@ -121,6 +129,8 @@ class UsersFragment : Fragment() {
 
             shimmer.isVisible = false
             shimmer.stopShimmer()
+
+            getError.isVisible = false
         }
     }
 
