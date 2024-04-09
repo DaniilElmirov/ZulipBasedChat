@@ -3,6 +3,8 @@ package com.elmirov.course.di.component
 import android.content.Context
 import com.elmirov.course.CourseApplication
 import com.elmirov.course.di.annotation.ApplicationScope
+import com.elmirov.course.di.module.DataModule
+import com.elmirov.course.di.module.DispatcherModule
 import com.elmirov.course.di.module.NavigationModule
 import com.elmirov.course.di.module.ViewModelModule
 import com.elmirov.course.ui.activity.MainActivity
@@ -19,6 +21,8 @@ import dagger.Component
     modules = [
         NavigationModule::class,
         ViewModelModule::class,
+        DataModule::class,
+        DispatcherModule::class,
     ]
 )
 interface ApplicationComponent {
