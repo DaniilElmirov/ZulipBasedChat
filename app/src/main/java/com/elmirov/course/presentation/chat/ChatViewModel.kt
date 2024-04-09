@@ -2,22 +2,29 @@ package com.elmirov.course.presentation.chat
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.elmirov.course.di.annotation.DispatcherIo
 import com.elmirov.course.domain.entity.Message
 import com.elmirov.course.domain.entity.Reaction
 import com.elmirov.course.navigation.router.GlobalRouter
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class ChatViewModel @Inject constructor(
     private val globalRouter: GlobalRouter,
+    @DispatcherIo private val dispatcherIo: CoroutineDispatcher,
 ) : ViewModel() {
 
-    companion object {
-        private const val OWN_ID = 0
-        private const val OTHER_ID = -1
+    private companion object {
+        const val OWN_ID = 0
+        const val OTHER_ID = -1
+
+        const val ERROR_TRIGGER_MESSAGE = "err" //TODO временно
     }
 
     init {
@@ -103,8 +110,24 @@ class ChatViewModel @Inject constructor(
     val messages = _messages.asStateFlow()
 
     fun sendMessage(message: Message) {
-        testData.add(message)
-        _messages.value = ChatState.Content(testData.toList())
+        viewModelScope.launch {
+            handleMessage(message)
+        }
+    }
+
+    private suspend fun handleMessage(message: Message) {
+        try {
+            if (message.text == ERROR_TRIGGER_MESSAGE)
+                throw RuntimeException()
+            withContext(dispatcherIo) {
+                testData.add(message)
+                _messages.value = ChatState.Content(testData.toList())
+            }
+        } catch (cancellation: CancellationException) {
+            throw cancellation
+        } catch (exception: Exception) {
+            _messages.value = ChatState.Error
+        }
     }
 
     fun addReactionToMessage(reaction: Reaction, messageId: Int) {

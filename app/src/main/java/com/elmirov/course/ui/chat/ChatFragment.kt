@@ -2,6 +2,7 @@ package com.elmirov.course.ui.chat
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +23,7 @@ import com.elmirov.course.ui.chat.delegate.incoming.IncomingMessageDelegate
 import com.elmirov.course.ui.chat.delegate.outgoing.OutgoingMessageDelegate
 import com.elmirov.course.util.collectLifecycleFlow
 import com.elmirov.course.util.toDelegateItems
+import com.google.android.material.snackbar.Snackbar
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
@@ -92,7 +94,7 @@ class ChatFragment : Fragment() {
         var currentId = 10 //TODO поменять на данные с бэка
 
         binding.sendOrAttach.setOnClickListener {
-            val messageText = binding.newMessage.text.toString()
+            val messageText = binding.newMessage.text?.trim().toString()
             val newMessage = Message(
                 id = currentId++,
                 userId = if (currentId % 2 == 0) -1 else 0,
@@ -117,6 +119,8 @@ class ChatFragment : Fragment() {
                 is ChatState.Content -> applyContent(state.data)
 
                 ChatState.Loading -> applyLoading()
+
+                ChatState.Error -> applyError()
             }
         }
     }
@@ -143,10 +147,14 @@ class ChatFragment : Fragment() {
         }
     }
 
+    private fun applyError() {
+        showSnack()
+    }
+
     private fun setTextChangeListener() {
         binding.newMessage.doOnTextChanged { text, _, _, _ ->
             binding.sendOrAttach.apply {
-                if (text.isNullOrEmpty()) {
+                if (text?.trim().isNullOrEmpty()) {
                     isClickable = false
                     setImageResource(R.drawable.icon_attach)
                 } else {
@@ -155,6 +163,11 @@ class ChatFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun showSnack() {
+        val view = requireActivity().findViewById<View>(android.R.id.content)
+        Snackbar.make(view, getString(R.string.unknown_error), Snackbar.LENGTH_SHORT).show()
     }
 
     private fun setNavigationIconClickListener() {
