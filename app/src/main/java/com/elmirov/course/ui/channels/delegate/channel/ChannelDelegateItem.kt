@@ -1,6 +1,6 @@
 package com.elmirov.course.ui.channels.delegate.channel
 
-import com.elmirov.course.domain.Channel
+import com.elmirov.course.domain.entity.Channel
 import com.elmirov.course.ui.adapter.delegate.DelegateItem
 
 class ChannelDelegateItem(

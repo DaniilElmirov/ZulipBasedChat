@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.elmirov.course.CourseApplication
 import com.elmirov.course.databinding.FragmentUsersBinding
-import com.elmirov.course.domain.User
+import com.elmirov.course.domain.entity.User
 import com.elmirov.course.presentation.ViewModelFactory
 import com.elmirov.course.presentation.users.UsersState
 import com.elmirov.course.presentation.users.UsersViewModel

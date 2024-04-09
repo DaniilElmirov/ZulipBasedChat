@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.elmirov.course.CourseApplication
 import com.elmirov.course.R
 import com.elmirov.course.databinding.FragmentChatBinding
-import com.elmirov.course.domain.Message
+import com.elmirov.course.domain.entity.Message
 import com.elmirov.course.presentation.ViewModelFactory
 import com.elmirov.course.presentation.chat.ChatState
 import com.elmirov.course.presentation.chat.ChatViewModel

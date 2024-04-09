@@ -2,7 +2,7 @@ package com.elmirov.course.ui.chat.delegate.incoming
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.elmirov.course.domain.Message
+import com.elmirov.course.domain.entity.Message
 import com.elmirov.course.ui.adapter.delegate.AdapterDelegate
 import com.elmirov.course.ui.adapter.delegate.DelegateItem
 

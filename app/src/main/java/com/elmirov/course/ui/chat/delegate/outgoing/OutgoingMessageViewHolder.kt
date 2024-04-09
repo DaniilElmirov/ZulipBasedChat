@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.elmirov.course.R
 import com.elmirov.course.databinding.OutgoingMessageItemBinding
-import com.elmirov.course.domain.Message
-import com.elmirov.course.domain.Reaction
+import com.elmirov.course.domain.entity.Message
+import com.elmirov.course.domain.entity.Reaction
 
 class OutgoingMessageViewHolder(
     parent: ViewGroup,

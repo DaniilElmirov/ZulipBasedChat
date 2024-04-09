@@ -2,7 +2,7 @@ package com.elmirov.course.presentation.users
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.elmirov.course.domain.User
+import com.elmirov.course.domain.entity.User
 import com.elmirov.course.navigation.router.GlobalRouter
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow

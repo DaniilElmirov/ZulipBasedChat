@@ -2,8 +2,8 @@ package com.elmirov.course.presentation.chat
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.elmirov.course.domain.Message
-import com.elmirov.course.domain.Reaction
+import com.elmirov.course.domain.entity.Message
+import com.elmirov.course.domain.entity.Reaction
 import com.elmirov.course.navigation.router.GlobalRouter
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow

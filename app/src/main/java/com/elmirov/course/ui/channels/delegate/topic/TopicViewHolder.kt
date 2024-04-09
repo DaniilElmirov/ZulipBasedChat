@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.elmirov.course.R
 import com.elmirov.course.databinding.TopicItemBinding
-import com.elmirov.course.domain.Topic
+import com.elmirov.course.domain.entity.Topic
 
 class TopicViewHolder(
     parent: ViewGroup,

@@ -1,7 +1,7 @@
 package com.elmirov.course.util
 
-import com.elmirov.course.domain.Channel
-import com.elmirov.course.domain.Message
+import com.elmirov.course.domain.entity.Channel
+import com.elmirov.course.domain.entity.Message
 import com.elmirov.course.ui.channels.delegate.channel.ChannelDelegateItem
 import com.elmirov.course.ui.channels.delegate.topic.TopicDelegateItem
 import com.elmirov.course.ui.chat.delegate.date.DateDelegateItem
@@ -19,7 +19,7 @@ fun List<Message>.toDelegateItems(
     val sortedMessages = sortedBy { it.date }
 
     sortedMessages.forEach {
-        dates.add(it.date)
+        dates.add(it.date) //TODO переделать на нормальное сравнение дат
     }
 
     dates.forEach { messageDate ->

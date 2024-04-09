@@ -2,8 +2,8 @@ package com.elmirov.course.presentation.channels.subscribed
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.elmirov.course.domain.Channel
-import com.elmirov.course.domain.Topic
+import com.elmirov.course.domain.entity.Channel
+import com.elmirov.course.domain.entity.Topic
 import com.elmirov.course.navigation.router.GlobalRouter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

@@ -1,6 +1,6 @@
 package com.elmirov.course.presentation.channels.subscribed
 
-import com.elmirov.course.domain.Channel
+import com.elmirov.course.domain.entity.Channel
 
 sealed interface SubscribedChannelsState {
 

@@ -6,7 +6,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.elmirov.course.R
 import com.elmirov.course.databinding.ChannelItemBinding
-import com.elmirov.course.domain.Channel
+import com.elmirov.course.domain.entity.Channel
 
 class ChannelViewHolder(
     parent: ViewGroup,

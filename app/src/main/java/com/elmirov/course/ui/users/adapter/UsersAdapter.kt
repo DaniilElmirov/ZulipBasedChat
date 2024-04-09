@@ -2,7 +2,7 @@ package com.elmirov.course.ui.users.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
-import com.elmirov.course.domain.User
+import com.elmirov.course.domain.entity.User
 
 class UsersAdapter(
     private val onUserClick: (Int) -> Unit,

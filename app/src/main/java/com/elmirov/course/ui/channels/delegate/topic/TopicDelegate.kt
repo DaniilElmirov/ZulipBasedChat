@@ -2,7 +2,7 @@ package com.elmirov.course.ui.channels.delegate.topic
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.elmirov.course.domain.Topic
+import com.elmirov.course.domain.entity.Topic
 import com.elmirov.course.ui.adapter.delegate.AdapterDelegate
 import com.elmirov.course.ui.adapter.delegate.DelegateItem
 

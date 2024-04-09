@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.view.children
 import com.elmirov.course.R
-import com.elmirov.course.domain.Reaction
+import com.elmirov.course.domain.entity.Reaction
 import com.elmirov.course.util.dpToPix
 
 class FlexBoxLayout @JvmOverloads constructor(
@@ -101,10 +101,6 @@ class FlexBoxLayout @JvmOverloads constructor(
         addIcon.setOnClickListener {
             listener.invoke(this@FlexBoxLayout)
         }
-    }
-
-    fun removeAddIcon() {
-        removeView(addIcon)
     }
 
     fun addReactions(reactions: List<Reaction>) {

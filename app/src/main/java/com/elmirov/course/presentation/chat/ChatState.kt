@@ -1,6 +1,6 @@
 package com.elmirov.course.presentation.chat
 
-import com.elmirov.course.domain.Message
+import com.elmirov.course.domain.entity.Message
 
 sealed interface ChatState {
 

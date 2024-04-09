@@ -1,4 +1,4 @@
-package com.elmirov.course.domain
+package com.elmirov.course.domain.entity
 
 data class Channel(
     val id: Int,

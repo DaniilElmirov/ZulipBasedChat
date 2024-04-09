@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.elmirov.course.CourseApplication
 import com.elmirov.course.databinding.FragmentPageChannelsBinding
-import com.elmirov.course.domain.Channel
+import com.elmirov.course.domain.entity.Channel
 import com.elmirov.course.presentation.ViewModelFactory
 import com.elmirov.course.presentation.channels.all.AllChannelsState
 import com.elmirov.course.presentation.channels.all.AllChannelsViewModel

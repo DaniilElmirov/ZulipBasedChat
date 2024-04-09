@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import androidx.core.view.children
 import com.elmirov.course.R
 import com.elmirov.course.databinding.MessageLayoutBinding
-import com.elmirov.course.domain.Reaction
+import com.elmirov.course.domain.entity.Reaction
 import com.elmirov.course.util.dpToPix
 import com.elmirov.course.util.getHeightWithMargins
 import com.elmirov.course.util.getWidthWithMargins
