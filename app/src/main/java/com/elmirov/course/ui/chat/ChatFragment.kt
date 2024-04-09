@@ -2,7 +2,6 @@ package com.elmirov.course.ui.chat
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +9,7 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
 import com.elmirov.course.CourseApplication
 import com.elmirov.course.R
 import com.elmirov.course.databinding.FragmentChatBinding
@@ -84,9 +84,8 @@ class ChatFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.chat.adapter = messagesAdapter
-
         parseArguments()
+        setupAdapter()
         applyState()
         setTextChangeListener()
         setNavigationIconClickListener()
@@ -111,6 +110,17 @@ class ChatFragment : Fragment() {
         val topicName = requireArguments().getString(KEY_TOPIC_NAME)
 
         binding.topic.text = String.format(getString(R.string.topic_with_name), topicName)
+    }
+
+    private fun setupAdapter() {
+        binding.chat.adapter = messagesAdapter
+
+        val observer = object : RecyclerView.AdapterDataObserver() {
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                binding.chat.scrollToPosition(messagesAdapter.itemCount - 1)
+            }
+        }
+        messagesAdapter.registerAdapterDataObserver(observer)
     }
 
     private fun applyState() {
