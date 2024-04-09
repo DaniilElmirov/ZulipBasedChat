@@ -152,8 +152,16 @@ class ChatViewModel @Inject constructor(
 
     private fun loadMessages() {
         viewModelScope.launch {
-            delay(1000)
-            _messages.value = ChatState.Content(testData.toList())
+            try {
+                withContext(dispatcherIo) {
+                    delay(1000)
+                    _messages.value = ChatState.Content(testData.toList())
+                }
+            } catch (cancellation: CancellationException) {
+                throw cancellation
+            } catch (exception: Exception) { //TODO добавить стейт ошибки и его обработку
+                _messages.value = ChatState.Content(testData.toList())
+            }
         }
     }
 }

@@ -2,9 +2,12 @@ package com.elmirov.course.presentation.channels.subscribed
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.elmirov.course.di.annotation.DispatcherIo
 import com.elmirov.course.domain.entity.Channel
 import com.elmirov.course.domain.entity.Topic
 import com.elmirov.course.navigation.router.GlobalRouter
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -18,10 +21,12 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class SubscribedChannelsViewModel @Inject constructor(
     private val globalRouter: GlobalRouter,
+    @DispatcherIo private val dispatcherIo: CoroutineDispatcher,
 ) : ViewModel() {
 
     private val testData = mutableListOf(
@@ -67,8 +72,16 @@ class SubscribedChannelsViewModel @Inject constructor(
 
     private fun loadChannels() {
         viewModelScope.launch {
-            delay(1000)
-            _subscribedChannels.value = SubscribedChannelsState.Content(testData.toList())
+            try {
+                withContext(dispatcherIo) {
+                    delay(1000)
+                    _subscribedChannels.value = SubscribedChannelsState.Content(testData.toList())
+                }
+            } catch (cancellation: CancellationException) {
+                throw cancellation
+            } catch (exception: Exception) { //TODO добавить стейт ошибки и его обработку
+                _subscribedChannels.value = SubscribedChannelsState.Content(testData.toList())
+            }
         }
     }
 
