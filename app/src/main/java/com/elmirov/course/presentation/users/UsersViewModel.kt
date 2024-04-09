@@ -22,10 +22,11 @@ class UsersViewModel @Inject constructor(
         loadUsers()
     }
 
-    private fun loadUsers() {
+    fun loadUsers() {
         viewModelScope.launch {
             when (val result = getUsersUseCase()) {
-                is Result.Error -> Unit
+                is Result.Error -> _users.value = UsersState.Error
+
                 is Result.Success -> _users.value = UsersState.Content(result.data)
             }
         }

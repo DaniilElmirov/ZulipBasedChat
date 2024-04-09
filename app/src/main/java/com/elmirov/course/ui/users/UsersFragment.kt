@@ -67,7 +67,14 @@ class UsersFragment : Fragment() {
 
         binding.users.adapter = usersAdapter
 
+        setListeners()
         applyState()
+    }
+
+    private fun setListeners() {
+        binding.refresh.setOnClickListener {
+            viewModel.loadUsers()
+        }
     }
 
     private fun applyState() {
@@ -76,6 +83,8 @@ class UsersFragment : Fragment() {
                 is UsersState.Content -> applyContent(state.data)
 
                 UsersState.Loading -> applyLoading()
+
+                UsersState.Error -> applyError()
             }
         }
     }
@@ -84,6 +93,8 @@ class UsersFragment : Fragment() {
         usersAdapter.submitList(content)
 
         binding.apply {
+            error.isVisible = false
+
             users.isVisible = true
 
             shimmer.isVisible = false
@@ -93,10 +104,23 @@ class UsersFragment : Fragment() {
 
     private fun applyLoading() {
         binding.apply {
+            error.isVisible = false
+
             users.isVisible = false
 
             shimmer.isVisible = true
             shimmer.startShimmer()
+        }
+    }
+
+    private fun applyError() {
+        binding.apply {
+            error.isVisible = true
+
+            users.isVisible = false
+
+            shimmer.isVisible = false
+            shimmer.stopShimmer()
         }
     }
 
