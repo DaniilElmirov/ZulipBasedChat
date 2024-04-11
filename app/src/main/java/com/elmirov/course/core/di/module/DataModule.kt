@@ -1,8 +1,11 @@
 package com.elmirov.course.core.di.module
 
 import com.elmirov.course.channels.data.network.AllChannelsApi
+import com.elmirov.course.channels.data.network.SubscribedChannelsApi
 import com.elmirov.course.channels.data.repository.AllChannelsRepositoryImpl
+import com.elmirov.course.channels.data.repository.SubscribedChannelsRepositoryImpl
 import com.elmirov.course.channels.domain.repository.AllChannelsRepository
+import com.elmirov.course.channels.domain.repository.SubscribedChannelsRepository
 import com.elmirov.course.core.di.annotation.ApplicationScope
 import com.elmirov.course.core.network.AuthorizationInterceptor
 import com.elmirov.course.users.data.repository.UsersRepositoryImpl
@@ -49,6 +52,11 @@ class DataModule {
     @ApplicationScope
     fun provideAllChannelsApi(retrofit: Retrofit): AllChannelsApi =
         retrofit.create()
+
+    @Provides
+    @ApplicationScope
+    fun provideSubscribedChannelsApi(retrofit: Retrofit): SubscribedChannelsApi =
+        retrofit.create()
 }
 
 @Module
@@ -61,4 +69,8 @@ interface BindDataModule {
     @Binds
     @ApplicationScope
     fun bindAllChannelsRepository(impl: AllChannelsRepositoryImpl): AllChannelsRepository
+
+    @Binds
+    @ApplicationScope
+    fun bindSubscribedChannelsRepository(impl: SubscribedChannelsRepositoryImpl): SubscribedChannelsRepository
 }
