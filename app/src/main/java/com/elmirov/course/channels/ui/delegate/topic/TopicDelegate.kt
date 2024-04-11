@@ -1,26 +1,25 @@
-package com.elmirov.course.ui.channels.delegate.channel
+package com.elmirov.course.channels.ui.delegate.topic
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.elmirov.course.domain.entity.Channel
+import com.elmirov.course.channels.domain.entity.Topic
 import com.elmirov.course.ui.adapter.delegate.AdapterDelegate
 import com.elmirov.course.ui.adapter.delegate.DelegateItem
 
-class ChannelDelegate(
-    private val onArrowBottomClick: (Int) -> Unit,
-    private val onArrowTopClick: (Int) -> Unit,
-) : AdapterDelegate {
+class TopicDelegate(
+    private val onTopicClick: (String) -> Unit
+): AdapterDelegate {
     override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder =
-        ChannelViewHolder(parent, onArrowBottomClick, onArrowTopClick)
+        TopicViewHolder(parent, onTopicClick)
 
     override fun onBindViewHolder(
         holder: RecyclerView.ViewHolder,
         item: DelegateItem,
         position: Int
     ) {
-        (holder as ChannelViewHolder).bind((item.content() as Channel))
+        (holder as TopicViewHolder).bind((item.content() as Topic), position)
     }
 
     override fun isOfViewType(item: DelegateItem): Boolean =
-        item is ChannelDelegateItem
+        item is TopicDelegateItem
 }

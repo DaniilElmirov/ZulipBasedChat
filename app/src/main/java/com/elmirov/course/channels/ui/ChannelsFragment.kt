@@ -1,4 +1,4 @@
-package com.elmirov.course.ui.channels
+package com.elmirov.course.channels.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,10 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.elmirov.course.R
 import com.elmirov.course.databinding.FragmentChannelsBinding
-import com.elmirov.course.ui.channels.all.AllChannelsFragment
-import com.elmirov.course.ui.channels.communicator.AllChannelsCommunicator
-import com.elmirov.course.ui.channels.communicator.SubscribedChannelsCommunicator
-import com.elmirov.course.ui.channels.subscribed.SubscribedChannelsFragment
+import com.elmirov.course.channels.ui.all.AllChannelsFragment
+import com.elmirov.course.channels.ui.communicator.AllChannelsCommunicator
+import com.elmirov.course.channels.ui.communicator.SubscribedChannelsCommunicator
+import com.elmirov.course.channels.ui.subscribed.SubscribedChannelsFragment
 import com.google.android.material.tabs.TabLayoutMediator
 
 class ChannelsFragment : Fragment(), SubscribedChannelsCommunicator, AllChannelsCommunicator {

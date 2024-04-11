@@ -1,11 +1,11 @@
-package com.elmirov.course.ui.channels.delegate.topic
+package com.elmirov.course.channels.ui.delegate.topic
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.elmirov.course.R
 import com.elmirov.course.databinding.TopicItemBinding
-import com.elmirov.course.domain.entity.Topic
+import com.elmirov.course.channels.domain.entity.Topic
 
 class TopicViewHolder(
     parent: ViewGroup,

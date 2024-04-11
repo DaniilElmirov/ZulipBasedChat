@@ -1,4 +1,4 @@
-package com.elmirov.course.ui.channels.communicator
+package com.elmirov.course.channels.ui.communicator
 
 interface SubscribedChannelsCommunicator {
 

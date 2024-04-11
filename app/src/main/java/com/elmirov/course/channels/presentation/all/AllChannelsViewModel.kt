@@ -1,10 +1,10 @@
-package com.elmirov.course.presentation.channels.all
+package com.elmirov.course.channels.presentation.all
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elmirov.course.di.annotation.DispatcherIo
-import com.elmirov.course.domain.entity.Channel
-import com.elmirov.course.domain.entity.Topic
+import com.elmirov.course.channels.domain.entity.Channel
+import com.elmirov.course.channels.domain.entity.Topic
 import com.elmirov.course.navigation.router.GlobalRouter
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher

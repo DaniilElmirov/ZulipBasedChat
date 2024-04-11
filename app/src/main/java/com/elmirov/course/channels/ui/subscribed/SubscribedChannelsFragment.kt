@@ -1,4 +1,4 @@
-package com.elmirov.course.ui.channels.all
+package com.elmirov.course.channels.ui.subscribed
 
 import android.content.Context
 import android.os.Bundle
@@ -10,23 +10,24 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.elmirov.course.CourseApplication
 import com.elmirov.course.databinding.FragmentPageChannelsBinding
-import com.elmirov.course.domain.entity.Channel
+import com.elmirov.course.channels.domain.entity.Channel
 import com.elmirov.course.presentation.ViewModelFactory
-import com.elmirov.course.presentation.channels.all.AllChannelsState
-import com.elmirov.course.presentation.channels.all.AllChannelsViewModel
+import com.elmirov.course.channels.presentation.subscribed.SubscribedChannelsState
+import com.elmirov.course.channels.presentation.subscribed.SubscribedChannelsViewModel
 import com.elmirov.course.ui.adapter.MainAdapter
-import com.elmirov.course.ui.channels.communicator.AllChannelsCommunicator
-import com.elmirov.course.ui.channels.delegate.channel.ChannelDelegate
-import com.elmirov.course.ui.channels.delegate.topic.TopicDelegate
+import com.elmirov.course.channels.ui.communicator.SubscribedChannelsCommunicator
+import com.elmirov.course.channels.ui.delegate.channel.ChannelDelegate
+import com.elmirov.course.channels.ui.delegate.topic.TopicDelegate
 import com.elmirov.course.util.collectLifecycleFlow
 import com.elmirov.course.util.toDelegateItems
 import javax.inject.Inject
 
-class AllChannelsFragment : Fragment(), AllChannelsCommunicator {
+
+class SubscribedChannelsFragment : Fragment(), SubscribedChannelsCommunicator {
 
     companion object {
-        fun newInstance(): AllChannelsFragment =
-            AllChannelsFragment()
+        fun newInstance(): SubscribedChannelsFragment =
+            SubscribedChannelsFragment()
     }
 
     private var _binding: FragmentPageChannelsBinding? = null
@@ -37,14 +38,14 @@ class AllChannelsFragment : Fragment(), AllChannelsCommunicator {
     lateinit var viewModelFactory: ViewModelFactory
 
     private val viewModel by lazy {
-        ViewModelProvider(this, viewModelFactory)[AllChannelsViewModel::class.java]
+        ViewModelProvider(this, viewModelFactory)[SubscribedChannelsViewModel::class.java]
     }
 
     private val component by lazy {
         (requireActivity().application as CourseApplication).component
     }
 
-    private val allChannelsAdapter by lazy {
+    private val subscribedChannelsAdapter by lazy {
         MainAdapter().apply {
             addDelegate(
                 ChannelDelegate(
@@ -73,23 +74,23 @@ class AllChannelsFragment : Fragment(), AllChannelsCommunicator {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.channels.adapter = allChannelsAdapter
+        binding.channels.adapter = subscribedChannelsAdapter
 
         applyState()
     }
 
     private fun applyState() {
-        collectLifecycleFlow(viewModel.allChannels) { state ->
+        collectLifecycleFlow(viewModel.subscribedChannels) { state ->
             when (state) {
-                is AllChannelsState.Content -> applyContent(state.data)
+                is SubscribedChannelsState.Content -> applyContent(state.data)
 
-                AllChannelsState.Loading -> applyLoading()
+                SubscribedChannelsState.Loading -> applyLoading()
             }
         }
     }
 
     private fun applyContent(data: List<Channel>) {
-        allChannelsAdapter.submitList(data.toDelegateItems())
+        subscribedChannelsAdapter.submitList(data.toDelegateItems())
 
         binding.apply {
             channels.isVisible = true
@@ -114,7 +115,7 @@ class AllChannelsFragment : Fragment(), AllChannelsCommunicator {
         super.onDestroy()
     }
 
-    override fun passSearchQueryInAll(query: String) {
+    override fun passSearchQueryInSubscribed(query: String) {
         viewModel.searchQueryPublisher.tryEmit(query)
     }
 }

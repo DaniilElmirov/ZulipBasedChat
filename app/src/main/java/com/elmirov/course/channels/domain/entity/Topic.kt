@@ -1,4 +1,4 @@
-package com.elmirov.course.domain.entity
+package com.elmirov.course.channels.domain.entity
 
 data class Topic(
     val name: String,

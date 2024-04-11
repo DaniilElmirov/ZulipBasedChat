@@ -1,4 +1,4 @@
-package com.elmirov.course.ui.channels
+package com.elmirov.course.channels.ui
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

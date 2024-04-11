@@ -1,6 +1,6 @@
-package com.elmirov.course.presentation.channels.all
+package com.elmirov.course.channels.presentation.all
 
-import com.elmirov.course.domain.entity.Channel
+import com.elmirov.course.channels.domain.entity.Channel
 
 sealed interface AllChannelsState {
 

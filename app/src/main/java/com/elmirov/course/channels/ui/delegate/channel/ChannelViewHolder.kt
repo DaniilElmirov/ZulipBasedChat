@@ -1,4 +1,4 @@
-package com.elmirov.course.ui.channels.delegate.channel
+package com.elmirov.course.channels.ui.delegate.channel
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,7 +6,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.elmirov.course.R
 import com.elmirov.course.databinding.ChannelItemBinding
-import com.elmirov.course.domain.entity.Channel
+import com.elmirov.course.channels.domain.entity.Channel
 
 class ChannelViewHolder(
     parent: ViewGroup,
