@@ -4,7 +4,7 @@ import com.elmirov.course.ui.channels.ChannelsFragment
 import com.elmirov.course.ui.chat.ChatFragment
 import com.elmirov.course.ui.main.MainFragment
 import com.elmirov.course.ui.profile.ProfileFragment
-import com.elmirov.course.ui.users.UsersFragment
+import com.elmirov.course.users.ui.UsersFragment
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 
 object Screens {

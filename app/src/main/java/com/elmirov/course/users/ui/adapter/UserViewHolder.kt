@@ -1,11 +1,11 @@
-package com.elmirov.course.ui.users.adapter
+package com.elmirov.course.users.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.elmirov.course.R
 import com.elmirov.course.databinding.UserItemBinding
-import com.elmirov.course.domain.entity.User
+import com.elmirov.course.users.domain.entity.User
 
 class UserViewHolder(
     parent: ViewGroup,

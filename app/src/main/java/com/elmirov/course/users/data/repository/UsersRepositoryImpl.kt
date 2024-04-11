@@ -1,10 +1,10 @@
-package com.elmirov.course.data.repository
+package com.elmirov.course.users.data.repository
 
 import com.elmirov.course.di.annotation.DispatcherIo
 import com.elmirov.course.domain.entity.ErrorType
 import com.elmirov.course.domain.entity.Result
-import com.elmirov.course.domain.entity.User
-import com.elmirov.course.domain.repository.UsersRepository
+import com.elmirov.course.users.domain.entity.User
+import com.elmirov.course.users.domain.repository.UsersRepository
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.delay

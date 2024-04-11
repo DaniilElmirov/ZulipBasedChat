@@ -6,7 +6,7 @@ import com.elmirov.course.presentation.channels.all.AllChannelsViewModel
 import com.elmirov.course.presentation.channels.subscribed.SubscribedChannelsViewModel
 import com.elmirov.course.presentation.chat.ChatViewModel
 import com.elmirov.course.presentation.profile.ProfileViewModel
-import com.elmirov.course.presentation.users.UsersViewModel
+import com.elmirov.course.users.presentation.UsersViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap

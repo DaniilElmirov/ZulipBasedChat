@@ -1,10 +1,10 @@
-package com.elmirov.course.presentation.users
+package com.elmirov.course.users.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elmirov.course.domain.entity.Result
-import com.elmirov.course.domain.usecase.GetUsersUseCase
-import com.elmirov.course.domain.usecase.GetUsersWithError
+import com.elmirov.course.users.domain.usecase.GetUsersUseCase
+import com.elmirov.course.users.domain.usecase.GetUsersWithError
 import com.elmirov.course.navigation.router.GlobalRouter
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
