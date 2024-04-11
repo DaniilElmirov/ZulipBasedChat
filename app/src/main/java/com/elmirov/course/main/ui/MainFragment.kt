@@ -1,4 +1,4 @@
-package com.elmirov.course.ui.main
+package com.elmirov.course.main.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
