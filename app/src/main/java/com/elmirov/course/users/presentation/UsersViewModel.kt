@@ -3,9 +3,8 @@ package com.elmirov.course.users.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elmirov.course.core.entity.Result
-import com.elmirov.course.users.domain.usecase.GetUsersUseCase
-import com.elmirov.course.users.domain.usecase.GetUsersWithError
 import com.elmirov.course.core.navigation.router.GlobalRouter
+import com.elmirov.course.users.domain.usecase.GetUsersUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -13,7 +12,6 @@ import javax.inject.Inject
 
 class UsersViewModel @Inject constructor(
     private val getUsersUseCase: GetUsersUseCase,
-    private val getUsersWithError: GetUsersWithError,
     private val router: GlobalRouter,
 ) : ViewModel() {
 
@@ -26,7 +24,7 @@ class UsersViewModel @Inject constructor(
 
     fun loadUsers() {
         _users.value = UsersState.Loading
-        
+
         viewModelScope.launch {
             when (val result = getUsersUseCase()) {
                 is Result.Error -> _users.value = UsersState.Error
@@ -38,15 +36,5 @@ class UsersViewModel @Inject constructor(
 
     fun openUserProfile() {
         router.openUserProfile()
-    }
-
-    fun loadUsersWithError() {
-        viewModelScope.launch {
-            when (val result = getUsersWithError()) {
-                is Result.Error -> _users.value = UsersState.Error
-
-                is Result.Success -> _users.value = UsersState.Content(result.data)
-            }
-        }
     }
 }

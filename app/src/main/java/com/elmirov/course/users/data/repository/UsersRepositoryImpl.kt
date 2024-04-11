@@ -120,22 +120,4 @@ class UsersRepositoryImpl @Inject constructor(
                 }
             }
         }
-
-    //TODO вместо рандомайзера
-    override suspend fun getError(): Result<List<User>> =
-        try {
-            throw RuntimeException()
-        } catch (cancellation: CancellationException) {
-            throw cancellation
-        } catch (exception: Exception) {
-            when (exception) {
-                is UnknownHostException, is SocketTimeoutException, is ConnectException -> {
-                    Result.Error(errorType = ErrorType.CONNECTION)
-                }
-
-                else -> {
-                    Result.Error(errorType = ErrorType.UNKNOWN)
-                }
-            }
-        }
 }
