@@ -7,7 +7,7 @@ import com.elmirov.course.di.module.DataModule
 import com.elmirov.course.di.module.DispatcherModule
 import com.elmirov.course.di.module.NavigationModule
 import com.elmirov.course.di.module.ViewModelModule
-import com.elmirov.course.ui.activity.MainActivity
+import com.elmirov.course.activity.ui.MainActivity
 import com.elmirov.course.channels.ui.all.AllChannelsFragment
 import com.elmirov.course.channels.ui.subscribed.SubscribedChannelsFragment
 import com.elmirov.course.chat.ui.ChatFragment

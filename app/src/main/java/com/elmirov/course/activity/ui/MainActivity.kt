@@ -1,4 +1,4 @@
-package com.elmirov.course.ui.activity
+package com.elmirov.course.activity.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
