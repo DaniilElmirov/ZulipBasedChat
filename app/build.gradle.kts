@@ -53,4 +53,6 @@ dependencies {
 	implementation(libs.cicerone)
 
 	implementation(libs.shimmer)
+
+	implementation(libs.bundles.retrofit)
 }
