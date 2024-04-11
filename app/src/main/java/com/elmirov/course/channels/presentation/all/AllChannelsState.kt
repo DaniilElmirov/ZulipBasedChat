@@ -7,4 +7,6 @@ sealed interface AllChannelsState {
     data object Loading : AllChannelsState
 
     data class Content(val data: List<Channel>) : AllChannelsState
+
+    data object Error : AllChannelsState
 }

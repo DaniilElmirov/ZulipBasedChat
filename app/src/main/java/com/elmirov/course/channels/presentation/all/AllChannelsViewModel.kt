@@ -2,16 +2,14 @@ package com.elmirov.course.channels.presentation.all
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.elmirov.course.core.di.annotation.DispatcherIo
 import com.elmirov.course.channels.domain.entity.Channel
 import com.elmirov.course.channels.domain.entity.Topic
+import com.elmirov.course.channels.domain.usecase.GetAllChannelsUseCase
+import com.elmirov.course.core.entity.Result
 import com.elmirov.course.core.navigation.router.GlobalRouter
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,12 +19,11 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class AllChannelsViewModel @Inject constructor(
     private val globalRouter: GlobalRouter,
-    @DispatcherIo private val dispatcherIo: CoroutineDispatcher,
+    private val getAllChannelsUseCase: GetAllChannelsUseCase,
 ) : ViewModel() {
 
     private val testData = mutableListOf(
@@ -71,15 +68,10 @@ class AllChannelsViewModel @Inject constructor(
 
     private fun loadChannels() {
         viewModelScope.launch {
-            try {
-                withContext(dispatcherIo) {
-                    delay(1000)
-                    _allChannels.value = AllChannelsState.Content(testData.toList())
-                }
-            } catch (cancellation: CancellationException) {
-                throw cancellation
-            } catch (exception: Exception) { //TODO добавить стейт ошибки и его обработку
-                _allChannels.value = AllChannelsState.Content(testData.toList())
+            when (val result = getAllChannelsUseCase()) {
+                is Result.Error -> _allChannels.value = AllChannelsState.Error
+
+                is Result.Success -> _allChannels.value = AllChannelsState.Content(result.data)
             }
         }
     }
@@ -95,6 +87,8 @@ class AllChannelsViewModel @Inject constructor(
             }
             .launchIn(viewModelScope)
     }
+
+    //TODO переписать поиск и топики через api
 
     private fun search(query: String): AllChannelsState {
 

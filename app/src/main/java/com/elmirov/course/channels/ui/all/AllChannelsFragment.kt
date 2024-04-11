@@ -9,15 +9,15 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.elmirov.course.CourseApplication
-import com.elmirov.course.databinding.FragmentPageChannelsBinding
 import com.elmirov.course.channels.domain.entity.Channel
-import com.elmirov.course.core.factory.ViewModelFactory
 import com.elmirov.course.channels.presentation.all.AllChannelsState
 import com.elmirov.course.channels.presentation.all.AllChannelsViewModel
-import com.elmirov.course.core.adapter.MainAdapter
 import com.elmirov.course.channels.ui.communicator.AllChannelsCommunicator
 import com.elmirov.course.channels.ui.delegate.channel.ChannelDelegate
 import com.elmirov.course.channels.ui.delegate.topic.TopicDelegate
+import com.elmirov.course.core.adapter.MainAdapter
+import com.elmirov.course.core.factory.ViewModelFactory
+import com.elmirov.course.databinding.FragmentPageChannelsBinding
 import com.elmirov.course.util.collectLifecycleFlow
 import com.elmirov.course.util.toDelegateItems
 import javax.inject.Inject
@@ -84,6 +84,8 @@ class AllChannelsFragment : Fragment(), AllChannelsCommunicator {
                 is AllChannelsState.Content -> applyContent(state.data)
 
                 AllChannelsState.Loading -> applyLoading()
+
+                AllChannelsState.Error -> Unit //TODO добавить обработку стейта
             }
         }
     }
