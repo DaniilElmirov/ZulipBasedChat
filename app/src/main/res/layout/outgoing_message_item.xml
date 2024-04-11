@@ -19,7 +19,7 @@
         android:paddingVertical="12dp"
         tools:text="Сообщение" />
 
-    <com.elmirov.course.ui.view.FlexBoxLayout
+    <com.elmirov.course.chat.ui.view.FlexBoxLayout
         android:id="@+id/reactions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -1,6 +1,6 @@
-package com.elmirov.course.ui.chat.delegate.incoming
+package com.elmirov.course.chat.ui.delegate.incoming
 
-import com.elmirov.course.domain.entity.Message
+import com.elmirov.course.chat.domain.entity.Message
 import com.elmirov.course.ui.adapter.delegate.DelegateItem
 
 class IncomingMessageDelegateItem(

@@ -1,12 +1,12 @@
-package com.elmirov.course.ui.chat
+package com.elmirov.course.chat.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.elmirov.course.databinding.FragmentChooseReactionBinding
-import com.elmirov.course.domain.entity.Reaction
-import com.elmirov.course.ui.view.ReactionView
+import com.elmirov.course.chat.domain.entity.Reaction
+import com.elmirov.course.chat.ui.view.ReactionView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment

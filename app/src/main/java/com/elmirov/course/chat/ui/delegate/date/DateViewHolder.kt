@@ -1,4 +1,4 @@
-package com.elmirov.course.ui.chat.delegate.date
+package com.elmirov.course.chat.ui.delegate.date
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

@@ -1,10 +1,10 @@
-package com.elmirov.course.presentation.chat
+package com.elmirov.course.chat.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elmirov.course.di.annotation.DispatcherIo
-import com.elmirov.course.domain.entity.Message
-import com.elmirov.course.domain.entity.Reaction
+import com.elmirov.course.chat.domain.entity.Message
+import com.elmirov.course.chat.domain.entity.Reaction
 import com.elmirov.course.navigation.router.GlobalRouter
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher

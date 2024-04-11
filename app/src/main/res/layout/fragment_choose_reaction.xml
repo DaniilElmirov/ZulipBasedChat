@@ -16,7 +16,7 @@
             android:layout_marginTop="@dimen/margin_8"
             android:background="@drawable/reaction_top_line_shape" />
 
-        <com.elmirov.course.ui.view.FlexBoxLayout
+        <com.elmirov.course.chat.ui.view.FlexBoxLayout
             android:id="@+id/reactions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

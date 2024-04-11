@@ -10,7 +10,7 @@ import com.elmirov.course.di.module.ViewModelModule
 import com.elmirov.course.ui.activity.MainActivity
 import com.elmirov.course.ui.channels.all.AllChannelsFragment
 import com.elmirov.course.ui.channels.subscribed.SubscribedChannelsFragment
-import com.elmirov.course.ui.chat.ChatFragment
+import com.elmirov.course.chat.ui.ChatFragment
 import com.elmirov.course.ui.profile.ProfileFragment
 import com.elmirov.course.users.ui.UsersFragment
 import dagger.BindsInstance

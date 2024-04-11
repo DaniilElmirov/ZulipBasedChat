@@ -1,4 +1,4 @@
-package com.elmirov.course.ui.chat
+package com.elmirov.course.chat.ui
 
 import android.content.Context
 import android.os.Bundle
@@ -13,14 +13,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.elmirov.course.CourseApplication
 import com.elmirov.course.R
 import com.elmirov.course.databinding.FragmentChatBinding
-import com.elmirov.course.domain.entity.Message
+import com.elmirov.course.chat.domain.entity.Message
 import com.elmirov.course.presentation.ViewModelFactory
-import com.elmirov.course.presentation.chat.ChatState
-import com.elmirov.course.presentation.chat.ChatViewModel
+import com.elmirov.course.chat.presentation.ChatState
+import com.elmirov.course.chat.presentation.ChatViewModel
 import com.elmirov.course.ui.adapter.MainAdapter
-import com.elmirov.course.ui.chat.delegate.date.DateDelegate
-import com.elmirov.course.ui.chat.delegate.incoming.IncomingMessageDelegate
-import com.elmirov.course.ui.chat.delegate.outgoing.OutgoingMessageDelegate
+import com.elmirov.course.chat.ui.delegate.date.DateDelegate
+import com.elmirov.course.chat.ui.delegate.incoming.IncomingMessageDelegate
+import com.elmirov.course.chat.ui.delegate.outgoing.OutgoingMessageDelegate
 import com.elmirov.course.util.collectLifecycleFlow
 import com.elmirov.course.util.toDelegateItems
 import com.google.android.material.snackbar.Snackbar

@@ -1,4 +1,4 @@
-package com.elmirov.course.domain.entity
+package com.elmirov.course.chat.domain.entity
 
 data class Reaction(
     val emoji: Int,

@@ -1,4 +1,4 @@
-package com.elmirov.course.ui.view
+package com.elmirov.course.chat.ui.view
 
 import android.content.Context
 import android.graphics.Canvas

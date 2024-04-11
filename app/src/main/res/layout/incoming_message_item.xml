@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.elmirov.course.ui.view.MessageLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.elmirov.course.chat.ui.view.MessageLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/incoming_message"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"

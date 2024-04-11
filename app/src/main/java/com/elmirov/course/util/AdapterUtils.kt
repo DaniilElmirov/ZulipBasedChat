@@ -1,13 +1,13 @@
 package com.elmirov.course.util
 
 import com.elmirov.course.domain.entity.Channel
-import com.elmirov.course.domain.entity.Message
+import com.elmirov.course.chat.domain.entity.Message
 import com.elmirov.course.ui.channels.delegate.channel.ChannelDelegateItem
 import com.elmirov.course.ui.channels.delegate.topic.TopicDelegateItem
-import com.elmirov.course.ui.chat.delegate.date.DateDelegateItem
+import com.elmirov.course.chat.ui.delegate.date.DateDelegateItem
 import com.elmirov.course.ui.adapter.delegate.DelegateItem
-import com.elmirov.course.ui.chat.delegate.incoming.IncomingMessageDelegateItem
-import com.elmirov.course.ui.chat.delegate.outgoing.OutgoingMessageDelegateItem
+import com.elmirov.course.chat.ui.delegate.incoming.IncomingMessageDelegateItem
+import com.elmirov.course.chat.ui.delegate.outgoing.OutgoingMessageDelegateItem
 import java.text.SimpleDateFormat
 import java.util.Locale
 

@@ -1,12 +1,12 @@
-package com.elmirov.course.ui.chat.delegate.incoming
+package com.elmirov.course.chat.ui.delegate.incoming
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.elmirov.course.R
 import com.elmirov.course.databinding.IncomingMessageItemBinding
-import com.elmirov.course.domain.entity.Message
-import com.elmirov.course.domain.entity.Reaction
+import com.elmirov.course.chat.domain.entity.Message
+import com.elmirov.course.chat.domain.entity.Reaction
 
 class IncomingMessageViewHolder(
     parent: ViewGroup,

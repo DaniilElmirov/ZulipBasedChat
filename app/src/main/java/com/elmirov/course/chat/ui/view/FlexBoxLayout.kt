@@ -1,4 +1,4 @@
-package com.elmirov.course.ui.view
+package com.elmirov.course.chat.ui.view
 
 import android.content.Context
 import android.util.AttributeSet
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.view.children
 import com.elmirov.course.R
-import com.elmirov.course.domain.entity.Reaction
+import com.elmirov.course.chat.domain.entity.Reaction
 import com.elmirov.course.util.dpToPix
 
 class FlexBoxLayout @JvmOverloads constructor(
