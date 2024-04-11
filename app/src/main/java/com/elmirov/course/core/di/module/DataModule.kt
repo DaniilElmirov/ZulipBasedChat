@@ -1,7 +1,7 @@
-package com.elmirov.course.di.module
+package com.elmirov.course.core.di.module
 
 import com.elmirov.course.users.data.repository.UsersRepositoryImpl
-import com.elmirov.course.di.annotation.ApplicationScope
+import com.elmirov.course.core.di.annotation.ApplicationScope
 import com.elmirov.course.users.domain.repository.UsersRepository
 import dagger.Binds
 import dagger.Module

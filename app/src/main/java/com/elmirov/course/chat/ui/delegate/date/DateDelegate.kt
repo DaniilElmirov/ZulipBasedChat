@@ -2,8 +2,8 @@ package com.elmirov.course.chat.ui.delegate.date
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.elmirov.course.ui.adapter.delegate.AdapterDelegate
-import com.elmirov.course.ui.adapter.delegate.DelegateItem
+import com.elmirov.course.core.adapter.delegate.AdapterDelegate
+import com.elmirov.course.core.adapter.delegate.DelegateItem
 
 class DateDelegate: AdapterDelegate {
     override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder =

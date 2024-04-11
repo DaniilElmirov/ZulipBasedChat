@@ -1,4 +1,4 @@
-package com.elmirov.course.presentation
+package com.elmirov.course.core.factory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

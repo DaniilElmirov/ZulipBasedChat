@@ -3,8 +3,8 @@ package com.elmirov.course.chat.ui.delegate.incoming
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.elmirov.course.chat.domain.entity.Message
-import com.elmirov.course.ui.adapter.delegate.AdapterDelegate
-import com.elmirov.course.ui.adapter.delegate.DelegateItem
+import com.elmirov.course.core.adapter.delegate.AdapterDelegate
+import com.elmirov.course.core.adapter.delegate.DelegateItem
 
 class IncomingMessageDelegate(
     private val addReaction: (Int) -> Unit,

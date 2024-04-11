@@ -1,11 +1,11 @@
-package com.elmirov.course.ui.adapter
+package com.elmirov.course.core.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.elmirov.course.ui.adapter.delegate.AdapterDelegate
-import com.elmirov.course.ui.adapter.delegate.DelegateAdapterItemCallback
-import com.elmirov.course.ui.adapter.delegate.DelegateItem
+import com.elmirov.course.core.adapter.delegate.AdapterDelegate
+import com.elmirov.course.core.adapter.delegate.DelegateAdapterItemCallback
+import com.elmirov.course.core.adapter.delegate.DelegateItem
 
 class MainAdapter :
     ListAdapter<DelegateItem, RecyclerView.ViewHolder>(DelegateAdapterItemCallback()) {

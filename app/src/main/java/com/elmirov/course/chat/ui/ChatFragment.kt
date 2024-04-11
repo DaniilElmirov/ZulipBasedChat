@@ -14,10 +14,10 @@ import com.elmirov.course.CourseApplication
 import com.elmirov.course.R
 import com.elmirov.course.databinding.FragmentChatBinding
 import com.elmirov.course.chat.domain.entity.Message
-import com.elmirov.course.presentation.ViewModelFactory
+import com.elmirov.course.core.factory.ViewModelFactory
 import com.elmirov.course.chat.presentation.ChatState
 import com.elmirov.course.chat.presentation.ChatViewModel
-import com.elmirov.course.ui.adapter.MainAdapter
+import com.elmirov.course.core.adapter.MainAdapter
 import com.elmirov.course.chat.ui.delegate.date.DateDelegate
 import com.elmirov.course.chat.ui.delegate.incoming.IncomingMessageDelegate
 import com.elmirov.course.chat.ui.delegate.outgoing.OutgoingMessageDelegate

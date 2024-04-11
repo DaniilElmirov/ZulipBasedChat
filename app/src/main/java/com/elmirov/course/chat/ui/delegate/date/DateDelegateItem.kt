@@ -1,6 +1,6 @@
 package com.elmirov.course.chat.ui.delegate.date
 
-import com.elmirov.course.ui.adapter.delegate.DelegateItem
+import com.elmirov.course.core.adapter.delegate.DelegateItem
 
 class DateDelegateItem(
     private val value: String

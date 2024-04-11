@@ -1,7 +1,7 @@
 package com.elmirov.course.chat.ui.delegate.outgoing
 
 import com.elmirov.course.chat.domain.entity.Message
-import com.elmirov.course.ui.adapter.delegate.DelegateItem
+import com.elmirov.course.core.adapter.delegate.DelegateItem
 
 class OutgoingMessageDelegateItem(
     val id: Int,

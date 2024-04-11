@@ -1,4 +1,4 @@
-package com.elmirov.course.domain.entity
+package com.elmirov.course.core.entity
 
 sealed class Result<out T> {
 

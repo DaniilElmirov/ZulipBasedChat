@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.elmirov.course.CourseApplication
 import com.elmirov.course.databinding.FragmentProfileBinding
-import com.elmirov.course.presentation.ViewModelFactory
+import com.elmirov.course.core.factory.ViewModelFactory
 import com.elmirov.course.profile.presentation.ProfileState
 import com.elmirov.course.profile.presentation.ProfileViewModel
 import com.elmirov.course.util.collectLifecycleFlow

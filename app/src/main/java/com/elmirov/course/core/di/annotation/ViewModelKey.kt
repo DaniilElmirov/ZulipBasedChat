@@ -1,4 +1,4 @@
-package com.elmirov.course.di.annotation
+package com.elmirov.course.core.di.annotation
 
 import androidx.lifecycle.ViewModel
 import dagger.MapKey

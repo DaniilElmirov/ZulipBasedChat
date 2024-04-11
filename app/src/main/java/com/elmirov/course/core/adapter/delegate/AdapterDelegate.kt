@@ -1,4 +1,4 @@
-package com.elmirov.course.ui.adapter.delegate
+package com.elmirov.course.core.adapter.delegate
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView

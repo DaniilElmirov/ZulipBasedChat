@@ -1,4 +1,4 @@
-package com.elmirov.course.ui.adapter.delegate
+package com.elmirov.course.core.adapter.delegate
 
 import androidx.recyclerview.widget.DiffUtil
 

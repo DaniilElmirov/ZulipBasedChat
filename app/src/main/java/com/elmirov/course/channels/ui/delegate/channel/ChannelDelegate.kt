@@ -3,8 +3,8 @@ package com.elmirov.course.channels.ui.delegate.channel
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.elmirov.course.channels.domain.entity.Channel
-import com.elmirov.course.ui.adapter.delegate.AdapterDelegate
-import com.elmirov.course.ui.adapter.delegate.DelegateItem
+import com.elmirov.course.core.adapter.delegate.AdapterDelegate
+import com.elmirov.course.core.adapter.delegate.DelegateItem
 
 class ChannelDelegate(
     private val onArrowBottomClick: (Int) -> Unit,

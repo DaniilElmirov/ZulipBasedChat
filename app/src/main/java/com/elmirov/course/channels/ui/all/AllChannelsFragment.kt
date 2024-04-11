@@ -11,10 +11,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.elmirov.course.CourseApplication
 import com.elmirov.course.databinding.FragmentPageChannelsBinding
 import com.elmirov.course.channels.domain.entity.Channel
-import com.elmirov.course.presentation.ViewModelFactory
+import com.elmirov.course.core.factory.ViewModelFactory
 import com.elmirov.course.channels.presentation.all.AllChannelsState
 import com.elmirov.course.channels.presentation.all.AllChannelsViewModel
-import com.elmirov.course.ui.adapter.MainAdapter
+import com.elmirov.course.core.adapter.MainAdapter
 import com.elmirov.course.channels.ui.communicator.AllChannelsCommunicator
 import com.elmirov.course.channels.ui.delegate.channel.ChannelDelegate
 import com.elmirov.course.channels.ui.delegate.topic.TopicDelegate

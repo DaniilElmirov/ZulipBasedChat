@@ -5,7 +5,7 @@ import com.elmirov.course.chat.domain.entity.Message
 import com.elmirov.course.channels.ui.delegate.channel.ChannelDelegateItem
 import com.elmirov.course.channels.ui.delegate.topic.TopicDelegateItem
 import com.elmirov.course.chat.ui.delegate.date.DateDelegateItem
-import com.elmirov.course.ui.adapter.delegate.DelegateItem
+import com.elmirov.course.core.adapter.delegate.DelegateItem
 import com.elmirov.course.chat.ui.delegate.incoming.IncomingMessageDelegateItem
 import com.elmirov.course.chat.ui.delegate.outgoing.OutgoingMessageDelegateItem
 import java.text.SimpleDateFormat

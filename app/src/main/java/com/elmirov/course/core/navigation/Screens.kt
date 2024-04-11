@@ -1,4 +1,4 @@
-package com.elmirov.course.navigation
+package com.elmirov.course.core.navigation
 
 import com.elmirov.course.channels.ui.ChannelsFragment
 import com.elmirov.course.chat.ui.ChatFragment

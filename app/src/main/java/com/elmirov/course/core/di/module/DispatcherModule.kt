@@ -1,7 +1,7 @@
-package com.elmirov.course.di.module
+package com.elmirov.course.core.di.module
 
-import com.elmirov.course.di.annotation.ApplicationScope
-import com.elmirov.course.di.annotation.DispatcherIo
+import com.elmirov.course.core.di.annotation.ApplicationScope
+import com.elmirov.course.core.di.annotation.DispatcherIo
 import dagger.Module
 import dagger.Provides
 import kotlinx.coroutines.CoroutineDispatcher

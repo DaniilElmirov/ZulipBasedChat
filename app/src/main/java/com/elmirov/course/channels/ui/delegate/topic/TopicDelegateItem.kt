@@ -1,7 +1,7 @@
 package com.elmirov.course.channels.ui.delegate.topic
 
 import com.elmirov.course.channels.domain.entity.Topic
-import com.elmirov.course.ui.adapter.delegate.DelegateItem
+import com.elmirov.course.core.adapter.delegate.DelegateItem
 
 class TopicDelegateItem(
     private val value: Topic,

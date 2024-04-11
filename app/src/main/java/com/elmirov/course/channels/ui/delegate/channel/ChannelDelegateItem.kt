@@ -1,7 +1,7 @@
 package com.elmirov.course.channels.ui.delegate.channel
 
 import com.elmirov.course.channels.domain.entity.Channel
-import com.elmirov.course.ui.adapter.delegate.DelegateItem
+import com.elmirov.course.core.adapter.delegate.DelegateItem
 
 class ChannelDelegateItem(
     val id: Int,
