@@ -1,4 +1,4 @@
-package com.elmirov.course.presentation.profile
+package com.elmirov.course.profile.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

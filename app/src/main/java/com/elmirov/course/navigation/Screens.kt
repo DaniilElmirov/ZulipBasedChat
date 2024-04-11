@@ -3,7 +3,7 @@ package com.elmirov.course.navigation
 import com.elmirov.course.ui.channels.ChannelsFragment
 import com.elmirov.course.chat.ui.ChatFragment
 import com.elmirov.course.main.ui.MainFragment
-import com.elmirov.course.ui.profile.ProfileFragment
+import com.elmirov.course.profile.ui.ProfileFragment
 import com.elmirov.course.users.ui.UsersFragment
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 

@@ -1,4 +1,4 @@
-package com.elmirov.course.ui.profile
+package com.elmirov.course.profile.ui
 
 import android.content.Context
 import android.os.Bundle
@@ -11,8 +11,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.elmirov.course.CourseApplication
 import com.elmirov.course.databinding.FragmentProfileBinding
 import com.elmirov.course.presentation.ViewModelFactory
-import com.elmirov.course.presentation.profile.ProfileState
-import com.elmirov.course.presentation.profile.ProfileViewModel
+import com.elmirov.course.profile.presentation.ProfileState
+import com.elmirov.course.profile.presentation.ProfileViewModel
 import com.elmirov.course.util.collectLifecycleFlow
 import javax.inject.Inject
 
