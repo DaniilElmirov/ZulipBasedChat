@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.elmirov.course.R
-import com.elmirov.course.databinding.ChannelItemBinding
 import com.elmirov.course.channels.domain.entity.Channel
+import com.elmirov.course.databinding.ChannelItemBinding
 
 class ChannelViewHolder(
     parent: ViewGroup,
@@ -19,7 +19,9 @@ class ChannelViewHolder(
     private val binding = ChannelItemBinding.bind(itemView)
 
     fun bind(channel: Channel) {
-        binding.channelName.text = channel.name
+
+        val channelNameFormat = itemView.context.getString(R.string.hashtag_with_stream_name)
+        binding.channelName.text = String.format(channelNameFormat, channel.name)
 
         if (channel.topics.isNullOrEmpty()) {
             binding.arrowBottom.isVisible = true
