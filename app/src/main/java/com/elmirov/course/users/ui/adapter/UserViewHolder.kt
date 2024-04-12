@@ -18,7 +18,7 @@ class UserViewHolder(
 
     fun bind(user: User) {
         binding.name.text = user.name
-        binding.email.text = user.mail
+        binding.email.text = user.email
         binding.root.setOnClickListener {
             onUserClick(user.id)
         }
