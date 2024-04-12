@@ -6,8 +6,11 @@ import com.elmirov.course.channels.data.repository.AllChannelsRepositoryImpl
 import com.elmirov.course.channels.data.repository.SubscribedChannelsRepositoryImpl
 import com.elmirov.course.channels.domain.repository.AllChannelsRepository
 import com.elmirov.course.channels.domain.repository.SubscribedChannelsRepository
-import com.elmirov.course.di.annotation.ApplicationScope
 import com.elmirov.course.core.network.AuthorizationInterceptor
+import com.elmirov.course.di.annotation.ApplicationScope
+import com.elmirov.course.profile.data.network.ProfileApi
+import com.elmirov.course.profile.data.repository.OwnProfileRepositoryImpl
+import com.elmirov.course.profile.domain.repository.OwnProfileRepository
 import com.elmirov.course.users.data.network.UsersApi
 import com.elmirov.course.users.data.repository.UsersRepositoryImpl
 import com.elmirov.course.users.domain.repository.UsersRepository
@@ -51,18 +54,19 @@ class DataModule {
 
     @Provides
     @ApplicationScope
-    fun provideAllChannelsApi(retrofit: Retrofit): AllChannelsApi =
-        retrofit.create()
+    fun provideAllChannelsApi(retrofit: Retrofit): AllChannelsApi = retrofit.create()
 
     @Provides
     @ApplicationScope
-    fun provideSubscribedChannelsApi(retrofit: Retrofit): SubscribedChannelsApi =
-        retrofit.create()
+    fun provideSubscribedChannelsApi(retrofit: Retrofit): SubscribedChannelsApi = retrofit.create()
 
     @Provides
     @ApplicationScope
-    fun provideUsersApi(retrofit: Retrofit): UsersApi =
-        retrofit.create()
+    fun provideUsersApi(retrofit: Retrofit): UsersApi = retrofit.create()
+
+    @Provides
+    @ApplicationScope
+    fun provideProfileApi(retrofit: Retrofit): ProfileApi = retrofit.create()
 }
 
 @Module
@@ -79,4 +83,8 @@ interface BindDataModule {
     @Binds
     @ApplicationScope
     fun bindSubscribedChannelsRepository(impl: SubscribedChannelsRepositoryImpl): SubscribedChannelsRepository
+
+    @Binds
+    @ApplicationScope
+    fun bindOwnProfileRepository(impl: OwnProfileRepositoryImpl): OwnProfileRepository
 }
