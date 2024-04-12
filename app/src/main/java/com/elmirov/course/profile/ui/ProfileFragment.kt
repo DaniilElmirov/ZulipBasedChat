@@ -9,8 +9,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.elmirov.course.CourseApplication
-import com.elmirov.course.databinding.FragmentProfileBinding
 import com.elmirov.course.core.factory.ViewModelFactory
+import com.elmirov.course.databinding.FragmentProfileBinding
 import com.elmirov.course.profile.presentation.ProfileState
 import com.elmirov.course.profile.presentation.ProfileViewModel
 import com.elmirov.course.util.collectLifecycleFlow
@@ -84,15 +84,12 @@ class ProfileFragment : Fragment() {
 
             if (isOwn) {
                 toolbar.isVisible = false
-                logOut.isVisible = true
             } else {
                 toolbar.isVisible = true
-                logOut.isVisible = false
             }
 
             avatar.isVisible = true
             name.isVisible = true
-            meetingStatus.isVisible = true
             onlineStatus.isVisible = true
 
             shimmer.isVisible = false
@@ -105,15 +102,12 @@ class ProfileFragment : Fragment() {
 
             if (isOwn) {
                 toolbar.isVisible = false
-                logOut.isVisible = false
             } else {
                 toolbar.isVisible = true
-                logOut.isVisible = false
             }
 
             avatar.isVisible = false
             name.isVisible = false
-            meetingStatus.isVisible = false
             onlineStatus.isVisible = false
 
             shimmer.isVisible = true

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -30,10 +31,10 @@
         android:layout_width="185dp"
         android:layout_height="185dp"
         android:contentDescription="@null"
-        android:src="@drawable/ic_launcher_foreground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/gl_avatar_top" />
+        app:layout_constraintTop_toBottomOf="@id/gl_avatar_top"
+        tools:src="@drawable/ic_launcher_foreground" />
 
     <TextView
         android:id="@+id/name"
@@ -41,47 +42,20 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:gravity="center"
-        android:text="Какое-то Имя"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/avatar" />
-
-    <TextView
-        android:id="@+id/meeting_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:text="in a meeting"
-        app:layout_constraintEnd_toStartOf="@id/online_status"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/name" />
+        app:layout_constraintTop_toBottomOf="@id/avatar"
+        tools:text="Какое-то Имя" />
 
     <TextView
         android:id="@+id/online_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="20dp"
-        android:text="online"
-        android:textColor="@color/online_status_color"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/meeting_status"
-        app:layout_constraintTop_toBottomOf="@id/name" />
-
-    <TextView
-        android:id="@+id/log_out"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="65dp"
-        android:background="@drawable/log_out_shape"
-        android:paddingHorizontal="56dp"
-        android:paddingVertical="16dp"
-        android:text="@string/log_out"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/name"
+        tools:text="online"
+        tools:textColor="@color/online_status_color" />
 
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmer"
