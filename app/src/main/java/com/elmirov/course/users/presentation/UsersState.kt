@@ -1,6 +1,6 @@
 package com.elmirov.course.users.presentation
 
-import com.elmirov.course.core.entity.User
+import com.elmirov.course.core.user.domain.entity.User
 
 sealed interface UsersState {
 

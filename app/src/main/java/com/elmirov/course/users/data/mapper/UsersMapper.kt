@@ -1,7 +1,7 @@
 package com.elmirov.course.users.data.mapper
 
-import com.elmirov.course.core.entity.User
-import com.elmirov.course.users.data.model.UserModel
+import com.elmirov.course.core.user.domain.entity.User
+import com.elmirov.course.core.user.data.model.UserModel
 import com.elmirov.course.users.data.model.UsersResponseModel
 
 fun UsersResponseModel.toEntities(): List<User> =

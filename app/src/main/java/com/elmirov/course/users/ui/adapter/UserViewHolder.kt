@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.elmirov.course.R
-import com.elmirov.course.core.entity.User
+import com.elmirov.course.core.user.domain.entity.User
 import com.elmirov.course.databinding.UserItemBinding
 
 class UserViewHolder(
