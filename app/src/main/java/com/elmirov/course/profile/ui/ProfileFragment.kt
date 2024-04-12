@@ -75,11 +75,11 @@ class ProfileFragment : Fragment() {
 
     private fun applyState() {
         collectLifecycleFlow(viewModel.profile) { state ->
-            when (state) {
-                ProfileState.Content -> applyContent()
-
-                ProfileState.Loading -> applyLoading()
-            }
+//            when (state) {
+//                ProfileState.Content -> applyContent()
+//
+//                ProfileState.Loading -> applyLoading()
+//            }
         }
     }
 
