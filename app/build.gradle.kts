@@ -54,5 +54,7 @@ dependencies {
 
 	implementation(libs.shimmer)
 
+	implementation(libs.coil)
+
 	implementation(libs.bundles.retrofit)
 }
