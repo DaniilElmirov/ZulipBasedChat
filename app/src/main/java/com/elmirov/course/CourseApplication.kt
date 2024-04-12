@@ -1,7 +1,7 @@
 package com.elmirov.course
 
 import android.app.Application
-import com.elmirov.course.core.di.component.DaggerApplicationComponent
+import com.elmirov.course.di.component.DaggerApplicationComponent
 
 class CourseApplication : Application() {
     val component by lazy {

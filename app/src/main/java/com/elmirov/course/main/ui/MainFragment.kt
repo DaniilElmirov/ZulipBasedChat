@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.elmirov.course.R
 import com.elmirov.course.databinding.FragmentMainBinding
-import com.elmirov.course.core.navigation.Screens
+import com.elmirov.course.navigation.Screens
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router

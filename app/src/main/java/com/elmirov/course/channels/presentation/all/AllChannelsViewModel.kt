@@ -6,7 +6,7 @@ import com.elmirov.course.channels.domain.entity.Channel
 import com.elmirov.course.channels.domain.entity.Topic
 import com.elmirov.course.channels.domain.usecase.GetAllChannelsUseCase
 import com.elmirov.course.core.entity.Result
-import com.elmirov.course.core.navigation.router.GlobalRouter
+import com.elmirov.course.navigation.router.GlobalRouter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview

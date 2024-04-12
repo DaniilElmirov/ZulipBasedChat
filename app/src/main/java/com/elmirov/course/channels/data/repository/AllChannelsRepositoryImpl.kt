@@ -4,7 +4,7 @@ import com.elmirov.course.channels.data.mapper.toEntities
 import com.elmirov.course.channels.data.network.AllChannelsApi
 import com.elmirov.course.channels.domain.entity.Channel
 import com.elmirov.course.channels.domain.repository.AllChannelsRepository
-import com.elmirov.course.core.di.annotation.DispatcherIo
+import com.elmirov.course.di.annotation.DispatcherIo
 import com.elmirov.course.core.entity.ErrorType
 import com.elmirov.course.core.entity.Result
 import kotlinx.coroutines.CancellationException

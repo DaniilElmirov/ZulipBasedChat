@@ -1,4 +1,4 @@
-package com.elmirov.course.core.di.annotation
+package com.elmirov.course.di.annotation
 
 import javax.inject.Scope
 

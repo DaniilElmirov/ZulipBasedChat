@@ -1,4 +1,4 @@
-package com.elmirov.course.core.di.module
+package com.elmirov.course.di.module
 
 import com.elmirov.course.channels.data.network.AllChannelsApi
 import com.elmirov.course.channels.data.network.SubscribedChannelsApi
@@ -6,7 +6,7 @@ import com.elmirov.course.channels.data.repository.AllChannelsRepositoryImpl
 import com.elmirov.course.channels.data.repository.SubscribedChannelsRepositoryImpl
 import com.elmirov.course.channels.domain.repository.AllChannelsRepository
 import com.elmirov.course.channels.domain.repository.SubscribedChannelsRepository
-import com.elmirov.course.core.di.annotation.ApplicationScope
+import com.elmirov.course.di.annotation.ApplicationScope
 import com.elmirov.course.core.network.AuthorizationInterceptor
 import com.elmirov.course.users.data.network.UsersApi
 import com.elmirov.course.users.data.repository.UsersRepositoryImpl
