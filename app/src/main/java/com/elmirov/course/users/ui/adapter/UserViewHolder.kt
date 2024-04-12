@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.elmirov.course.R
 import com.elmirov.course.databinding.UserItemBinding
-import com.elmirov.course.users.domain.entity.User
+import com.elmirov.course.core.entity.User
 
 class UserViewHolder(
     parent: ViewGroup,

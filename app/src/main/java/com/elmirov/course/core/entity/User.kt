@@ -1,4 +1,4 @@
-package com.elmirov.course.users.domain.entity
+package com.elmirov.course.core.entity
 
 data class User(
     val id: Int,

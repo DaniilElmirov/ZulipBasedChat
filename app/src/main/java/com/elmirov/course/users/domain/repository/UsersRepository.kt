@@ -1,7 +1,7 @@
 package com.elmirov.course.users.domain.repository
 
 import com.elmirov.course.core.entity.Result
-import com.elmirov.course.users.domain.entity.User
+import com.elmirov.course.core.entity.User
 
 interface UsersRepository {
 

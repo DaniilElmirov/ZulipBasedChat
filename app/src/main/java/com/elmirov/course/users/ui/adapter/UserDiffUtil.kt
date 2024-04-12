@@ -1,7 +1,7 @@
 package com.elmirov.course.users.ui.adapter
 
 import androidx.recyclerview.widget.DiffUtil
-import com.elmirov.course.users.domain.entity.User
+import com.elmirov.course.core.entity.User
 
 class UserDiffUtil: DiffUtil.ItemCallback<User>() {
     override fun areItemsTheSame(oldItem: User, newItem: User): Boolean =
