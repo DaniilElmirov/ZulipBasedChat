@@ -62,31 +62,29 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        applyState(isOwn())
+        applyArguments()
+        applyState()
         setNavigationIconClickListener()
     }
 
-    private fun isOwn(): Boolean =
-        requireArguments().getBoolean(KEY_OWN_PROFILE)
+    private fun applyArguments() {
+        val own = requireArguments().getBoolean(KEY_OWN_PROFILE)
 
-    private fun applyState(isOwn: Boolean) {
+        binding.toolbar.isVisible = !own
+    }
+
+    private fun applyState() {
         collectLifecycleFlow(viewModel.profile) { state ->
             when (state) {
-                ProfileState.Content -> applyContent(isOwn) //TODO переделать нормально
+                ProfileState.Content -> applyContent()
 
-                ProfileState.Loading -> applyLoading(isOwn)
+                ProfileState.Loading -> applyLoading()
             }
         }
     }
 
-    private fun applyContent(isOwn: Boolean) {
+    private fun applyContent() {
         binding.apply {
-
-            if (isOwn) {
-                toolbar.isVisible = false
-            } else {
-                toolbar.isVisible = true
-            }
 
             avatar.isVisible = true
             name.isVisible = true
@@ -97,14 +95,8 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    private fun applyLoading(isOwn: Boolean) {
+    private fun applyLoading() {
         binding.apply {
-
-            if (isOwn) {
-                toolbar.isVisible = false
-            } else {
-                toolbar.isVisible = true
-            }
 
             avatar.isVisible = false
             name.isVisible = false
