@@ -26,7 +26,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
-        android:id="@+id/mail"
+        android:id="@+id/email"
         android:layout_width="160dp"
         android:layout_height="24dp"
         android:layout_marginTop="4dp"
