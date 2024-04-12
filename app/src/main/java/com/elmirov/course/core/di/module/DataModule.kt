@@ -8,6 +8,7 @@ import com.elmirov.course.channels.domain.repository.AllChannelsRepository
 import com.elmirov.course.channels.domain.repository.SubscribedChannelsRepository
 import com.elmirov.course.core.di.annotation.ApplicationScope
 import com.elmirov.course.core.network.AuthorizationInterceptor
+import com.elmirov.course.users.data.network.UsersApi
 import com.elmirov.course.users.data.repository.UsersRepositoryImpl
 import com.elmirov.course.users.domain.repository.UsersRepository
 import dagger.Binds
@@ -56,6 +57,11 @@ class DataModule {
     @Provides
     @ApplicationScope
     fun provideSubscribedChannelsApi(retrofit: Retrofit): SubscribedChannelsApi =
+        retrofit.create()
+
+    @Provides
+    @ApplicationScope
+    fun provideUsersApi(retrofit: Retrofit): UsersApi =
         retrofit.create()
 }
 
