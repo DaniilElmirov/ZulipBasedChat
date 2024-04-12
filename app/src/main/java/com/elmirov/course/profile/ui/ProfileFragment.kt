@@ -8,12 +8,17 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import coil.load
+import coil.transform.RoundedCornersTransformation
 import com.elmirov.course.CourseApplication
+import com.elmirov.course.R
 import com.elmirov.course.core.factory.ViewModelFactory
+import com.elmirov.course.core.user.domain.entity.User
 import com.elmirov.course.databinding.FragmentProfileBinding
 import com.elmirov.course.profile.presentation.ProfileState
 import com.elmirov.course.profile.presentation.ProfileViewModel
 import com.elmirov.course.util.collectLifecycleFlow
+import com.elmirov.course.util.dpToPix
 import javax.inject.Inject
 
 class ProfileFragment : Fragment() {
@@ -75,17 +80,32 @@ class ProfileFragment : Fragment() {
 
     private fun applyState() {
         collectLifecycleFlow(viewModel.profile) { state ->
-//            when (state) {
-//                ProfileState.Content -> applyContent()
-//
-//                ProfileState.Loading -> applyLoading()
-//            }
+            when (state) {
+                is ProfileState.Content -> applyContent(state.data)
+
+                ProfileState.Loading -> applyLoading()
+
+                ProfileState.Error -> Unit //TODO добавить обработку стейта
+            }
         }
     }
 
-    private fun applyContent() {
+    private fun applyContent(content: User) {
         binding.apply {
+            avatar.load(content.avatarUrl) {
+                error(R.drawable.ic_launcher_foreground)
+                transformations(RoundedCornersTransformation(15.dpToPix(requireContext())))
+            }
+            name.text = content.name
+            //TODO добавить получение статуса и цвеета взависимости от него
+            onlineStatus.text = "online"
+        }
 
+        setContentVisibility()
+    }
+
+    private fun setContentVisibility() {
+        binding.apply {
             avatar.isVisible = true
             name.isVisible = true
             onlineStatus.isVisible = true
@@ -97,7 +117,6 @@ class ProfileFragment : Fragment() {
 
     private fun applyLoading() {
         binding.apply {
-
             avatar.isVisible = false
             name.isVisible = false
             onlineStatus.isVisible = false
