@@ -1,8 +1,8 @@
 package com.elmirov.course.users.data.repository
 
 import com.elmirov.course.di.annotation.DispatcherIo
-import com.elmirov.course.core.entity.ErrorType
-import com.elmirov.course.core.entity.Result
+import com.elmirov.course.core.result.domain.entity.ErrorType
+import com.elmirov.course.core.result.domain.entity.Result
 import com.elmirov.course.core.user.domain.entity.User
 import com.elmirov.course.users.data.mapper.toEntities
 import com.elmirov.course.users.data.network.UsersApi

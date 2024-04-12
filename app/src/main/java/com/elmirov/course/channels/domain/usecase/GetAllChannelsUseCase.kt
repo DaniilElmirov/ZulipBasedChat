@@ -2,7 +2,7 @@ package com.elmirov.course.channels.domain.usecase
 
 import com.elmirov.course.channels.domain.entity.Channel
 import com.elmirov.course.channels.domain.repository.AllChannelsRepository
-import com.elmirov.course.core.entity.Result
+import com.elmirov.course.core.result.domain.entity.Result
 import javax.inject.Inject
 
 class GetAllChannelsUseCase @Inject constructor(
