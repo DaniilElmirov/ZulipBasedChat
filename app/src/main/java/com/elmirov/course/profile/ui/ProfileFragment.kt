@@ -76,6 +76,7 @@ class ProfileFragment : Fragment() {
         val own = requireArguments().getBoolean(KEY_OWN_PROFILE)
 
         binding.toolbar.isVisible = !own
+        viewModel.loadOwnProfile()
     }
 
     private fun applyState() {
@@ -86,6 +87,8 @@ class ProfileFragment : Fragment() {
                 ProfileState.Loading -> applyLoading()
 
                 ProfileState.Error -> Unit //TODO добавить обработку стейта
+
+                ProfileState.Initial -> Unit
             }
         }
     }
