@@ -3,8 +3,8 @@ package com.elmirov.course.channels.presentation.all
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elmirov.course.channels.domain.entity.Channel
-import com.elmirov.course.channels.domain.entity.Topic
 import com.elmirov.course.channels.domain.usecase.GetAllChannelsUseCase
+import com.elmirov.course.channels.domain.usecase.GetChannelTopicsUseCase
 import com.elmirov.course.core.result.domain.entity.Result
 import com.elmirov.course.navigation.router.GlobalRouter
 import kotlinx.coroutines.Dispatchers
@@ -24,6 +24,7 @@ import javax.inject.Inject
 class AllChannelsViewModel @Inject constructor(
     private val globalRouter: GlobalRouter,
     private val getAllChannelsUseCase: GetAllChannelsUseCase,
+    private val getChannelTopicsUseCase: GetChannelTopicsUseCase,
 ) : ViewModel() {
 
     private val testData = mutableListOf(
@@ -38,21 +39,6 @@ class AllChannelsViewModel @Inject constructor(
         Channel(
             id = 2,
             name = "#PR all"
-        ),
-    )
-
-    private val topics = listOf(
-        Topic(
-            "первый all",
-            12,
-        ),
-        Topic(
-            "другой all",
-            1,
-        ),
-        Topic(
-            "last all",
-            123,
         ),
     )
 
@@ -88,7 +74,7 @@ class AllChannelsViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
-    //TODO переписать поиск и топики через api
+    //TODO переписать поиск
 
     private fun search(query: String): AllChannelsState {
 
@@ -102,16 +88,39 @@ class AllChannelsViewModel @Inject constructor(
         return AllChannelsState.Content(searchedData)
     }
 
+    //TODO совсем не уверен на счет адекватности твакого подхода
+    //TODO возможно стоит работать с delegate item (тоже не очень)
     fun showTopics(channelId: Int) {
-        val channelWithTopics = testData[channelId].copy(topics = topics)
-        testData[channelId] = channelWithTopics
-        _allChannels.value = AllChannelsState.Content(testData.toList())
+        val currentChannels =
+            (_allChannels.value as? AllChannelsState.Content)?.data?.toMutableList() ?: return
+        viewModelScope.launch {
+            when (val result = getChannelTopicsUseCase(channelId)) {
+                is Result.Error -> AllChannelsState.Error
+
+                is Result.Success -> {
+                    val targetChannelIndex = currentChannels.indexOfFirst {
+                        it.id == channelId
+                    }
+                    currentChannels[targetChannelIndex] =
+                        currentChannels[targetChannelIndex].copy(
+                            expanded = true,
+                            topics = result.data
+                        )
+                    _allChannels.value = AllChannelsState.Content(currentChannels.toList())
+                }
+            }
+        }
     }
 
     fun closeTopics(channelId: Int) {
-        val channelWithoutTopics = testData[channelId].copy(topics = null)
-        testData[channelId] = channelWithoutTopics
-        _allChannels.value = AllChannelsState.Content(testData.toList())
+        val currentChannels =
+            (_allChannels.value as? AllChannelsState.Content)?.data?.toMutableList() ?: return
+        val targetChannelIndex = currentChannels.indexOfFirst {
+            it.id == channelId
+        }
+        currentChannels[targetChannelIndex] =
+            currentChannels[targetChannelIndex].copy(expanded = false, topics = null)
+        _allChannels.value = AllChannelsState.Content(currentChannels.toList())
     }
 
     fun openChat(topicName: String) {
