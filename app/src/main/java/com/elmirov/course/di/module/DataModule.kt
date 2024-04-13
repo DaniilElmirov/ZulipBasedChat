@@ -2,9 +2,12 @@ package com.elmirov.course.di.module
 
 import com.elmirov.course.channels.data.network.AllChannelsApi
 import com.elmirov.course.channels.data.network.SubscribedChannelsApi
+import com.elmirov.course.channels.data.network.TopicsApi
 import com.elmirov.course.channels.data.repository.AllChannelsRepositoryImpl
+import com.elmirov.course.channels.data.repository.ChannelTopicsRepositoryImpl
 import com.elmirov.course.channels.data.repository.SubscribedChannelsRepositoryImpl
 import com.elmirov.course.channels.domain.repository.AllChannelsRepository
+import com.elmirov.course.channels.domain.repository.ChannelTopicsRepository
 import com.elmirov.course.channels.domain.repository.SubscribedChannelsRepository
 import com.elmirov.course.core.network.AuthorizationInterceptor
 import com.elmirov.course.di.annotation.ApplicationScope
@@ -69,6 +72,10 @@ class DataModule {
     @Provides
     @ApplicationScope
     fun provideProfileApi(retrofit: Retrofit): ProfileApi = retrofit.create()
+
+    @Provides
+    @ApplicationScope
+    fun provideTopicsApi(retrofit: Retrofit): TopicsApi = retrofit.create()
 }
 
 @Module
@@ -93,4 +100,8 @@ interface BindDataModule {
     @Binds
     @ApplicationScope
     fun bindOtherProfileRepository(impl: OtherProfileRepositoryImpl): OtherProfileRepository
+
+    @Binds
+    @ApplicationScope
+    fun bindChannelTopicsRepository(impl: ChannelTopicsRepositoryImpl): ChannelTopicsRepository
 }
