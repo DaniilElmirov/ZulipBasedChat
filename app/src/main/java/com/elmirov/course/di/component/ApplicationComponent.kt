@@ -11,6 +11,7 @@ import com.elmirov.course.di.module.DataModule
 import com.elmirov.course.di.module.DispatcherModule
 import com.elmirov.course.di.module.NavigationModule
 import com.elmirov.course.di.module.ViewModelModule
+import com.elmirov.course.profile.ui.OtherProfileFragment
 import com.elmirov.course.profile.ui.OwnProfileFragment
 import com.elmirov.course.users.ui.UsersFragment
 import dagger.BindsInstance
@@ -40,6 +41,8 @@ interface ApplicationComponent {
     fun inject(fragment: ChatFragment)
 
     fun inject(fragment: OwnProfileFragment)
+
+    fun inject(fragment: OtherProfileFragment)
 
     @Component.Factory
     interface Factory {
