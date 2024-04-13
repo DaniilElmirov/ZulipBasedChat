@@ -9,7 +9,9 @@ import com.elmirov.course.channels.domain.repository.SubscribedChannelsRepositor
 import com.elmirov.course.core.network.AuthorizationInterceptor
 import com.elmirov.course.di.annotation.ApplicationScope
 import com.elmirov.course.profile.data.network.ProfileApi
+import com.elmirov.course.profile.data.repository.OtherProfileRepositoryImpl
 import com.elmirov.course.profile.data.repository.OwnProfileRepositoryImpl
+import com.elmirov.course.profile.domain.repository.OtherProfileRepository
 import com.elmirov.course.profile.domain.repository.OwnProfileRepository
 import com.elmirov.course.users.data.network.UsersApi
 import com.elmirov.course.users.data.repository.UsersRepositoryImpl
@@ -87,4 +89,8 @@ interface BindDataModule {
     @Binds
     @ApplicationScope
     fun bindOwnProfileRepository(impl: OwnProfileRepositoryImpl): OwnProfileRepository
+
+    @Binds
+    @ApplicationScope
+    fun bindOtherProfileRepository(impl: OtherProfileRepositoryImpl): OtherProfileRepository
 }
