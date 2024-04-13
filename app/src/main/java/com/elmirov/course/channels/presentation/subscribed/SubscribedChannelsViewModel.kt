@@ -3,7 +3,7 @@ package com.elmirov.course.channels.presentation.subscribed
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elmirov.course.channels.domain.entity.Channel
-import com.elmirov.course.channels.domain.entity.Topic
+import com.elmirov.course.channels.domain.usecase.GetChannelTopicsUseCase
 import com.elmirov.course.channels.domain.usecase.GetSubscribedChannelsUseCase
 import com.elmirov.course.core.result.domain.entity.Result
 import com.elmirov.course.navigation.router.GlobalRouter
@@ -24,6 +24,7 @@ import javax.inject.Inject
 class SubscribedChannelsViewModel @Inject constructor(
     private val globalRouter: GlobalRouter,
     private val getSubscribedChannelsUseCase: GetSubscribedChannelsUseCase,
+    private val getChannelTopicsUseCase: GetChannelTopicsUseCase,
 ) : ViewModel() {
 
     private val testData = mutableListOf(
@@ -38,21 +39,6 @@ class SubscribedChannelsViewModel @Inject constructor(
         Channel(
             id = 2,
             name = "#PR subscribed"
-        ),
-    )
-
-    private val topics = listOf(
-        Topic(
-            "первый subscribed",
-            12,
-        ),
-        Topic(
-            "другой subscribed",
-            1,
-        ),
-        Topic(
-            "last subscribed",
-            123,
         ),
     )
 
@@ -105,15 +91,39 @@ class SubscribedChannelsViewModel @Inject constructor(
     }
 
     fun showTopics(channelId: Int) {
-        val channelWithTopics = testData[channelId].copy(topics = topics)
-        testData[channelId] = channelWithTopics
-        _subscribedChannels.value = SubscribedChannelsState.Content(testData.toList())
+        val currentChannels =
+            (_subscribedChannels.value as? SubscribedChannelsState.Content)?.data?.toMutableList()
+                ?: return
+        viewModelScope.launch {
+            when (val result = getChannelTopicsUseCase(channelId)) {
+                is Result.Error -> SubscribedChannelsState.Error
+
+                is Result.Success -> {
+                    val targetChannelIndex = currentChannels.indexOfFirst {
+                        it.id == channelId
+                    }
+                    currentChannels[targetChannelIndex] =
+                        currentChannels[targetChannelIndex].copy(
+                            expanded = true,
+                            topics = result.data
+                        )
+                    _subscribedChannels.value =
+                        SubscribedChannelsState.Content(currentChannels.toList())
+                }
+            }
+        }
     }
 
     fun closeTopics(channelId: Int) {
-        val channelWithoutTopics = testData[channelId].copy(topics = null)
-        testData[channelId] = channelWithoutTopics
-        _subscribedChannels.value = SubscribedChannelsState.Content(testData.toList())
+        val currentChannels =
+            (_subscribedChannels.value as? SubscribedChannelsState.Content)?.data?.toMutableList()
+                ?: return
+        val targetChannelIndex = currentChannels.indexOfFirst {
+            it.id == channelId
+        }
+        currentChannels[targetChannelIndex] =
+            currentChannels[targetChannelIndex].copy(expanded = false, topics = null)
+        _subscribedChannels.value = SubscribedChannelsState.Content(currentChannels.toList())
     }
 
     fun openChat(topicName: String) {
