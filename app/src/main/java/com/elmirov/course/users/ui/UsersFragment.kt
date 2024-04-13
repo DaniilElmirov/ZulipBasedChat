@@ -10,8 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.elmirov.course.CourseApplication
 import com.elmirov.course.core.factory.ViewModelFactory
-import com.elmirov.course.databinding.FragmentUsersBinding
 import com.elmirov.course.core.user.domain.entity.User
+import com.elmirov.course.databinding.FragmentUsersBinding
 import com.elmirov.course.users.presentation.UsersState
 import com.elmirov.course.users.presentation.UsersViewModel
 import com.elmirov.course.users.ui.adapter.UsersAdapter
@@ -43,7 +43,7 @@ class UsersFragment : Fragment() {
     private val usersAdapter by lazy {
         UsersAdapter(
             onUserClick = {
-                viewModel.openUserProfile()
+                viewModel.openOtherProfile(it)
             }
         )
     }

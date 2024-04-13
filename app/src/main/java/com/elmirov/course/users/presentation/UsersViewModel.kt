@@ -34,7 +34,7 @@ class UsersViewModel @Inject constructor(
         }
     }
 
-    fun openUserProfile() {
-        router.openOwnProfile()
+    fun openOtherProfile(userId: Int) {
+        router.openOtherProfile(userId)
     }
 }
