@@ -10,8 +10,8 @@ import com.elmirov.course.databinding.ChannelItemBinding
 
 class ChannelViewHolder(
     parent: ViewGroup,
-    private val onArrowBottomClick: (Int) -> Unit,
-    private val onArrowTopClick: (Int) -> Unit,
+    private val showChannelTopics: (Int) -> Unit,
+    private val closeChannelTopics: (Int) -> Unit,
 ) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.channel_item, parent, false)
 ) {
@@ -23,20 +23,20 @@ class ChannelViewHolder(
         val channelNameFormat = itemView.context.getString(R.string.hashtag_with_stream_name)
         binding.channelName.text = String.format(channelNameFormat, channel.name)
 
-        if (channel.topics.isNullOrEmpty()) {
-            binding.arrowBottom.isVisible = true
-            binding.arrowTop.isVisible = false
-        } else {
+        if (channel.expanded) {
             binding.arrowBottom.isVisible = false
             binding.arrowTop.isVisible = true
-        }
 
-        binding.arrowBottom.setOnClickListener {
-            onArrowBottomClick(channel.id)
-        }
+            binding.root.setOnClickListener {
+                closeChannelTopics(channel.id)
+            }
+        } else {
+            binding.arrowBottom.isVisible = true
+            binding.arrowTop.isVisible = false
 
-        binding.arrowTop.setOnClickListener {
-            onArrowTopClick(channel.id)
+            binding.root.setOnClickListener {
+                showChannelTopics(channel.id)
+            }
         }
     }
 }

@@ -49,8 +49,8 @@ class SubscribedChannelsFragment : Fragment(), SubscribedChannelsCommunicator {
         MainAdapter().apply {
             addDelegate(
                 ChannelDelegate(
-                    onArrowBottomClick = viewModel::showTopics,
-                    onArrowTopClick = viewModel::closeTopics,
+                    showChannelTopics = viewModel::showTopics,
+                    closeChannelTopics = viewModel::closeTopics,
                 )
             )
             addDelegate(TopicDelegate(viewModel::openChat))
