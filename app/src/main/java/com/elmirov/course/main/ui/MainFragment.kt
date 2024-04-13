@@ -76,7 +76,7 @@ class MainFragment : Fragment(), OnItemSelectedListener {
 
             R.id.people -> localRouter.navigateTo(Screens.UsersScreen())
 
-            R.id.profile -> localRouter.navigateTo(Screens.ProfileScreen(own = true))
+            R.id.profile -> localRouter.navigateTo(Screens.OwnProfileScreen())
         }
 
         return true

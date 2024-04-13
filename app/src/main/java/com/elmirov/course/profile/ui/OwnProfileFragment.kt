@@ -21,18 +21,11 @@ import com.elmirov.course.util.collectLifecycleFlow
 import com.elmirov.course.util.dpToPix
 import javax.inject.Inject
 
-class ProfileFragment : Fragment() {
+class OwnProfileFragment : Fragment() {
 
     companion object {
 
-        private const val KEY_OWN_PROFILE = "KEY_OWN_PROFILE"
-
-        fun newInstance(own: Boolean): ProfileFragment =
-            ProfileFragment().apply {
-                arguments = Bundle().apply {
-                    putBoolean(KEY_OWN_PROFILE, own)
-                }
-            }
+        fun newInstance(): OwnProfileFragment = OwnProfileFragment()
     }
 
     private var _binding: FragmentProfileBinding? = null
@@ -67,16 +60,9 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        applyArguments()
+        viewModel.loadOwnProfile()
         applyState()
         setNavigationIconClickListener()
-    }
-
-    private fun applyArguments() {
-        val own = requireArguments().getBoolean(KEY_OWN_PROFILE)
-
-        binding.toolbar.isVisible = !own
-        viewModel.loadOwnProfile()
     }
 
     private fun applyState() {
@@ -109,6 +95,8 @@ class ProfileFragment : Fragment() {
 
     private fun setContentVisibility() {
         binding.apply {
+            toolbar.isVisible = false
+
             avatar.isVisible = true
             name.isVisible = true
             onlineStatus.isVisible = true
@@ -120,6 +108,8 @@ class ProfileFragment : Fragment() {
 
     private fun applyLoading() {
         binding.apply {
+            toolbar.isVisible = false
+
             avatar.isVisible = false
             name.isVisible = false
             onlineStatus.isVisible = false

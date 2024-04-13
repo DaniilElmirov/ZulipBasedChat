@@ -3,7 +3,7 @@ package com.elmirov.course.navigation
 import com.elmirov.course.channels.ui.ChannelsFragment
 import com.elmirov.course.chat.ui.ChatFragment
 import com.elmirov.course.main.ui.MainFragment
-import com.elmirov.course.profile.ui.ProfileFragment
+import com.elmirov.course.profile.ui.OwnProfileFragment
 import com.elmirov.course.users.ui.UsersFragment
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 
@@ -21,8 +21,8 @@ object Screens {
         UsersFragment.newInstance()
     }
 
-    fun ProfileScreen(own: Boolean): FragmentScreen = FragmentScreen {
-        ProfileFragment.newInstance(own)
+    fun OwnProfileScreen(): FragmentScreen = FragmentScreen {
+        OwnProfileFragment.newInstance()
     }
 
     fun ChatScreen(topicName: String): FragmentScreen = FragmentScreen {
