@@ -4,11 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elmirov.course.chat.domain.entity.Message
 import com.elmirov.course.chat.domain.entity.Reaction
+import com.elmirov.course.chat.domain.usecase.GetChannelTopicMessagesUseCase
+import com.elmirov.course.core.result.domain.entity.Result
 import com.elmirov.course.di.annotation.DispatcherIo
 import com.elmirov.course.navigation.router.GlobalRouter
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -18,6 +19,7 @@ import javax.inject.Inject
 class ChatViewModel @Inject constructor(
     private val globalRouter: GlobalRouter,
     @DispatcherIo private val dispatcherIo: CoroutineDispatcher,
+    private val getChannelTopicMessagesUseCase: GetChannelTopicMessagesUseCase
 ) : ViewModel() {
 
     private companion object {
@@ -161,8 +163,10 @@ class ChatViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 withContext(dispatcherIo) {
-                    delay(1000)
-                    _messages.value = ChatState.Content(testData.toList())
+                    when (val res = getChannelTopicMessagesUseCase("str", "str")) {
+                        is Result.Error -> Unit
+                        is Result.Success -> _messages.value = ChatState.Content(res.data)
+                    }
                 }
             } catch (cancellation: CancellationException) {
                 throw cancellation
