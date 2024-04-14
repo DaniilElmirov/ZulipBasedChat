@@ -23,7 +23,7 @@ class ChannelTopicsRepositoryImpl @Inject constructor(
     override suspend fun getByChannelId(channelId: Int): Result<List<Topic>> =
         try {
             withContext(dispatcherIo) {
-                Result.Success(api.getChannelTopics(channelId).toEntities())
+                Result.Success(api.getChannelTopics(channelId).toEntities(channelId))
             }
         } catch (cancellation: CancellationException) {
             throw cancellation
