@@ -2,9 +2,9 @@ package com.elmirov.course.chat.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.elmirov.course.di.annotation.DispatcherIo
 import com.elmirov.course.chat.domain.entity.Message
 import com.elmirov.course.chat.domain.entity.Reaction
+import com.elmirov.course.di.annotation.DispatcherIo
 import com.elmirov.course.navigation.router.GlobalRouter
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
@@ -21,8 +21,6 @@ class ChatViewModel @Inject constructor(
 ) : ViewModel() {
 
     private companion object {
-        const val OWN_ID = 0
-        const val OTHER_ID = -1
 
         const val ERROR_TRIGGER_MESSAGE = "err" //TODO временно
     }
@@ -34,72 +32,81 @@ class ChatViewModel @Inject constructor(
     private val testData = mutableListOf(
         Message(
             id = 1,
-            userId = OTHER_ID,
             date = "12.02.2002",
+            myMessage = false,
+            avatarUrl = null,
             authorName = "AN",
             text = "ajdjklajdsjdsajkladsajdjklajdsjdsajkladsajdjklajdsjdsajkladsajdjklajdsjdsajkladsajdjklajdsjdsajkladsajdjklajdsjdsajkladsajdjklajdsjdsajklads",
-            reactions = mapOf(0x1f600 to 12, 0x1f600 to 12, 0x1f601 to 11)
+            reactions = mapOf(0x1f600 to 12, 0x1f600 to 12, 0x1f601 to 11),
         ),
         Message(
             id = 2,
-            userId = OTHER_ID,
             date = "12.02.2002",
+            myMessage = false,
+            avatarUrl = null,
             authorName = "AN",
             text = "ajdjklajdsjdsajklads",
             reactions = mapOf(0x1f601 to 11)
         ),
         Message(
             id = 3,
-            userId = OTHER_ID,
             date = "12.02.2002",
+            myMessage = false,
+            avatarUrl = null,
             authorName = "AN",
             text = "ajdjklajdsjdsajklads",
             reactions = mapOf(0x1f600 to 12)
         ),
         Message(
             id = 4,
-            userId = OTHER_ID,
             date = "14.02.2002",
+            myMessage = false,
+            avatarUrl = null,
             authorName = "AN",
             text = "ajdjklajdsjdsajklads",
             reactions = mapOf(0x1f600 to 12)
         ),
         Message(
             id = 5,
-            userId = OTHER_ID,
             date = "14.12.2002",
+            myMessage = false,
+            avatarUrl = null,
             authorName = "AN",
             text = "ajdjklajdsjdsajklads",
             reactions = mapOf(0x1f600 to 12)
         ),
         Message(
             id = 6,
-            userId = OTHER_ID,
             date = "14.12.2002",
+            myMessage = false,
+            avatarUrl = null,
             authorName = "AN",
             text = "ajdjklajdsjdsajklads",
             reactions = null
         ),
         Message(
             id = 7,
-            userId = OWN_ID,
             date = "14.12.2002",
+            myMessage = true,
+            avatarUrl = null,
             authorName = "AN",
             text = "теусуцуываы",
             reactions = mapOf(0x1f600 to 12, 0x1f600 to 12, 0x1f601 to 11),
         ),
         Message(
             id = 8,
-            userId = OTHER_ID,
             date = "14.12.2002",
+            myMessage = false,
+            avatarUrl = null,
             authorName = "AN",
             text = "фывфывыфыфыфв",
             reactions = null
         ),
         Message(
             id = 9,
-            userId = OWN_ID,
             date = "14.12.2002",
+            myMessage = true,
+            avatarUrl = null,
             authorName = "AN",
             text = "теусуцуываы",
             reactions = null

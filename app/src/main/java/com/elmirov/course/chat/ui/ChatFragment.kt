@@ -22,7 +22,7 @@ import com.elmirov.course.chat.ui.delegate.date.DateDelegate
 import com.elmirov.course.chat.ui.delegate.incoming.IncomingMessageDelegate
 import com.elmirov.course.chat.ui.delegate.outgoing.OutgoingMessageDelegate
 import com.elmirov.course.util.collectLifecycleFlow
-import com.elmirov.course.util.toDelegateItems
+import com.elmirov.course.util.toMessageDelegateItems
 import com.google.android.material.snackbar.Snackbar
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -31,8 +31,6 @@ import javax.inject.Inject
 class ChatFragment : Fragment() {
 
     companion object {
-
-        private const val OWN_ID = 0
 
         private const val KEY_TOPIC_NAME = "KEY_TOPIC_NAME"
 
@@ -96,8 +94,9 @@ class ChatFragment : Fragment() {
             val messageText = binding.newMessage.text?.trim().toString()
             val newMessage = Message(
                 id = currentId++,
-                userId = if (currentId % 2 == 0) -1 else 0,
                 date = getCurrentDate(),
+                myMessage = currentId % 2 == 0,
+                avatarUrl = null,
                 authorName = "I",
                 text = messageText,
             )
@@ -136,7 +135,7 @@ class ChatFragment : Fragment() {
     }
 
     private fun applyContent(data: List<Message>) {
-        messagesAdapter.submitList(data.toDelegateItems(OWN_ID))
+        messagesAdapter.submitList(data.toMessageDelegateItems())
 
         binding.apply {
             chat.isVisible = true
