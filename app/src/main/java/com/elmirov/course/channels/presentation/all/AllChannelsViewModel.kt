@@ -133,6 +133,6 @@ class AllChannelsViewModel @Inject constructor(
         val topicChannelName =
             currentChannels.find { it.id == topicChannelId }?.name ?: EMPTY_CHANNEL_NAME
 
-        globalRouter.openChat(topicName)
+        globalRouter.openChat(topicChannelName, topicName)
     }
 }

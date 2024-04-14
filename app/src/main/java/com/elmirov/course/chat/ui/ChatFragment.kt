@@ -12,15 +12,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.elmirov.course.CourseApplication
 import com.elmirov.course.R
-import com.elmirov.course.databinding.FragmentChatBinding
 import com.elmirov.course.chat.domain.entity.Message
-import com.elmirov.course.core.factory.ViewModelFactory
 import com.elmirov.course.chat.presentation.ChatState
 import com.elmirov.course.chat.presentation.ChatViewModel
-import com.elmirov.course.core.adapter.MainAdapter
 import com.elmirov.course.chat.ui.delegate.date.DateDelegate
 import com.elmirov.course.chat.ui.delegate.incoming.IncomingMessageDelegate
 import com.elmirov.course.chat.ui.delegate.outgoing.OutgoingMessageDelegate
+import com.elmirov.course.core.adapter.MainAdapter
+import com.elmirov.course.core.factory.ViewModelFactory
+import com.elmirov.course.databinding.FragmentChatBinding
 import com.elmirov.course.util.collectLifecycleFlow
 import com.elmirov.course.util.toMessageDelegateItems
 import com.google.android.material.snackbar.Snackbar
@@ -32,11 +32,13 @@ class ChatFragment : Fragment() {
 
     companion object {
 
+        private const val KEY_TOPIC_CHANNEL_NAME = "KEY_TOPIC_CHANNEL_NAME"
         private const val KEY_TOPIC_NAME = "KEY_TOPIC_NAME"
 
-        fun newInstance(topicName: String): ChatFragment =
+        fun newInstance(topicChannelName: String, topicName: String): ChatFragment =
             ChatFragment().apply {
                 arguments = Bundle().apply {
+                    putString(KEY_TOPIC_CHANNEL_NAME, topicChannelName)
                     putString(KEY_TOPIC_NAME, topicName)
                 }
             }
