@@ -92,19 +92,10 @@ class ChatFragment : Fragment() {
         setTextChangeListener()
         setNavigationIconClickListener()
 
-        var currentId = 10 //TODO поменять на данные с бэка
-
+//TODO метод для отправки сообщения
         binding.sendOrAttach.setOnClickListener {
             val messageText = binding.newMessage.text?.trim().toString()
-            val newMessage = Message(
-                id = currentId++,
-                date = getCurrentDate(),
-                myMessage = currentId % 2 == 0,
-                avatarUrl = null,
-                authorName = "I",
-                text = messageText,
-            )
-            viewModel.sendMessage(newMessage)
+
             binding.newMessage.text = null
         }
     }
