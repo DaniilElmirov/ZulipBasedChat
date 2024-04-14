@@ -27,6 +27,10 @@ class SubscribedChannelsViewModel @Inject constructor(
     private val getChannelTopicsUseCase: GetChannelTopicsUseCase,
 ) : ViewModel() {
 
+    private companion object {
+        const val EMPTY_CHANNEL_NAME = ""
+    }
+
     private val testData = mutableListOf(
         Channel(
             id = 0,
@@ -126,7 +130,12 @@ class SubscribedChannelsViewModel @Inject constructor(
         _subscribedChannels.value = SubscribedChannelsState.Content(currentChannels.toList())
     }
 
-    fun openChat(topicName: String) {
+    fun openChat(topicChannelId: Int, topicName: String) {
+        val currentChannels =
+            (_subscribedChannels.value as? SubscribedChannelsState.Content)?.data ?: return
+        val topicChannelName =
+            currentChannels.find { it.id == topicChannelId }?.name ?: EMPTY_CHANNEL_NAME
+
         globalRouter.openChat(topicName)
     }
 }

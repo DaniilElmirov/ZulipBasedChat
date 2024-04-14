@@ -7,7 +7,7 @@ import com.elmirov.course.core.adapter.delegate.AdapterDelegate
 import com.elmirov.course.core.adapter.delegate.DelegateItem
 
 class TopicDelegate(
-    private val onTopicClick: (String) -> Unit
+    private val onTopicClick: (Int, String) -> Unit
 ): AdapterDelegate {
     override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder =
         TopicViewHolder(parent, onTopicClick)

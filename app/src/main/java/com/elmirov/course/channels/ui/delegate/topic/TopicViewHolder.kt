@@ -4,12 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.elmirov.course.R
-import com.elmirov.course.databinding.TopicItemBinding
 import com.elmirov.course.channels.domain.entity.Topic
+import com.elmirov.course.databinding.TopicItemBinding
 
 class TopicViewHolder(
     parent: ViewGroup,
-    private val onTopicClick: (String) -> Unit
+    private val onTopicClick: (Int, String) -> Unit
 ) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.topic_item, parent, false)
 ) {
@@ -28,7 +28,7 @@ class TopicViewHolder(
         binding.messageCount.text = String.format(messageCountFormat, topic.messageCount)
 
         binding.root.setOnClickListener {
-            onTopicClick(topic.name)
+            onTopicClick(topic.topicChannelId, topic.name)
         }
     }
 }
