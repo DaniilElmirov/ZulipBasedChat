@@ -35,6 +35,8 @@ class ChatFragment : Fragment() {
         private const val KEY_TOPIC_CHANNEL_NAME = "KEY_TOPIC_CHANNEL_NAME"
         private const val KEY_TOPIC_NAME = "KEY_TOPIC_NAME"
 
+        private const val EMPTY_STRING = ""
+
         fun newInstance(topicChannelName: String, topicName: String): ChatFragment =
             ChatFragment().apply {
                 arguments = Bundle().apply {
@@ -84,7 +86,7 @@ class ChatFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        parseArguments()
+        applyArguments()
         setupAdapter()
         applyState()
         setTextChangeListener()
@@ -107,10 +109,15 @@ class ChatFragment : Fragment() {
         }
     }
 
-    private fun parseArguments() {
-        val topicName = requireArguments().getString(KEY_TOPIC_NAME)
+    private fun applyArguments() {
+        val topicChannelName = requireArguments().getString(KEY_TOPIC_CHANNEL_NAME) ?: EMPTY_STRING
+        val topicName = requireArguments().getString(KEY_TOPIC_NAME) ?: EMPTY_STRING
 
+        binding.toolbar.title =
+            String.format(getString(R.string.hashtag_with_stream_name, topicChannelName))
         binding.topic.text = String.format(getString(R.string.topic_with_name), topicName)
+
+        viewModel.loadMessages(topicChannelName, topicName)
     }
 
     private fun setupAdapter() {

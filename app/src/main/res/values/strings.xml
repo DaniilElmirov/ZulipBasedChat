@@ -15,7 +15,7 @@
 	<string name="search">Search...</string>
 	<string name="users">Users...</string>
 	<string name="message_count_mes">%d mes</string>
-	<string name="topic_with_name">Topic: %s</string>
+	<string name="topic_with_name">Topic: #%s</string>
     <string name="try_again">Попробовать снова</string>
 	<string name="unknown_error">Что-то пошло не так</string>
 </resources>

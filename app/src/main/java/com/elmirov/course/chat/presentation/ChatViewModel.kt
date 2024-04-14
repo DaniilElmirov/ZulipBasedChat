@@ -27,10 +27,6 @@ class ChatViewModel @Inject constructor(
         const val ERROR_TRIGGER_MESSAGE = "err" //TODO временно
     }
 
-    init {
-        loadMessages()
-    }
-
     private val testData = mutableListOf(
         Message(
             id = 1,
@@ -118,6 +114,15 @@ class ChatViewModel @Inject constructor(
     private val _messages = MutableStateFlow<ChatState>(ChatState.Loading)
     val messages = _messages.asStateFlow()
 
+    fun loadMessages(topicChannelName: String, topicName: String) {
+        viewModelScope.launch {
+            when (val result = getChannelTopicMessagesUseCase(topicChannelName, topicName)) {
+                is Result.Error -> Unit
+                is Result.Success -> _messages.value = ChatState.Content(result.data)
+            }
+        }
+    }
+
     fun sendMessage(message: Message) {
         viewModelScope.launch {
             handleMessage(message)
@@ -157,22 +162,5 @@ class ChatViewModel @Inject constructor(
 
     fun back() {
         globalRouter.back()
-    }
-
-    private fun loadMessages() {
-        viewModelScope.launch {
-            try {
-                withContext(dispatcherIo) {
-                    when (val res = getChannelTopicMessagesUseCase("str", "str")) {
-                        is Result.Error -> Unit
-                        is Result.Success -> _messages.value = ChatState.Content(res.data)
-                    }
-                }
-            } catch (cancellation: CancellationException) {
-                throw cancellation
-            } catch (exception: Exception) { //TODO добавить стейт ошибки и его обработку
-                _messages.value = ChatState.Content(testData.toList())
-            }
-        }
     }
 }
