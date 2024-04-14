@@ -9,7 +9,6 @@ fun MessagesResponseModel.toEntities(): List<Message> = messageModels.map { it.t
 private fun MessageModel.toEntity(): Message =
     Message(
         id = id,
-        myMessage = myMessage,
         authorId = authorId,
         avatarUrl = avatarUrl,
         authorName = authorName,
