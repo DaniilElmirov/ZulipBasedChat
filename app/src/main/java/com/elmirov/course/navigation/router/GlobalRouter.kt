@@ -12,7 +12,7 @@ interface GlobalRouter {
 
     fun openOtherProfile(userId: Int)
 
-    fun openChat(topicChannelName: String, topicName: String, ownId: Int)
+    fun openChat(topicChannelName: String, topicName: String)
 
     fun back()
 }
@@ -29,8 +29,8 @@ class GlobalRouterImpl @Inject constructor(
         router.navigateTo(OtherProfileScreen(userId))
     }
 
-    override fun openChat(topicChannelName: String, topicName: String, ownId: Int) {
-        router.navigateTo(ChatScreen(topicChannelName, topicName, ownId))
+    override fun openChat(topicChannelName: String, topicName: String) {
+        router.navigateTo(ChatScreen(topicChannelName, topicName))
     }
 
     override fun back() {

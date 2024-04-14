@@ -7,12 +7,9 @@ import com.elmirov.course.channels.domain.usecase.GetAllChannelsUseCase
 import com.elmirov.course.channels.domain.usecase.GetChannelTopicsUseCase
 import com.elmirov.course.core.result.domain.entity.Result
 import com.elmirov.course.navigation.router.GlobalRouter
-import com.elmirov.course.profile.domain.usecase.GetOwnProfileUseCase
-import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -28,7 +25,6 @@ class AllChannelsViewModel @Inject constructor(
     private val globalRouter: GlobalRouter,
     private val getAllChannelsUseCase: GetAllChannelsUseCase,
     private val getChannelTopicsUseCase: GetChannelTopicsUseCase,
-    private val getOwnProfileUseCase: GetOwnProfileUseCase,
 ) : ViewModel() {
 
     private companion object {
@@ -55,25 +51,9 @@ class AllChannelsViewModel @Inject constructor(
 
     val searchQueryPublisher = MutableSharedFlow<String>(extraBufferCapacity = 1)
 
-    private var ownId: Int? = null
-
     init {
-        loadOwnId()
         loadChannels()
         listenSearchQuery()
-    }
-
-    //TODO временное решение, лучше личный id хранить в локальном хранилище
-    private fun loadOwnId() {
-        viewModelScope.launch {
-            val id: Deferred<Int?> = async {
-                when (val result = getOwnProfileUseCase()) {
-                    is Result.Error -> null
-                    is Result.Success -> result.data.id
-                }
-            }
-            ownId = id.await()
-        }
     }
 
     private fun loadChannels() {
@@ -153,6 +133,6 @@ class AllChannelsViewModel @Inject constructor(
         val topicChannelName =
             currentChannels.find { it.id == topicChannelId }?.name ?: EMPTY_CHANNEL_NAME
 
-        globalRouter.openChat(topicChannelName, topicName, ownId!!) //TODO убрать !! после переноса
+        globalRouter.openChat(topicChannelName, topicName)
     }
 }
