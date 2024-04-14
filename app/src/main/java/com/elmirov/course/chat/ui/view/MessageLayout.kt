@@ -8,9 +8,11 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.children
+import coil.load
+import coil.transform.CircleCropTransformation
 import com.elmirov.course.R
-import com.elmirov.course.databinding.MessageLayoutBinding
 import com.elmirov.course.chat.domain.entity.Reaction
+import com.elmirov.course.databinding.MessageLayoutBinding
 import com.elmirov.course.util.dpToPix
 import com.elmirov.course.util.getHeightWithMargins
 import com.elmirov.course.util.getWidthWithMargins
@@ -204,8 +206,11 @@ class MessageLayout @JvmOverloads constructor(
         }
     }
 
-    fun setAvatar(resId: Int) {
-        avatar.setImageResource(resId)
+    fun setAvatar(url: String?) {
+        avatar.load(url) {
+            error(R.drawable.ic_launcher_foreground)
+            transformations(CircleCropTransformation())
+        }
     }
 
     fun removeAllReactions() {

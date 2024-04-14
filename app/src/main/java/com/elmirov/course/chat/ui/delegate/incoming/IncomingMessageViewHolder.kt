@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.elmirov.course.R
-import com.elmirov.course.databinding.IncomingMessageItemBinding
 import com.elmirov.course.chat.domain.entity.Message
 import com.elmirov.course.chat.domain.entity.Reaction
+import com.elmirov.course.databinding.IncomingMessageItemBinding
 
 class IncomingMessageViewHolder(
     parent: ViewGroup,
@@ -21,7 +21,7 @@ class IncomingMessageViewHolder(
         binding.apply { //TODO вынести в MessageLayout
             incomingMessage.userName = message.authorName
             incomingMessage.messageText = message.text
-            incomingMessage.setAvatar(R.drawable.ic_launcher_foreground)
+            incomingMessage.setAvatar(message.avatarUrl)
 
             incomingMessage.setLongClickListener {
                 addReaction(message.id)
