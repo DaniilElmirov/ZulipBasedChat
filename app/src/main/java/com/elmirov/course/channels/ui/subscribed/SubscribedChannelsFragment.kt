@@ -19,7 +19,7 @@ import com.elmirov.course.core.adapter.MainAdapter
 import com.elmirov.course.core.factory.ViewModelFactory
 import com.elmirov.course.databinding.FragmentPageChannelsBinding
 import com.elmirov.course.util.collectLifecycleFlow
-import com.elmirov.course.util.toChannelDelegateItems
+import com.elmirov.course.util.toDelegateItems
 import javax.inject.Inject
 
 
@@ -92,7 +92,7 @@ class SubscribedChannelsFragment : Fragment(), SubscribedChannelsCommunicator {
     }
 
     private fun applyContent(data: List<Channel>) {
-        subscribedChannelsAdapter.submitList(data.toChannelDelegateItems())
+        subscribedChannelsAdapter.submitList(data.toDelegateItems())
 
         binding.apply {
             channels.isVisible = true

@@ -22,10 +22,8 @@ import com.elmirov.course.core.adapter.MainAdapter
 import com.elmirov.course.core.factory.ViewModelFactory
 import com.elmirov.course.databinding.FragmentChatBinding
 import com.elmirov.course.util.collectLifecycleFlow
-import com.elmirov.course.util.toMessageDelegateItems
+import com.elmirov.course.util.toDelegateItems
 import com.google.android.material.snackbar.Snackbar
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 class ChatFragment : Fragment() {
@@ -138,7 +136,7 @@ class ChatFragment : Fragment() {
     }
 
     private fun applyContent(data: List<Message>) {
-        messagesAdapter.submitList(data.toMessageDelegateItems())
+        messagesAdapter.submitList(data.toDelegateItems(OWN_ID))
 
         binding.apply {
             chat.isVisible = true
@@ -195,12 +193,6 @@ class ChatFragment : Fragment() {
             ChooseReactionFragment.TAG
         )
         dialog.click = viewModel::addReactionToMessage
-    }
-
-    private fun getCurrentDate(): String {
-        val currentDateTime = LocalDateTime.now()
-        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
-        return currentDateTime.format(formatter)
     }
 
     override fun onDestroy() {

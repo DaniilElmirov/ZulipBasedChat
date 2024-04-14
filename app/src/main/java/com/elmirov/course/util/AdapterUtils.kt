@@ -11,7 +11,7 @@ import com.elmirov.course.core.adapter.delegate.DelegateItem
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-fun List<Message>.toMessageDelegateItems(): List<DelegateItem> {
+fun List<Message>.toDelegateItems(ownId: Int): List<DelegateItem> {
 
     val delegates = mutableListOf<DelegateItem>()
     val dates = mutableSetOf<String>()
@@ -31,7 +31,7 @@ fun List<Message>.toMessageDelegateItems(): List<DelegateItem> {
         }
 
         thisDayMessages.forEach { message ->
-            if (message.myMessage)
+            if (message.authorId == ownId)
                 delegates.add(OutgoingMessageDelegateItem(id = message.id, value = message))
             else
                 delegates.add(IncomingMessageDelegateItem(id = message.id, value = message))
@@ -41,7 +41,7 @@ fun List<Message>.toMessageDelegateItems(): List<DelegateItem> {
     return delegates
 }
 
-fun List<Channel>.toChannelDelegateItems(): List<DelegateItem> {
+fun List<Channel>.toDelegateItems(): List<DelegateItem> {
     val delegates = mutableListOf<DelegateItem>()
 
     forEach { channel ->
