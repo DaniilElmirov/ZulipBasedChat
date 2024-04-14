@@ -34,14 +34,16 @@ class ChatFragment : Fragment() {
 
         private const val KEY_TOPIC_CHANNEL_NAME = "KEY_TOPIC_CHANNEL_NAME"
         private const val KEY_TOPIC_NAME = "KEY_TOPIC_NAME"
+        private const val KEY_OWN_ID = "KEY_OWN_ID"
 
         private const val EMPTY_STRING = ""
 
-        fun newInstance(topicChannelName: String, topicName: String): ChatFragment =
+        fun newInstance(topicChannelName: String, topicName: String, ownId: Int): ChatFragment =
             ChatFragment().apply {
                 arguments = Bundle().apply {
                     putString(KEY_TOPIC_CHANNEL_NAME, topicChannelName)
                     putString(KEY_TOPIC_NAME, topicName)
+                    putInt(KEY_OWN_ID, ownId)
                 }
             }
     }

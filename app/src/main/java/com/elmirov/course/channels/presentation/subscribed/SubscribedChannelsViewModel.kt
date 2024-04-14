@@ -156,6 +156,6 @@ class SubscribedChannelsViewModel @Inject constructor(
         val topicChannelName =
             currentChannels.find { it.id == topicChannelId }?.name ?: EMPTY_CHANNEL_NAME
 
-        globalRouter.openChat(topicChannelName, topicName)
+        globalRouter.openChat(topicChannelName, topicName, ownId!!)
     }
 }

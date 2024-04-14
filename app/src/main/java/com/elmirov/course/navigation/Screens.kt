@@ -30,7 +30,8 @@ object Screens {
         OtherProfileFragment.newInstance(id)
     }
 
-    fun ChatScreen(topicChannelName: String, topicName: String): FragmentScreen = FragmentScreen {
-        ChatFragment.newInstance(topicChannelName, topicName)
-    }
+    fun ChatScreen(topicChannelName: String, topicName: String, ownId: Int): FragmentScreen =
+        FragmentScreen {
+            ChatFragment.newInstance(topicChannelName, topicName, ownId)
+        }
 }
