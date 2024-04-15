@@ -2,9 +2,9 @@ package com.elmirov.course.chat.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.elmirov.course.chat.domain.entity.Message
 import com.elmirov.course.chat.domain.entity.Reaction
 import com.elmirov.course.chat.domain.usecase.GetChannelTopicMessagesUseCase
+import com.elmirov.course.chat.domain.usecase.SendMessageToChannelTopicUseCase
 import com.elmirov.course.core.result.domain.entity.Result
 import com.elmirov.course.navigation.router.GlobalRouter
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +14,8 @@ import javax.inject.Inject
 
 class ChatViewModel @Inject constructor(
     private val globalRouter: GlobalRouter,
-    private val getChannelTopicMessagesUseCase: GetChannelTopicMessagesUseCase
+    private val getChannelTopicMessagesUseCase: GetChannelTopicMessagesUseCase,
+    private val sendMessageToChannelTopicUseCase: SendMessageToChannelTopicUseCase,
 ) : ViewModel() {
 
     private val _messages = MutableStateFlow<ChatState>(ChatState.Loading)
@@ -29,15 +30,14 @@ class ChatViewModel @Inject constructor(
         }
     }
 
-    fun sendMessage(message: Message) {
+    //TODO переделать, нужен стейт подгрузки сообщения, посмотреть в сторону обновления данных в апи
+    fun sendMessage(channelName: String, topicName: String, text: String) {
         viewModelScope.launch {
-            handleMessage(message)
+            when (sendMessageToChannelTopicUseCase(channelName, topicName, text)) {
+                is Result.Error -> _messages.value = ChatState.Error
+                is Result.Success -> loadMessages(channelName, topicName)
+            }
         }
-    }
-
-    //TODO добавить реализацию методов
-    private suspend fun handleMessage(message: Message) {
-        Unit
     }
 
     fun addReactionToMessage(reaction: Reaction, messageId: Int) {

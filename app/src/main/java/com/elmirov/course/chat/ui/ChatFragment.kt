@@ -70,6 +70,9 @@ class ChatFragment : Fragment() {
         }
     }
 
+    private lateinit var channelName: String
+    private lateinit var topicName: String
+
     override fun onAttach(context: Context) {
         component.inject(this)
         super.onAttach(context)
@@ -89,27 +92,21 @@ class ChatFragment : Fragment() {
 
         applyArguments()
         setupAdapter()
+        setupListeners()
         applyState()
         setTextChangeListener()
         setNavigationIconClickListener()
-
-//TODO метод для отправки сообщения
-        binding.sendOrAttach.setOnClickListener {
-            val messageText = binding.newMessage.text?.trim().toString()
-
-            binding.newMessage.text = null
-        }
     }
 
     private fun applyArguments() {
-        val topicChannelName = requireArguments().getString(KEY_TOPIC_CHANNEL_NAME) ?: EMPTY_STRING
-        val topicName = requireArguments().getString(KEY_TOPIC_NAME) ?: EMPTY_STRING
+        channelName = requireArguments().getString(KEY_TOPIC_CHANNEL_NAME) ?: EMPTY_STRING
+        topicName = requireArguments().getString(KEY_TOPIC_NAME) ?: EMPTY_STRING
 
         binding.toolbar.title =
-            String.format(getString(R.string.hashtag_with_stream_name, topicChannelName))
+            String.format(getString(R.string.hashtag_with_stream_name, channelName))
         binding.topic.text = String.format(getString(R.string.topic_with_name), topicName)
 
-        viewModel.loadMessages(topicChannelName, topicName)
+        viewModel.loadMessages(channelName, topicName)
     }
 
     private fun setupAdapter() {
@@ -121,6 +118,19 @@ class ChatFragment : Fragment() {
             }
         }
         messagesAdapter.registerAdapterDataObserver(observer)
+    }
+
+    private fun setupListeners() {
+        binding.sendOrAttach.setOnClickListener {
+            val messageText = binding.newMessage.text?.trim().toString()
+            binding.newMessage.text = null
+
+            sendMessage(messageText)
+        }
+    }
+
+    private fun sendMessage(text: String) {
+        viewModel.sendMessage(channelName, topicName, text)
     }
 
     private fun applyState() {
