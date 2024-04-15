@@ -8,4 +8,5 @@ data class MessageModel(
     @SerializedName("avatar_url") val avatarUrl: String?,
     @SerializedName("sender_full_name") val authorName: String,
     @SerializedName("content") val text: String,
+    @SerializedName("reactions") val reactionModels: List<ReactionModel>,
 )
