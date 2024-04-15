@@ -36,4 +36,27 @@ class ReactionsRepositoryImpl @Inject constructor(
                 }
             }
         }
+
+    override suspend fun remove(
+        messageId: Int,
+        emojiName: String,
+        emojiCode: String
+    ): Result<String> =
+        try {
+            withContext(dispatcherIo) {
+                Result.Success(api.remove(messageId, emojiName, emojiCode).result)
+            }
+        } catch (cancellation: CancellationException) {
+            throw cancellation
+        } catch (exception: Exception) {
+            when (exception) {
+                is UnknownHostException, is SocketTimeoutException, is ConnectException -> {
+                    Result.Error(errorType = ErrorType.CONNECTION)
+                }
+
+                else -> {
+                    Result.Error(errorType = ErrorType.UNKNOWN)
+                }
+            }
+        }
 }

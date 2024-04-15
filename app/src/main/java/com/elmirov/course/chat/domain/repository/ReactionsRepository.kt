@@ -9,4 +9,10 @@ interface ReactionsRepository {
         emojiName: String,
         emojiCode: String,
     ): Result<String>
+
+    suspend fun remove(
+        messageId: Int,
+        emojiName: String,
+        emojiCode: String,
+    ): Result<String>
 }
