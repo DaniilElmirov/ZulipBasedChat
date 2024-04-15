@@ -1,7 +1,9 @@
 package com.elmirov.course.chat.data.network
 
 import com.elmirov.course.chat.data.model.MessagesResponseModel
+import com.elmirov.course.chat.data.model.SendMessageResponseModel
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface MessagesApi {
@@ -11,6 +13,8 @@ interface MessagesApi {
         const val MAX_NUM_AFTER = 1000
 
         const val ANCHOR_FIRST_UNREAD = "first_unread"
+
+        const val TYPE_STREAM = "stream"
     }
 
     @GET("messages")
@@ -21,4 +25,12 @@ interface MessagesApi {
         @Query("num_after") numAfter: Int = MAX_NUM_AFTER,
         @Query("apply_markdown") applyMarkdown: Boolean = false,
     ): MessagesResponseModel
+
+    @POST("messages")
+    suspend fun sendToChannelTopic(
+        @Query("to") channelName: String,
+        @Query("topic") topicName: String,
+        @Query("content") text: String,
+        @Query("type") type: String = TYPE_STREAM,
+    ) : SendMessageResponseModel
 }

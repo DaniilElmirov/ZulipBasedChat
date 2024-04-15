@@ -49,6 +49,29 @@ class MessagesRepositoryImpl @Inject constructor(
             }
         }
 
+    override suspend fun sendToChannelTopic(
+        channelName: String,
+        topicName: String,
+        text: String
+    ): Result<String> =
+        try {
+            withContext(dispatcherIo) {
+                Result.Success(api.sendToChannelTopic(channelName, topicName, text).result)
+            }
+        } catch (cancellation: CancellationException) {
+            throw cancellation
+        } catch (exception: Exception) {
+            when (exception) {
+                is UnknownHostException, is SocketTimeoutException, is ConnectException -> {
+                    Result.Error(errorType = ErrorType.CONNECTION)
+                }
+
+                else -> {
+                    Result.Error(errorType = ErrorType.UNKNOWN)
+                }
+            }
+        }
+
     private fun getNarrowJson(channelName: String, topicName: String): String {
         val narrow = mutableListOf<Narrow>()
 

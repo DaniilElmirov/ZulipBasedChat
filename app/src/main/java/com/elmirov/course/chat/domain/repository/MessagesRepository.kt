@@ -9,4 +9,10 @@ interface MessagesRepository {
         channelName: String,
         topicName: String
     ): Result<List<Message>>
+
+    suspend fun sendToChannelTopic(
+        channelName: String,
+        topicName: String,
+        text: String
+    ): Result<String>
 }
