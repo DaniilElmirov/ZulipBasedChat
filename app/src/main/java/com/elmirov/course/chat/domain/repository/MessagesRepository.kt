@@ -15,10 +15,4 @@ interface MessagesRepository {
         topicName: String,
         text: String
     ): Result<String>
-
-    suspend fun addReaction(
-        messageId: Int,
-        emojiName: String,
-        emojiCode: String,
-    ): Result<String>
 }

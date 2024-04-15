@@ -4,7 +4,6 @@ import com.elmirov.course.chat.data.model.BaseResponseModel
 import com.elmirov.course.chat.data.model.MessagesResponseModel
 import retrofit2.http.GET
 import retrofit2.http.POST
-import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface MessagesApi {
@@ -33,12 +32,5 @@ interface MessagesApi {
         @Query("topic") topicName: String,
         @Query("content") text: String,
         @Query("type") type: String = TYPE_STREAM,
-    ): BaseResponseModel
-
-    @POST("messages/{message_id}/reactions")
-    suspend fun addReaction(
-        @Path("message_id") messageId: Int,
-        @Query("emoji_name") emojiName: String,
-        @Query("emoji_code") emojiCode: String,
     ): BaseResponseModel
 }

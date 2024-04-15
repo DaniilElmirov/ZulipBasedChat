@@ -1,11 +1,11 @@
 package com.elmirov.course.chat.domain.usecase
 
-import com.elmirov.course.chat.domain.repository.MessagesRepository
+import com.elmirov.course.chat.domain.repository.ReactionsRepository
 import com.elmirov.course.core.result.domain.entity.Result
 import javax.inject.Inject
 
 class AddReactionToMessageUseCase @Inject constructor(
-    private val repository: MessagesRepository,
+    private val repository: ReactionsRepository,
 ) {
 
     suspend operator fun invoke(
@@ -13,5 +13,5 @@ class AddReactionToMessageUseCase @Inject constructor(
         emojiName: String,
         emojiCode: String
     ): Result<String> =
-        repository.addReaction(messageId, emojiName, emojiCode)
+        repository.add(messageId, emojiName, emojiCode)
 }
