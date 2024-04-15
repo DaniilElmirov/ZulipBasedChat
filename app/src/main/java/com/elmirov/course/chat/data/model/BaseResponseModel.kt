@@ -1,5 +1,5 @@
 package com.elmirov.course.chat.data.model
 
-data class SendMessageResponseModel(
+data class BaseResponseModel(
     val result: String
 )

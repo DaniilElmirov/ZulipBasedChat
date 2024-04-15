@@ -72,6 +72,29 @@ class MessagesRepositoryImpl @Inject constructor(
             }
         }
 
+    override suspend fun addReaction(
+        messageId: Int,
+        emojiName: String,
+        emojiCode: String
+    ): Result<String> =
+        try {
+            withContext(dispatcherIo) {
+                Result.Success(api.addReaction(messageId, emojiName, emojiCode).result)
+            }
+        } catch (cancellation: CancellationException) {
+            throw cancellation
+        } catch (exception: Exception) {
+            when (exception) {
+                is UnknownHostException, is SocketTimeoutException, is ConnectException -> {
+                    Result.Error(errorType = ErrorType.CONNECTION)
+                }
+
+                else -> {
+                    Result.Error(errorType = ErrorType.UNKNOWN)
+                }
+            }
+        }
+
     private fun getNarrowJson(channelName: String, topicName: String): String {
         val narrow = mutableListOf<Narrow>()
 
