@@ -12,6 +12,7 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import com.elmirov.course.R
 import com.elmirov.course.chat.domain.entity.Reaction
+import com.elmirov.course.chat.domain.entity.ReactionParams
 import com.elmirov.course.databinding.MessageLayoutBinding
 import com.elmirov.course.util.dpToPix
 import com.elmirov.course.util.getHeightWithMargins
@@ -196,7 +197,7 @@ class MessageLayout @JvmOverloads constructor(
             LayoutParams.WRAP_CONTENT
         )
 
-    fun addReactions(reactions: List<Reaction>) {
+    fun addReactions(reactions: Map<Reaction, ReactionParams>) {
         this.reactions.addReactions(reactions)
     }
 

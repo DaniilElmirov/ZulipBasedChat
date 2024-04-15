@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.elmirov.course.R
 import com.elmirov.course.chat.domain.entity.Message
-import com.elmirov.course.chat.domain.entity.Reaction
 import com.elmirov.course.databinding.IncomingMessageItemBinding
 
 class IncomingMessageViewHolder(
@@ -27,13 +26,10 @@ class IncomingMessageViewHolder(
                 addReaction(message.id)
             }
 
-            if (message.reactions.isNullOrEmpty()) {
+            if (message.reactions.isEmpty()) {
                 incomingMessage.removeAllReactions()
             } else {
-                val reactList = message.reactions.map {
-                    Reaction(it.key, it.value)
-                }
-                incomingMessage.addReactions(reactList)
+                incomingMessage.addReactions(message.reactions)
                 incomingMessage.onIconAddClick {
                     addReaction(message.id)
                 }

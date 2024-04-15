@@ -8,6 +8,7 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.withStyledAttributes
 import com.elmirov.course.R
+import com.elmirov.course.chat.domain.entity.Reaction
 import com.elmirov.course.util.dpToPix
 import com.elmirov.course.util.sp
 
@@ -21,11 +22,10 @@ class ReactionView @JvmOverloads constructor(
     private companion object {
         const val DEFAULT_COUNT = 1
 
-        const val DEFAULT_EMOJI = 0x1f921
         const val DEFAULT_EMOJI_SIZE = 14f
     }
 
-    var reaction: Int = DEFAULT_EMOJI
+    var reaction: Reaction = Reaction("", "")
         set(value) {
             if (field != value) {
                 field = value
@@ -68,25 +68,10 @@ class ReactionView @JvmOverloads constructor(
             8.dpToPix(context).toInt(),
             4.dpToPix(context).toInt()
         )
-        setOnClickListener {
-            isSelected = if (isSelected) {
-                count--
-                false
-            } else {
-                count++
-                true
-            }
-
-            if (count == 0) {
-                (parent as FlexBoxLayout).removeView(this)
-            }
-        }
     }
 
     private val textToDraw
-        get() = if (countVisible) "${String(Character.toChars(reaction))} $count" else String(
-            Character.toChars(reaction)
-        )
+        get() = if (countVisible) "$reaction $count" else reaction.toString()
 
     private val textPaint = TextPaint().apply {
         color = context.getColor(R.color.reaction_text_color)

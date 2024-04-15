@@ -4,9 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.elmirov.course.R
-import com.elmirov.course.databinding.OutgoingMessageItemBinding
 import com.elmirov.course.chat.domain.entity.Message
-import com.elmirov.course.chat.domain.entity.Reaction
+import com.elmirov.course.databinding.OutgoingMessageItemBinding
 
 class OutgoingMessageViewHolder(
     parent: ViewGroup,
@@ -26,13 +25,10 @@ class OutgoingMessageViewHolder(
                 true
             }
 
-            if (message.reactions.isNullOrEmpty()) {
+            if (message.reactions.isEmpty()) {
                 reactions.removeAllViews()
             } else {
-                val reactList = message.reactions.map {
-                    Reaction(it.key, it.value)
-                }
-                reactions.addReactions(reactList)
+                reactions.addReactions(message.reactions)
                 reactions.onIconAddClick {
                     addReaction(message.id)
                 }

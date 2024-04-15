@@ -7,5 +7,5 @@ data class Message(
     val avatarUrl: String?,
     val authorName: String,
     val text: String,
-    val reactions: Map<Int, Int>? = null
+    val reactions: Map<Reaction, ReactionParams>,
 )

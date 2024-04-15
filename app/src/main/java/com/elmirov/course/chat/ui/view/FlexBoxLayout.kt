@@ -8,6 +8,7 @@ import android.widget.ImageView
 import androidx.core.view.children
 import com.elmirov.course.R
 import com.elmirov.course.chat.domain.entity.Reaction
+import com.elmirov.course.chat.domain.entity.ReactionParams
 import com.elmirov.course.util.dpToPix
 
 class FlexBoxLayout @JvmOverloads constructor(
@@ -103,13 +104,14 @@ class FlexBoxLayout @JvmOverloads constructor(
         }
     }
 
-    fun addReactions(reactions: List<Reaction>) {
+    fun addReactions(reactions: Map<Reaction, ReactionParams>) {
         removeAllViews()
         addView(addIcon)
         reactions.forEach {
             val reactionView = ReactionView(context).apply {
-                reaction = it.emoji
-                count = it.count
+                reaction = it.key
+                count = it.value.count
+                isSelected = it.value.selected
             }
 
             addView(reactionView)

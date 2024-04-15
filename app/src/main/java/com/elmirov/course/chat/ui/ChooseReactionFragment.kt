@@ -4,9 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.elmirov.course.databinding.FragmentChooseReactionBinding
 import com.elmirov.course.chat.domain.entity.Reaction
-import com.elmirov.course.chat.ui.view.ReactionView
+import com.elmirov.course.databinding.FragmentChooseReactionBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -72,19 +71,19 @@ class ChooseReactionFragment : BottomSheetDialogFragment() {
             state = BottomSheetBehavior.STATE_HIDDEN
         }
 
-        emojis.forEach {
-            val reactionView = ReactionView(requireContext()).apply {
-                reaction = it
-                countVisible = false
-                size = EMOJI_SIZE
-            }
-            binding.reactions.addView(reactionView)
-        }
+//        emojis.forEach {
+//            val reactionView = ReactionView(requireContext()).apply {
+//                reaction = it
+//                countVisible = false
+//                size = EMOJI_SIZE
+//            }
+//            binding.reactions.addView(reactionView)
+//        }
 
-        binding.reactions.setOnReactionClick {
-            click?.invoke(Reaction(it.reaction, 4), requireArguments().getInt(KEY_MESSAGE_ID))
-            dismiss()
-        }
+//        binding.reactions.setOnReactionClick {
+//            click?.invoke(Reaction(it.reaction, 4), requireArguments().getInt(KEY_MESSAGE_ID))
+//            dismiss()
+//        }
     }
 
     override fun onDestroy() {
