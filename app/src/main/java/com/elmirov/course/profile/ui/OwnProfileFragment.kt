@@ -86,11 +86,32 @@ class OwnProfileFragment : Fragment() {
                 transformations(RoundedCornersTransformation(15.dpToPix(requireContext())))
             }
             name.text = content.name
-            //TODO добавить получение статуса и цвеета взависимости от него
-            onlineStatus.text = "online"
+
+            setOnlineStatus(content.onlineStatus)
         }
 
         setContentVisibility()
+    }
+
+    private fun setOnlineStatus(status: User.OnlineStatus) {
+        binding.onlineStatus.apply {
+            when (status) {
+                User.OnlineStatus.ACTIVE -> {
+                    text = getString(R.string.active)
+                    setTextColor(resources.getColor(R.color.active_status_color, null))
+                }
+
+                User.OnlineStatus.IDLE -> {
+                    text = getString(R.string.idle)
+                    setTextColor(resources.getColor(R.color.idle_status_color, null))
+                }
+
+                User.OnlineStatus.OFFLINE -> {
+                    text = getString(R.string.offline)
+                    setTextColor(resources.getColor(R.color.offline_status_color, null))
+                }
+            }
+        }
     }
 
     private fun setContentVisibility() {
