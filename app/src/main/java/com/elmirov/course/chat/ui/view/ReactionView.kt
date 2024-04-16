@@ -100,4 +100,10 @@ class ReactionView @JvmOverloads constructor(
 
         canvas.drawText(textToDraw, paddingLeft.toFloat(), topOffset, textPaint)
     }
+
+    fun onReactionClick(listener: (ReactionView) -> Unit) {
+        setOnClickListener {
+            listener(this)
+        }
+    }
 }

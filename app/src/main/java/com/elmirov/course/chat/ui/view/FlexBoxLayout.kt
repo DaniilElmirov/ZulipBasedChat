@@ -119,9 +119,9 @@ class FlexBoxLayout @JvmOverloads constructor(
     }
 
     fun setOnReactionClick(listener: (ReactionView) -> Unit) {
-        repeat(children.count()) { index ->
-            getChildAt(index).setOnClickListener {
-                listener.invoke(it as ReactionView)
+        children.forEach { view ->
+            if (view is ReactionView) {
+                view.onReactionClick(listener)
             }
         }
     }

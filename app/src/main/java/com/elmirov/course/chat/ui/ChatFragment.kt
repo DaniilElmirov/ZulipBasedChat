@@ -64,8 +64,18 @@ class ChatFragment : Fragment() {
 
     private val messagesAdapter: MainAdapter by lazy {
         MainAdapter().apply {
-            addDelegate(OutgoingMessageDelegate(::showDialog))
-            addDelegate(IncomingMessageDelegate(::showDialog))
+            addDelegate(
+                OutgoingMessageDelegate(
+                    openReactions = ::showDialog,
+                    onReactionClick = viewModel::addReactionToMessage
+                )
+            )
+            addDelegate(
+                IncomingMessageDelegate(
+                    openReactions = ::showDialog,
+                    onReactionClick = viewModel::addReactionToMessage
+                )
+            )
             addDelegate(DateDelegate())
         }
     }

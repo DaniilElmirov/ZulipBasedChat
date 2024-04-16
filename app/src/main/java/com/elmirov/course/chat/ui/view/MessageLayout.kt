@@ -224,4 +224,8 @@ class MessageLayout @JvmOverloads constructor(
             true
         }
     }
+
+    fun setOnReactionClick(listener: (ReactionView) -> Unit) {
+        reactions.setOnReactionClick(listener)
+    }
 }

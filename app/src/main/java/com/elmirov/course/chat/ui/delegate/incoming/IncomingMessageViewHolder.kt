@@ -5,11 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.elmirov.course.R
 import com.elmirov.course.chat.domain.entity.Message
+import com.elmirov.course.chat.domain.entity.Reaction
 import com.elmirov.course.databinding.IncomingMessageItemBinding
 
 class IncomingMessageViewHolder(
     parent: ViewGroup,
-    private val addReaction: (Int) -> Unit,
+    private val openReactions: (Int) -> Unit,
+    private val onReactionClick: (Int, Reaction, Boolean) -> Unit,
 ) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.incoming_message_item, parent, false)
 ) {
@@ -23,15 +25,20 @@ class IncomingMessageViewHolder(
             incomingMessage.setAvatar(message.avatarUrl)
 
             incomingMessage.setLongClickListener {
-                addReaction(message.id)
+                openReactions(message.id)
             }
 
             if (message.reactions.isEmpty()) {
                 incomingMessage.removeAllReactions()
             } else {
                 incomingMessage.addReactions(message.reactions)
+
                 incomingMessage.onIconAddClick {
-                    addReaction(message.id)
+                    openReactions(message.id)
+                }
+
+                incomingMessage.setOnReactionClick {
+                    onReactionClick(message.id, it.reaction, it.isSelected)
                 }
             }
         }

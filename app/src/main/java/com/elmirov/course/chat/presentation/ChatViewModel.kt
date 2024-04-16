@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.elmirov.course.chat.domain.entity.Reaction
 import com.elmirov.course.chat.domain.usecase.AddReactionToMessageUseCase
 import com.elmirov.course.chat.domain.usecase.GetChannelTopicMessagesUseCase
+import com.elmirov.course.chat.domain.usecase.RemoveReactionUseCase
 import com.elmirov.course.chat.domain.usecase.SendMessageToChannelTopicUseCase
 import com.elmirov.course.core.result.domain.entity.Result
 import com.elmirov.course.navigation.router.GlobalRouter
@@ -18,6 +19,7 @@ class ChatViewModel @Inject constructor(
     private val getChannelTopicMessagesUseCase: GetChannelTopicMessagesUseCase,
     private val sendMessageToChannelTopicUseCase: SendMessageToChannelTopicUseCase,
     private val addReactionToMessageUseCase: AddReactionToMessageUseCase,
+    private val removeReactionUseCase: RemoveReactionUseCase,
 ) : ViewModel() {
 
     private val _messages = MutableStateFlow<ChatState>(ChatState.Loading)
@@ -48,9 +50,15 @@ class ChatViewModel @Inject constructor(
         }
     }
 
-    fun addReactionToMessage(messageId: Int, reaction: Reaction) {
+    //TODO по хорошему vm не должна знать о состоянии view
+    fun addReactionToMessage(messageId: Int, reaction: Reaction, selected: Boolean) {
         viewModelScope.launch {
-            when (addReactionToMessageUseCase(messageId, reaction.emojiName, reaction.emojiCode)) {
+            val result = if (selected)
+                removeReactionUseCase(messageId, reaction.emojiName, reaction.emojiCode)
+            else
+                addReactionToMessageUseCase(messageId, reaction.emojiName, reaction.emojiCode)
+
+            when (result) {
                 is Result.Error -> _messages.value = ChatState.Error
                 is Result.Success -> loadMessages(channelName, topicName)
             }
