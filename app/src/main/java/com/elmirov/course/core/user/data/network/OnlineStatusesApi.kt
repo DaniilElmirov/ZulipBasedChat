@@ -1,7 +1,7 @@
-package com.elmirov.course.users.data.network
+package com.elmirov.course.core.user.data.network
 
-import com.elmirov.course.users.data.model.AllUsersOnlineStatusResponseModel
-import com.elmirov.course.users.data.model.UserOnlineStatusResponseModel
+import com.elmirov.course.core.user.data.model.AllUsersOnlineStatusResponseModel
+import com.elmirov.course.core.user.data.model.UserOnlineStatusResponseModel
 import retrofit2.http.GET
 import retrofit2.http.Path
 

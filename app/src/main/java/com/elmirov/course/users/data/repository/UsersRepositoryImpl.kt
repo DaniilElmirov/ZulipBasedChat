@@ -4,10 +4,10 @@ import com.elmirov.course.core.result.domain.entity.ErrorType
 import com.elmirov.course.core.result.domain.entity.Result
 import com.elmirov.course.core.user.domain.entity.User
 import com.elmirov.course.di.annotation.DispatcherIo
-import com.elmirov.course.users.data.mapper.toEntity
-import com.elmirov.course.users.data.network.OnlineStatusesApi
-import com.elmirov.course.users.data.network.UsersApi
-import com.elmirov.course.users.domain.repository.UsersRepository
+import com.elmirov.course.core.user.data.mapper.toEntity
+import com.elmirov.course.core.user.data.network.OnlineStatusesApi
+import com.elmirov.course.core.user.data.network.UsersApi
+import com.elmirov.course.core.user.domain.repository.UsersRepository
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext

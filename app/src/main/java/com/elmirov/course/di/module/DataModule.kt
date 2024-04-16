@@ -22,10 +22,10 @@ import com.elmirov.course.profile.data.repository.OtherProfileRepositoryImpl
 import com.elmirov.course.profile.data.repository.OwnProfileRepositoryImpl
 import com.elmirov.course.core.user.domain.repository.OtherProfileRepository
 import com.elmirov.course.core.user.domain.repository.OwnProfileRepository
-import com.elmirov.course.users.data.network.OnlineStatusesApi
-import com.elmirov.course.users.data.network.UsersApi
+import com.elmirov.course.core.user.data.network.OnlineStatusesApi
+import com.elmirov.course.core.user.data.network.UsersApi
 import com.elmirov.course.users.data.repository.UsersRepositoryImpl
-import com.elmirov.course.users.domain.repository.UsersRepository
+import com.elmirov.course.core.user.domain.repository.UsersRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

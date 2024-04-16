@@ -1,10 +1,10 @@
-package com.elmirov.course.users.data.mapper
+package com.elmirov.course.core.user.data.mapper
 
+import com.elmirov.course.core.user.data.model.AggregatedPresenceModel
+import com.elmirov.course.core.user.data.model.OnlineStatusModel
 import com.elmirov.course.core.user.data.model.UserModel
+import com.elmirov.course.core.user.data.model.UserOnlineStatusResponseModel
 import com.elmirov.course.core.user.domain.entity.User
-import com.elmirov.course.users.data.model.AggregatedPresenceModel
-import com.elmirov.course.users.data.model.OnlineStatusModel
-import com.elmirov.course.users.data.model.UserOnlineStatusResponseModel
 import java.time.LocalDateTime
 
 private const val FIVE_MINUTES_IN_SECOND = 300

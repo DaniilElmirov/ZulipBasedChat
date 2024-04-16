@@ -6,8 +6,8 @@ import com.elmirov.course.core.user.domain.entity.User
 import com.elmirov.course.di.annotation.DispatcherIo
 import com.elmirov.course.core.user.data.network.ProfileApi
 import com.elmirov.course.core.user.domain.repository.OwnProfileRepository
-import com.elmirov.course.users.data.mapper.toEntity
-import com.elmirov.course.users.data.network.OnlineStatusesApi
+import com.elmirov.course.core.user.data.mapper.toEntity
+import com.elmirov.course.core.user.data.network.OnlineStatusesApi
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
