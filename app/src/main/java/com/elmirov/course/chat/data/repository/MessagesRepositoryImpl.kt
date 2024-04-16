@@ -4,16 +4,11 @@ import com.elmirov.course.chat.data.mapper.toEntities
 import com.elmirov.course.chat.data.network.MessagesApi
 import com.elmirov.course.chat.domain.entity.Message
 import com.elmirov.course.chat.domain.repository.MessagesRepository
-import com.elmirov.course.core.result.domain.entity.ErrorType
 import com.elmirov.course.core.result.domain.entity.Result
 import com.elmirov.course.di.annotation.DispatcherIo
+import com.elmirov.course.util.getResultWithHandleError
 import com.google.gson.Gson
-import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.withContext
-import java.net.ConnectException
-import java.net.SocketTimeoutException
-import java.net.UnknownHostException
 import javax.inject.Inject
 
 class MessagesRepositoryImpl @Inject constructor(
@@ -29,48 +24,24 @@ class MessagesRepositoryImpl @Inject constructor(
     override suspend fun getChannelTopicMessages(
         channelName: String,
         topicName: String
-    ): Result<List<Message>> =
-        try {
-            withContext(dispatcherIo) {
-                val narrow = getNarrowJson(channelName, topicName)
-                Result.Success(api.getChannelTopicMessages(narrow).toEntities())
-            }
-        } catch (cancellation: CancellationException) {
-            throw cancellation
-        } catch (exception: Exception) {
-            when (exception) {
-                is UnknownHostException, is SocketTimeoutException, is ConnectException -> {
-                    Result.Error(errorType = ErrorType.CONNECTION)
-                }
-
-                else -> {
-                    Result.Error(errorType = ErrorType.UNKNOWN)
-                }
-            }
-        }
+    ): Result<List<Message>> = getResultWithHandleError(
+        dispatcher = dispatcherIo,
+        data = {
+            val narrow = getNarrowJson(channelName, topicName)
+            api.getChannelTopicMessages(narrow).toEntities()
+        },
+    )
 
     override suspend fun sendToChannelTopic(
         channelName: String,
         topicName: String,
         text: String
-    ): Result<String> =
-        try {
-            withContext(dispatcherIo) {
-                Result.Success(api.sendToChannelTopic(channelName, topicName, text).result)
-            }
-        } catch (cancellation: CancellationException) {
-            throw cancellation
-        } catch (exception: Exception) {
-            when (exception) {
-                is UnknownHostException, is SocketTimeoutException, is ConnectException -> {
-                    Result.Error(errorType = ErrorType.CONNECTION)
-                }
-
-                else -> {
-                    Result.Error(errorType = ErrorType.UNKNOWN)
-                }
-            }
-        }
+    ): Result<String> = getResultWithHandleError(
+        dispatcher = dispatcherIo,
+        data = {
+            api.sendToChannelTopic(channelName, topicName, text).result
+        },
+    )
 
     private fun getNarrowJson(channelName: String, topicName: String): String {
         val narrow = mutableListOf<Narrow>()
