@@ -31,25 +31,12 @@ class AllChannelsViewModel @Inject constructor(
         const val EMPTY_CHANNEL_NAME = ""
     }
 
-    private val testData = mutableListOf(
-        Channel(
-            id = 0,
-            name = "#general all"
-        ),
-        Channel(
-            id = 1,
-            name = "#computing all",
-        ),
-        Channel(
-            id = 2,
-            name = "#PR all"
-        ),
-    )
-
     private val _allChannels = MutableStateFlow<AllChannelsState>(AllChannelsState.Loading)
     val allChannels = _allChannels.asStateFlow()
 
     val searchQueryPublisher = MutableSharedFlow<String>(extraBufferCapacity = 1)
+
+    private var loadedData: List<Channel> = emptyList()
 
     init {
         loadChannels()
@@ -61,7 +48,10 @@ class AllChannelsViewModel @Inject constructor(
             when (val result = getAllChannelsUseCase()) {
                 is Result.Error -> _allChannels.value = AllChannelsState.Error
 
-                is Result.Success -> _allChannels.value = AllChannelsState.Content(result.data)
+                is Result.Success -> {
+                    loadedData = result.data
+                    _allChannels.value = AllChannelsState.Content(result.data)
+                }
             }
         }
     }
@@ -78,14 +68,16 @@ class AllChannelsViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
-    //TODO переписать поиск
-
+    //TODO скорее всего поиск можно сделать лучше
     private fun search(query: String): AllChannelsState {
 
-        if (query.isEmpty())
-            return AllChannelsState.Content(testData.toList())
+        if (_allChannels.value !is AllChannelsState.Content)
+            return _allChannels.value
 
-        val searchedData = testData.filter {
+        if (query.isEmpty())
+            return AllChannelsState.Content(loadedData)
+
+        val searchedData = loadedData.filter {
             it.name.contains(other = query, ignoreCase = true)
         }
 

@@ -31,26 +31,13 @@ class SubscribedChannelsViewModel @Inject constructor(
         const val EMPTY_CHANNEL_NAME = ""
     }
 
-    private val testData = mutableListOf(
-        Channel(
-            id = 0,
-            name = "#general subscribed"
-        ),
-        Channel(
-            id = 1,
-            name = "#computing subscribed"
-        ),
-        Channel(
-            id = 2,
-            name = "#PR subscribed"
-        ),
-    )
-
     private val _subscribedChannels =
         MutableStateFlow<SubscribedChannelsState>(SubscribedChannelsState.Loading)
     val subscribedChannels = _subscribedChannels.asStateFlow()
 
     val searchQueryPublisher = MutableSharedFlow<String>(extraBufferCapacity = 1)
+
+    private var loadedData: List<Channel> = emptyList()
 
     init {
         loadChannels()
@@ -62,13 +49,13 @@ class SubscribedChannelsViewModel @Inject constructor(
             when (val result = getSubscribedChannelsUseCase()) {
                 is Result.Error -> _subscribedChannels.value = SubscribedChannelsState.Error
 
-                is Result.Success -> _subscribedChannels.value =
-                    SubscribedChannelsState.Content(result.data)
+                is Result.Success -> {
+                    loadedData = result.data
+                    _subscribedChannels.value = SubscribedChannelsState.Content(result.data)
+                }
             }
         }
     }
-
-    //TODO переписать поиск и топики через api
 
     @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
     private fun listenSearchQuery() {
@@ -82,12 +69,16 @@ class SubscribedChannelsViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
+    //TODO скорее всего поиск можно сделать лучше
     private fun search(query: String): SubscribedChannelsState {
 
-        if (query.isEmpty())
-            return SubscribedChannelsState.Content(testData.toList())
+        if (_subscribedChannels.value !is SubscribedChannelsState.Content)
+            return _subscribedChannels.value
 
-        val searchedData = testData.filter {
+        if (query.isEmpty())
+            return SubscribedChannelsState.Content(loadedData)
+
+        val searchedData = loadedData.filter {
             it.name.contains(other = query, ignoreCase = true)
         }
 
