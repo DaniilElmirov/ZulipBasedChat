@@ -4,9 +4,10 @@ import com.elmirov.course.core.result.domain.entity.ErrorType
 import com.elmirov.course.core.result.domain.entity.Result
 import com.elmirov.course.core.user.domain.entity.User
 import com.elmirov.course.di.annotation.DispatcherIo
-import com.elmirov.course.profile.data.mapper.toEntity
 import com.elmirov.course.profile.data.network.ProfileApi
 import com.elmirov.course.profile.domain.repository.OwnProfileRepository
+import com.elmirov.course.users.data.mapper.toEntity
+import com.elmirov.course.users.data.network.OnlineStatusesApi
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -16,14 +17,20 @@ import java.net.UnknownHostException
 import javax.inject.Inject
 
 class OwnProfileRepositoryImpl @Inject constructor(
-    private val api: ProfileApi,
+    private val profileApi: ProfileApi,
+    private val onlineStatusesApi: OnlineStatusesApi,
     @DispatcherIo private val dispatcherIo: CoroutineDispatcher,
 ) : OwnProfileRepository {
+
+    private companion object {
+        const val OWN_ID = 709286 //TODO временно
+    }
 
     override suspend fun get(): Result<User> =
         try {
             withContext(dispatcherIo) {
-                Result.Success(api.getOwn().toEntity())
+                val onlineStatus = onlineStatusesApi.getById(OWN_ID).toEntity()
+                Result.Success(profileApi.getOwn().toEntity(onlineStatus))
             }
         } catch (cancellation: CancellationException) {
             throw cancellation

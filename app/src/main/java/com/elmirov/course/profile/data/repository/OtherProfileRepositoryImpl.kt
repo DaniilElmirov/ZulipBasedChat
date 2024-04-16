@@ -7,6 +7,8 @@ import com.elmirov.course.di.annotation.DispatcherIo
 import com.elmirov.course.profile.data.mapper.toEntity
 import com.elmirov.course.profile.data.network.ProfileApi
 import com.elmirov.course.profile.domain.repository.OtherProfileRepository
+import com.elmirov.course.users.data.mapper.toEntity
+import com.elmirov.course.users.data.network.OnlineStatusesApi
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -16,14 +18,16 @@ import java.net.UnknownHostException
 import javax.inject.Inject
 
 class OtherProfileRepositoryImpl @Inject constructor(
-    private val api: ProfileApi,
+    private val profileApi: ProfileApi,
+    private val onlineStatusesApi: OnlineStatusesApi,
     @DispatcherIo private val dispatcherIo: CoroutineDispatcher,
 ) : OtherProfileRepository {
 
     override suspend fun getById(id: Int): Result<User> =
         try {
             withContext(dispatcherIo) {
-                Result.Success(api.getOtherById(id).toEntity())
+                val onlineStatus = onlineStatusesApi.getById(id).toEntity()
+                Result.Success(profileApi.getOtherById(id).toEntity(onlineStatus))
             }
         } catch (cancellation: CancellationException) {
             throw cancellation
