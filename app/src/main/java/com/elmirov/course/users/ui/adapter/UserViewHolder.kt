@@ -26,6 +26,13 @@ class UserViewHolder(
         binding.name.text = user.name
         binding.email.text = user.email
 
+        val onlineStatusBackgroundId = when (user.onlineStatus) {
+            User.OnlineStatus.ACTIVE -> R.drawable.active_status_shape
+            User.OnlineStatus.IDLE -> R.drawable.idle_status_shape
+            User.OnlineStatus.OFFLINE -> R.drawable.offline_status_shape
+        }
+        binding.onlineStatus.setBackgroundResource(onlineStatusBackgroundId)
+
         binding.root.setOnClickListener {
             onUserClick(user.id)
         }
