@@ -22,6 +22,7 @@ import com.elmirov.course.profile.data.repository.OtherProfileRepositoryImpl
 import com.elmirov.course.profile.data.repository.OwnProfileRepositoryImpl
 import com.elmirov.course.profile.domain.repository.OtherProfileRepository
 import com.elmirov.course.profile.domain.repository.OwnProfileRepository
+import com.elmirov.course.users.data.network.OnlineStatusesApi
 import com.elmirov.course.users.data.network.UsersApi
 import com.elmirov.course.users.data.repository.UsersRepositoryImpl
 import com.elmirov.course.users.domain.repository.UsersRepository
@@ -90,6 +91,10 @@ class DataModule {
     @Provides
     @ApplicationScope
     fun provideReactionsApi(retrofit: Retrofit): ReactionsApi = retrofit.create()
+
+    @Provides
+    @ApplicationScope
+    fun provideOnlineStatusesApi(retrofit: Retrofit): OnlineStatusesApi = retrofit.create()
 }
 
 @Module
