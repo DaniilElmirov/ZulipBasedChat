@@ -28,7 +28,7 @@
         android:id="@+id/online_status"
         android:layout_width="17dp"
         android:layout_height="17dp"
-        android:background="@drawable/online_status_shape"
+        tools:background="@drawable/active_status_shape"
         app:layout_constraintBottom_toBottomOf="@id/background_online_status"
         app:layout_constraintEnd_toEndOf="@id/background_online_status"
         app:layout_constraintStart_toStartOf="@id/background_online_status"
