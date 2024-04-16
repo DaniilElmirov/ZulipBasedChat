@@ -12,4 +12,5 @@ fun UserModel.toEntity(): User =
         avatarUrl = avatarUrl,
         name = name,
         email = email,
+        onlineStatus = User.OnlineStatus.ACTIVE //TODO переделать
     )

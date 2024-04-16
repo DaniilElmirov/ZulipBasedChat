@@ -5,4 +5,11 @@ data class User(
     val avatarUrl: String?,
     val name: String,
     val email: String,
-)
+    val onlineStatus: OnlineStatus,
+) {
+    enum class OnlineStatus {
+        ACTIVE,
+        IDLE,
+        OFFLINE,
+    }
+}
