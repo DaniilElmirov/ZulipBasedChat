@@ -9,25 +9,27 @@ import com.elmirov.course.chat.ui.delegate.incoming.IncomingMessageDelegateItem
 import com.elmirov.course.chat.ui.delegate.outgoing.OutgoingMessageDelegateItem
 import com.elmirov.course.core.adapter.delegate.DelegateItem
 import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
+
+private const val IN_MILLIS = 1000
+private const val SECONDS_IN_DAY = 24 * 60 * 60
 
 fun List<Message>.toDelegateItems(ownId: Int): List<DelegateItem> {
 
     val delegates = mutableListOf<DelegateItem>()
     val dates = mutableSetOf<String>()
 
-    val format = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
-
-    val sortedMessages = sortedBy { format.parse(it.date) }
+    val sortedMessages = sortedBy { it.timestamp }
 
     sortedMessages.forEach {
-        dates.add(it.date)
+        dates.add(it.timestamp.timestampToFormattedDate())
     }
 
     dates.forEach { messageDate ->
         delegates.add(DateDelegateItem(messageDate))
         val thisDayMessages = filter {
-            it.date == messageDate
+            it.timestamp.timestampToFormattedDate() == messageDate
         }
 
         thisDayMessages.forEach { message ->
@@ -56,3 +58,14 @@ fun List<Channel>.toDelegateItems(): List<DelegateItem> {
 
     return delegates
 }
+
+private fun Int.timestampToFormattedDate(): String {
+    val targetFormat = SimpleDateFormat("dd MMM", Locale.getDefault())
+    val timestampInDays = timestampInDays()
+    val date = Date(timestampInDays)
+
+    return targetFormat.format(date)
+}
+
+private fun Int.timestampInDays(): Long =
+    toLong() * IN_MILLIS - toLong() * IN_MILLIS % SECONDS_IN_DAY
