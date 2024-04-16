@@ -1,7 +1,7 @@
-package com.elmirov.course.profile.data.network
+package com.elmirov.course.core.user.data.network
 
 import com.elmirov.course.core.user.data.model.UserModel
-import com.elmirov.course.profile.data.model.OtherProfileResponseModel
+import com.elmirov.course.core.user.data.model.OtherProfileResponseModel
 import retrofit2.http.GET
 import retrofit2.http.Path
 

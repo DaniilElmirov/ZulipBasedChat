@@ -17,11 +17,11 @@ import com.elmirov.course.chat.domain.repository.MessagesRepository
 import com.elmirov.course.chat.domain.repository.ReactionsRepository
 import com.elmirov.course.core.network.AuthorizationInterceptor
 import com.elmirov.course.di.annotation.ApplicationScope
-import com.elmirov.course.profile.data.network.ProfileApi
+import com.elmirov.course.core.user.data.network.ProfileApi
 import com.elmirov.course.profile.data.repository.OtherProfileRepositoryImpl
 import com.elmirov.course.profile.data.repository.OwnProfileRepositoryImpl
-import com.elmirov.course.profile.domain.repository.OtherProfileRepository
-import com.elmirov.course.profile.domain.repository.OwnProfileRepository
+import com.elmirov.course.core.user.domain.repository.OtherProfileRepository
+import com.elmirov.course.core.user.domain.repository.OwnProfileRepository
 import com.elmirov.course.users.data.network.OnlineStatusesApi
 import com.elmirov.course.users.data.network.UsersApi
 import com.elmirov.course.users.data.repository.UsersRepositoryImpl
