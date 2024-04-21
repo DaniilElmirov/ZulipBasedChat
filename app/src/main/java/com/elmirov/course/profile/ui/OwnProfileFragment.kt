@@ -13,10 +13,10 @@ import com.elmirov.course.R
 import com.elmirov.course.base.ElmBaseFragment
 import com.elmirov.course.core.user.domain.entity.User
 import com.elmirov.course.databinding.FragmentProfileBinding
-import com.elmirov.course.profile.presentation.elm.ProfileEffect
-import com.elmirov.course.profile.presentation.elm.ProfileEvent
-import com.elmirov.course.profile.presentation.elm.ProfileState
-import com.elmirov.course.profile.presentation.elm.ProfileStoreFactory
+import com.elmirov.course.profile.presentation.ProfileEffect
+import com.elmirov.course.profile.presentation.ProfileEvent
+import com.elmirov.course.profile.presentation.ProfileState
+import com.elmirov.course.profile.presentation.ProfileStoreFactory
 import com.elmirov.course.util.dpToPix
 import vivid.money.elmslie.android.renderer.elmStoreWithRenderer
 import vivid.money.elmslie.core.store.Store

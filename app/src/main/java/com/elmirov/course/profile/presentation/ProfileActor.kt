@@ -1,4 +1,4 @@
-package com.elmirov.course.profile.presentation.elm
+package com.elmirov.course.profile.presentation
 
 import com.elmirov.course.core.result.domain.entity.Result
 import com.elmirov.course.profile.domain.usecase.GetOtherProfileUseCase

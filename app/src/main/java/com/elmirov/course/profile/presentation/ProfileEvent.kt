@@ -1,4 +1,4 @@
-package com.elmirov.course.profile.presentation.elm
+package com.elmirov.course.profile.presentation
 
 import com.elmirov.course.core.user.domain.entity.User
 
