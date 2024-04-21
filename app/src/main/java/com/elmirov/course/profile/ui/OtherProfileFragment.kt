@@ -6,16 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
 import coil.load
 import coil.transform.RoundedCornersTransformation
 import com.elmirov.course.CourseApplication
 import com.elmirov.course.R
 import com.elmirov.course.base.ElmBaseFragment
-import com.elmirov.course.core.factory.ViewModelFactory
 import com.elmirov.course.core.user.domain.entity.User
 import com.elmirov.course.databinding.FragmentProfileBinding
-import com.elmirov.course.profile.presentation.ProfileViewModel
 import com.elmirov.course.profile.presentation.elm.ProfileEffect
 import com.elmirov.course.profile.presentation.elm.ProfileEvent
 import com.elmirov.course.profile.presentation.elm.ProfileState
@@ -51,13 +48,6 @@ class OtherProfileFragment : ElmBaseFragment<ProfileEffect, ProfileState, Profil
     ): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         return binding.root
-    }
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    private val viewModel by lazy {
-        ViewModelProvider(this, viewModelFactory)[ProfileViewModel::class.java]
     }
 
     private val component by lazy {
