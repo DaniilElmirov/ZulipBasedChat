@@ -10,7 +10,6 @@ import com.elmirov.course.di.annotation.ApplicationScope
 import com.elmirov.course.di.module.DataModule
 import com.elmirov.course.di.module.DispatcherModule
 import com.elmirov.course.di.module.NavigationModule
-import com.elmirov.course.di.module.PresentationModule
 import com.elmirov.course.di.module.ViewModelModule
 import com.elmirov.course.profile.ui.OtherProfileFragment
 import com.elmirov.course.profile.ui.OwnProfileFragment
@@ -25,7 +24,6 @@ import dagger.Component
         ViewModelModule::class,
         DataModule::class,
         DispatcherModule::class,
-        PresentationModule::class,
     ]
 )
 interface ApplicationComponent {
