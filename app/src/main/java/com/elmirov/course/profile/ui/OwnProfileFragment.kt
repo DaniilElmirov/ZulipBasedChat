@@ -15,14 +15,14 @@ import com.elmirov.course.core.user.domain.entity.User
 import com.elmirov.course.databinding.FragmentProfileBinding
 import com.elmirov.course.profile.presentation.elm.ProfileEffect
 import com.elmirov.course.profile.presentation.elm.ProfileEvent
-import com.elmirov.course.profile.presentation.elm.ProfileScreenState
+import com.elmirov.course.profile.presentation.elm.ProfileState
 import com.elmirov.course.profile.presentation.elm.ProfileStoreFactory
 import com.elmirov.course.util.dpToPix
 import vivid.money.elmslie.android.renderer.elmStoreWithRenderer
 import vivid.money.elmslie.core.store.Store
 import javax.inject.Inject
 
-class OwnProfileFragment : ElmBaseFragment<ProfileEffect, ProfileScreenState, ProfileEvent>() {
+class OwnProfileFragment : ElmBaseFragment<ProfileEffect, ProfileState, ProfileEvent>() {
 
     companion object {
 
@@ -48,7 +48,7 @@ class OwnProfileFragment : ElmBaseFragment<ProfileEffect, ProfileScreenState, Pr
 
     @Inject
     lateinit var profileStoreFactory: ProfileStoreFactory
-    override val store: Store<ProfileEvent, ProfileEffect, ProfileScreenState> by elmStoreWithRenderer(
+    override val store: Store<ProfileEvent, ProfileEffect, ProfileState> by elmStoreWithRenderer(
         elmRenderer = this
     ) {
         profileStoreFactory.create()
@@ -62,10 +62,10 @@ class OwnProfileFragment : ElmBaseFragment<ProfileEffect, ProfileScreenState, Pr
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        store.accept(ProfileEvent.Ui.Init)
+        store.accept(ProfileEvent.Ui.InitOwn)
     }
 
-    override fun render(state: ProfileScreenState) {
+    override fun render(state: ProfileState) {
         if (state.loading)
             applyLoading()
 

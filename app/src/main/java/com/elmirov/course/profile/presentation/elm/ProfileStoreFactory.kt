@@ -8,9 +8,9 @@ class ProfileStoreFactory @Inject constructor(
     private val profileActor: ProfileActor,
 ) {
 
-    fun create(): Store<ProfileEvent, ProfileEffect, ProfileScreenState> =
+    fun create(): Store<ProfileEvent, ProfileEffect, ProfileState> =
         ElmStore(
-            initialState = ProfileScreenState(),
+            initialState = ProfileState(),
             reducer = ProfileReducer(),
             actor = profileActor
         )

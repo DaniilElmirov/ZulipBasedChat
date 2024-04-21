@@ -6,7 +6,7 @@ class ProfileReducer : ScreenDslReducer<
         ProfileEvent,
         ProfileEvent.Ui,
         ProfileEvent.Internal,
-        ProfileScreenState,
+        ProfileState,
         ProfileEffect,
         ProfileCommand>(
     ProfileEvent.Ui::class, ProfileEvent.Internal::class
@@ -27,9 +27,14 @@ class ProfileReducer : ScreenDslReducer<
             effects { +ProfileEffect.Back }
         }
 
-        ProfileEvent.Ui.Init -> {
+        ProfileEvent.Ui.InitOwn -> {
             state { copy(loading = true) }
             commands { +ProfileCommand.LoadOwn }
+        }
+
+        is ProfileEvent.Ui.InitOther -> {
+            state { copy(loading = true) }
+            commands { +ProfileCommand.LoadOther(event.userId) }
         }
     }
 }

@@ -6,22 +6,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import coil.load
 import coil.transform.RoundedCornersTransformation
 import com.elmirov.course.CourseApplication
 import com.elmirov.course.R
+import com.elmirov.course.base.ElmBaseFragment
 import com.elmirov.course.core.factory.ViewModelFactory
 import com.elmirov.course.core.user.domain.entity.User
 import com.elmirov.course.databinding.FragmentProfileBinding
-import com.elmirov.course.profile.presentation.elm.ProfileState
 import com.elmirov.course.profile.presentation.ProfileViewModel
-import com.elmirov.course.util.collectLifecycleFlow
+import com.elmirov.course.profile.presentation.elm.ProfileEffect
+import com.elmirov.course.profile.presentation.elm.ProfileEvent
+import com.elmirov.course.profile.presentation.elm.ProfileState
+import com.elmirov.course.profile.presentation.elm.ProfileStoreFactory
 import com.elmirov.course.util.dpToPix
+import vivid.money.elmslie.android.renderer.elmStoreWithRenderer
+import vivid.money.elmslie.core.store.Store
 import javax.inject.Inject
 
-class OtherProfileFragment : Fragment() {
+class OtherProfileFragment : ElmBaseFragment<ProfileEffect, ProfileState, ProfileEvent>() {
 
     companion object {
 
@@ -59,6 +63,15 @@ class OtherProfileFragment : Fragment() {
         (requireActivity().application as CourseApplication).component
     }
 
+    @Inject
+    lateinit var profileStoreFactory: ProfileStoreFactory
+
+    override val store: Store<ProfileEvent, ProfileEffect, ProfileState> by elmStoreWithRenderer(
+        elmRenderer = this
+    ) {
+        profileStoreFactory.create()
+    }
+
     override fun onAttach(context: Context) {
         component.inject(this)
         super.onAttach(context)
@@ -68,27 +81,45 @@ class OtherProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         applyArguments()
-        applyState()
         setNavigationIconClickListener()
     }
 
     private fun applyArguments() {
         val id = requireArguments().getInt(KEY_USER_ID)
 
-        viewModel.loadOtherProfile(id)
+        store.accept(ProfileEvent.Ui.InitOther(id))
     }
 
-    private fun applyState() {
-        collectLifecycleFlow(viewModel.profile) { state ->
-            when (state) {
-                is ProfileState.Content -> applyContent(state.data)
+    private fun setNavigationIconClickListener() {
+        binding.toolbar.setNavigationOnClickListener {
+            store.accept(ProfileEvent.Ui.BackClick)
+        }
+    }
 
-                ProfileState.Loading -> applyLoading()
+    override fun render(state: ProfileState) {
+        if (state.loading)
+            applyLoading()
 
-                ProfileState.Error -> Unit //TODO добавить обработку стейта
+        state.content?.let {
+            applyContent(it)
+        }
+    }
 
-                ProfileState.Initial -> Unit
-            }
+    override fun handleEffect(effect: ProfileEffect) = when (effect) {
+        ProfileEffect.Back -> viewModel.back()
+        ProfileEffect.ShowError -> Unit //TODO обработка ошибки
+    }
+
+    private fun applyLoading() {
+        binding.apply {
+            toolbar.isVisible = true
+
+            avatar.isVisible = false
+            name.isVisible = false
+            onlineStatus.isVisible = false
+
+            shimmer.isVisible = true
+            shimmer.startShimmer()
         }
     }
 
@@ -137,25 +168,6 @@ class OtherProfileFragment : Fragment() {
 
             shimmer.isVisible = false
             shimmer.stopShimmer()
-        }
-    }
-
-    private fun applyLoading() {
-        binding.apply {
-            toolbar.isVisible = true
-
-            avatar.isVisible = false
-            name.isVisible = false
-            onlineStatus.isVisible = false
-
-            shimmer.isVisible = true
-            shimmer.startShimmer()
-        }
-    }
-
-    private fun setNavigationIconClickListener() {
-        binding.toolbar.setNavigationOnClickListener {
-            viewModel.back()
         }
     }
 
