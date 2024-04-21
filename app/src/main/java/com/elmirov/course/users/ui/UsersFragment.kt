@@ -6,19 +6,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.elmirov.course.CourseApplication
-import com.elmirov.course.core.factory.ViewModelFactory
+import com.elmirov.course.base.ElmBaseFragment
 import com.elmirov.course.core.user.domain.entity.User
 import com.elmirov.course.databinding.FragmentUsersBinding
+import com.elmirov.course.users.presentation.UsersCommand
+import com.elmirov.course.users.presentation.UsersEffect
+import com.elmirov.course.users.presentation.UsersEvent
 import com.elmirov.course.users.presentation.UsersState
-import com.elmirov.course.users.presentation.UsersViewModel
 import com.elmirov.course.users.ui.adapter.UsersAdapter
-import com.elmirov.course.util.collectLifecycleFlow
+import vivid.money.elmslie.android.renderer.elmStoreWithRenderer
+import vivid.money.elmslie.core.store.ElmStore
+import vivid.money.elmslie.core.store.Store
 import javax.inject.Inject
 
-class UsersFragment : Fragment() {
+class UsersFragment : ElmBaseFragment<UsersEffect, UsersState, UsersEvent>() {
 
     companion object {
         fun newInstance(): UsersFragment =
@@ -29,21 +31,23 @@ class UsersFragment : Fragment() {
     private val binding
         get() = _binding!!
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    private val viewModel by lazy {
-        ViewModelProvider(this, viewModelFactory)[UsersViewModel::class.java]
-    }
-
     private val component by lazy {
         (requireActivity().application as CourseApplication).component
+    }
+
+    @Inject
+    lateinit var usersElmStore: ElmStore<UsersEvent, UsersState, UsersEffect, UsersCommand>
+
+    override val store: Store<UsersEvent, UsersEffect, UsersState> by elmStoreWithRenderer(
+        elmRenderer = this
+    ) {
+        usersElmStore
     }
 
     private val usersAdapter by lazy {
         UsersAdapter(
             onUserClick = {
-                viewModel.openOtherProfile(it)
+                store.accept(UsersEvent.Ui.OnUserClick(it))
             }
         )
     }
@@ -67,26 +71,27 @@ class UsersFragment : Fragment() {
 
         binding.users.adapter = usersAdapter
 
+        store.accept(UsersEvent.Ui.Init)
         setListeners()
-        applyState()
+    }
+
+    override fun render(state: UsersState) {
+        if (state.loading)
+            applyLoading()
+
+        state.content?.let {
+            applyContent(it)
+        }
     }
 
     private fun setListeners() {
         binding.refresh.setOnClickListener {
-            viewModel.loadUsers()
+            store.accept(UsersEvent.Ui.OnRefreshClick)
         }
     }
 
-    private fun applyState() {
-        collectLifecycleFlow(viewModel.users) { state ->
-            when (state) {
-                is UsersState.Content -> applyContent(state.data)
-
-                UsersState.Loading -> applyLoading()
-
-                UsersState.Error -> applyError()
-            }
-        }
+    override fun handleEffect(effect: UsersEffect): Unit = when (effect) {
+        UsersEffect.ShowError -> applyError()
     }
 
     private fun applyContent(content: List<User>) {
