@@ -15,7 +15,7 @@ import com.elmirov.course.R
 import com.elmirov.course.core.factory.ViewModelFactory
 import com.elmirov.course.core.user.domain.entity.User
 import com.elmirov.course.databinding.FragmentProfileBinding
-import com.elmirov.course.profile.presentation.ProfileState
+import com.elmirov.course.profile.presentation.elm.ProfileState
 import com.elmirov.course.profile.presentation.ProfileViewModel
 import com.elmirov.course.util.collectLifecycleFlow
 import com.elmirov.course.util.dpToPix
