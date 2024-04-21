@@ -2,11 +2,7 @@ package com.elmirov.course.users.presentation
 
 import com.elmirov.course.core.user.domain.entity.User
 
-sealed interface UsersState {
-
-    data object Loading : UsersState
-
-    data class Content(val data: List<User>) : UsersState
-
-    data object Error: UsersState
-}
+data class UsersState(
+    val loading: Boolean = false,
+    val content: List<User>? = null,
+)
