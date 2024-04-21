@@ -48,6 +48,7 @@ class OwnProfileFragment : ElmBaseFragment<ProfileEffect, ProfileState, ProfileE
 
     @Inject
     lateinit var profileStoreFactory: ProfileStoreFactory
+
     override val store: Store<ProfileEvent, ProfileEffect, ProfileState> by elmStoreWithRenderer(
         elmRenderer = this
     ) {
@@ -75,7 +76,6 @@ class OwnProfileFragment : ElmBaseFragment<ProfileEffect, ProfileState, ProfileE
     }
 
     override fun handleEffect(effect: ProfileEffect): Unit = when (effect) {
-        ProfileEffect.Back -> Unit
         ProfileEffect.ShowError -> Unit //TODO обработка ошибки
     }
 

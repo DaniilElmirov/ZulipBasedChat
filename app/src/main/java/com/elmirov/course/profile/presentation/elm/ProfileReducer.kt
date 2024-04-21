@@ -1,8 +1,12 @@
 package com.elmirov.course.profile.presentation.elm
 
+import com.elmirov.course.navigation.router.GlobalRouter
 import vivid.money.elmslie.core.store.dsl.ScreenDslReducer
+import javax.inject.Inject
 
-class ProfileReducer : ScreenDslReducer<
+class ProfileReducer @Inject constructor(
+    private val globalRouter: GlobalRouter,
+) : ScreenDslReducer<
         ProfileEvent,
         ProfileEvent.Ui,
         ProfileEvent.Internal,
@@ -23,9 +27,8 @@ class ProfileReducer : ScreenDslReducer<
     }
 
     override fun Result.ui(event: ProfileEvent.Ui): Any = when (event) {
-        ProfileEvent.Ui.BackClick -> {
-            effects { +ProfileEffect.Back }
-        }
+
+        ProfileEvent.Ui.BackClick -> globalRouter.back()
 
         ProfileEvent.Ui.InitOwn -> {
             state { copy(loading = true) }

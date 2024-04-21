@@ -27,6 +27,7 @@ import javax.inject.Inject
 
 class OtherProfileFragment : ElmBaseFragment<ProfileEffect, ProfileState, ProfileEvent>() {
 
+    //TODO нужен общий фрагмент для other и own profile, сделать его и прокидывать store через di сразу, а не через "фабрику"
     companion object {
 
         private const val KEY_USER_ID = "KEY_USER_ID"
@@ -106,7 +107,6 @@ class OtherProfileFragment : ElmBaseFragment<ProfileEffect, ProfileState, Profil
     }
 
     override fun handleEffect(effect: ProfileEffect) = when (effect) {
-        ProfileEffect.Back -> viewModel.back()
         ProfileEffect.ShowError -> Unit //TODO обработка ошибки
     }
 
