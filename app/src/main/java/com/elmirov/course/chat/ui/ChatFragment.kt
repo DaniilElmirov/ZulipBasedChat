@@ -7,26 +7,27 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.elmirov.course.CourseApplication
 import com.elmirov.course.R
+import com.elmirov.course.base.ElmBaseFragment
 import com.elmirov.course.chat.domain.entity.Message
+import com.elmirov.course.chat.presentation.ChatEffect
+import com.elmirov.course.chat.presentation.ChatEvent
 import com.elmirov.course.chat.presentation.ChatState
-import com.elmirov.course.chat.presentation.ChatViewModel
+import com.elmirov.course.chat.presentation.ChatStoreFactory
 import com.elmirov.course.chat.ui.delegate.date.DateDelegate
 import com.elmirov.course.chat.ui.delegate.incoming.IncomingMessageDelegate
 import com.elmirov.course.chat.ui.delegate.outgoing.OutgoingMessageDelegate
 import com.elmirov.course.core.adapter.MainAdapter
-import com.elmirov.course.core.factory.ViewModelFactory
 import com.elmirov.course.databinding.FragmentChatBinding
-import com.elmirov.course.util.collectLifecycleFlow
 import com.elmirov.course.util.toDelegateItems
 import com.google.android.material.snackbar.Snackbar
+import vivid.money.elmslie.android.renderer.elmStoreWithRenderer
+import vivid.money.elmslie.core.store.Store
 import javax.inject.Inject
 
-class ChatFragment : Fragment() {
+class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
 
     companion object {
 
@@ -51,15 +52,17 @@ class ChatFragment : Fragment() {
     private val binding
         get() = _binding!!
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    private val viewModel by lazy {
-        ViewModelProvider(this, viewModelFactory)[ChatViewModel::class.java]
-    }
-
     private val component by lazy {
         (requireActivity().application as CourseApplication).component
+    }
+
+    @Inject
+    lateinit var chatStoreFactory: ChatStoreFactory
+
+    override val store: Store<ChatEvent, ChatEffect, ChatState> by elmStoreWithRenderer(
+        elmRenderer = this
+    ) {
+        chatStoreFactory.create()
     }
 
     private val messagesAdapter: MainAdapter by lazy {
@@ -67,13 +70,33 @@ class ChatFragment : Fragment() {
             addDelegate(
                 OutgoingMessageDelegate(
                     openReactions = ::showDialog,
-                    onReactionClick = viewModel::addReactionToMessage
+                    onReactionClick = { messageId, reaction, selected ->
+                        store.accept(
+                            ChatEvent.Ui.OnReactionClick(
+                                channelName,
+                                topicName,
+                                messageId,
+                                reaction,
+                                selected
+                            )
+                        )
+                    }
                 )
             )
             addDelegate(
                 IncomingMessageDelegate(
                     openReactions = ::showDialog,
-                    onReactionClick = viewModel::addReactionToMessage
+                    onReactionClick = { messageId, reaction, selected ->
+                        store.accept(
+                            ChatEvent.Ui.OnReactionClick(
+                                channelName,
+                                topicName,
+                                messageId,
+                                reaction,
+                                selected
+                            )
+                        )
+                    }
                 )
             )
             addDelegate(DateDelegate())
@@ -103,9 +126,21 @@ class ChatFragment : Fragment() {
         applyArguments()
         setupAdapter()
         setupListeners()
-        applyState()
         setTextChangeListener()
         setNavigationIconClickListener()
+    }
+
+    override fun render(state: ChatState) {
+        if (state.loading)
+            applyLoading()
+
+        state.content?.let {
+            applyContent(it)
+        }
+    }
+
+    override fun handleEffect(effect: ChatEffect): Unit = when (effect) {
+        ChatEffect.ShowError -> applyError()
     }
 
     private fun applyArguments() {
@@ -116,7 +151,7 @@ class ChatFragment : Fragment() {
             String.format(getString(R.string.hashtag_with_stream_name, channelName))
         binding.topic.text = String.format(getString(R.string.topic_with_name), topicName)
 
-        viewModel.loadMessages(channelName, topicName)
+        store.accept(ChatEvent.Ui.Init(channelName, topicName))
     }
 
     private fun setupAdapter() {
@@ -140,19 +175,7 @@ class ChatFragment : Fragment() {
     }
 
     private fun sendMessage(text: String) {
-        viewModel.sendMessage(channelName, topicName, text)
-    }
-
-    private fun applyState() {
-        collectLifecycleFlow(viewModel.messages) { state ->
-            when (state) {
-                is ChatState.Content -> applyContent(state.data)
-
-                ChatState.Loading -> applyLoading()
-
-                ChatState.Error -> applyError()
-            }
-        }
+        store.accept(ChatEvent.Ui.OnSendMessageClick(channelName, topicName, text))
     }
 
     private fun applyContent(data: List<Message>) {
@@ -202,7 +225,7 @@ class ChatFragment : Fragment() {
 
     private fun setNavigationIconClickListener() {
         binding.toolbar.setNavigationOnClickListener {
-            viewModel.back()
+            store.accept(ChatEvent.Ui.OnBackClick)
         }
     }
 
@@ -212,7 +235,18 @@ class ChatFragment : Fragment() {
             requireActivity().supportFragmentManager,
             ChooseReactionFragment.TAG
         )
-        dialog.click = viewModel::addReactionToMessage
+
+        dialog.click = { _, reaction, selected ->
+            store.accept(
+                ChatEvent.Ui.OnReactionClick(
+                    channelName,
+                    topicName,
+                    messageId,
+                    reaction,
+                    selected
+                )
+            )
+        }
     }
 
     override fun onDestroy() {
