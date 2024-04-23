@@ -9,8 +9,8 @@ import retrofit2.http.Query
 interface MessagesApi {
 
     private companion object {
-        const val MAX_NUM_BEFORE = 1000
-        const val MAX_NUM_AFTER = 1000
+        const val MAX_NUM_BEFORE = 10
+        const val MAX_NUM_AFTER = 10
 
         const val ANCHOR_FIRST_UNREAD = "first_unread"
 
