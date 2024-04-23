@@ -43,10 +43,7 @@ class AllChannelsFragment : ElmBaseFragment<ChannelsEffect, ChannelsState, Chann
         MainAdapter().apply {
             addDelegate(
                 ChannelDelegate(
-                    showChannelTopics = {
-                        store.accept(ChannelsEvent.Ui.OnChannelClick(it))
-                    },
-                    closeChannelTopics = {
+                    onChannelClick = {
                         store.accept(ChannelsEvent.Ui.OnChannelClick(it))
                     },
                 )
