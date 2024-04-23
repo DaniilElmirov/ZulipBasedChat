@@ -41,6 +41,8 @@ class OtherProfileFragment : ElmBaseFragment<ProfileEffect, ProfileState, Profil
     private val binding
         get() = _binding!!
 
+    private var userId: Int = 0
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -72,18 +74,22 @@ class OtherProfileFragment : ElmBaseFragment<ProfileEffect, ProfileState, Profil
         super.onViewCreated(view, savedInstanceState)
 
         applyArguments()
-        setNavigationIconClickListener()
+        setClickListeners()
     }
 
     private fun applyArguments() {
-        val id = requireArguments().getInt(KEY_USER_ID)
+        userId = requireArguments().getInt(KEY_USER_ID)
 
-        store.accept(ProfileEvent.Ui.InitOther(id))
+        store.accept(ProfileEvent.Ui.InitOther(userId))
     }
 
-    private fun setNavigationIconClickListener() {
+    private fun setClickListeners() {
         binding.toolbar.setNavigationOnClickListener {
             store.accept(ProfileEvent.Ui.BackClick)
+        }
+
+        binding.refresh.setOnClickListener {
+            store.accept(ProfileEvent.Ui.OnRefreshOtherClick(userId))
         }
     }
 
@@ -97,11 +103,12 @@ class OtherProfileFragment : ElmBaseFragment<ProfileEffect, ProfileState, Profil
     }
 
     override fun handleEffect(effect: ProfileEffect) = when (effect) {
-        ProfileEffect.ShowError -> Unit //TODO обработка ошибки
+        ProfileEffect.ShowError -> applyError()
     }
 
     private fun applyLoading() {
         binding.apply {
+            error.isVisible = false
             toolbar.isVisible = true
 
             avatar.isVisible = false
@@ -110,6 +117,20 @@ class OtherProfileFragment : ElmBaseFragment<ProfileEffect, ProfileState, Profil
 
             shimmer.isVisible = true
             shimmer.startShimmer()
+        }
+    }
+
+    private fun applyError() {
+        binding.apply {
+            error.isVisible = true
+            toolbar.isVisible = true
+
+            avatar.isVisible = false
+            name.isVisible = false
+            onlineStatus.isVisible = false
+
+            shimmer.isVisible = false
+            shimmer.stopShimmer()
         }
     }
 
@@ -150,6 +171,7 @@ class OtherProfileFragment : ElmBaseFragment<ProfileEffect, ProfileState, Profil
 
     private fun setContentVisibility() {
         binding.apply {
+            error.isVisible = false
             toolbar.isVisible = true
 
             avatar.isVisible = true

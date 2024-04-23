@@ -64,6 +64,13 @@ class OwnProfileFragment : ElmBaseFragment<ProfileEffect, ProfileState, ProfileE
         super.onViewCreated(view, savedInstanceState)
 
         store.accept(ProfileEvent.Ui.InitOwn)
+        setClickListeners()
+    }
+
+    private fun setClickListeners() {
+        binding.refresh.setOnClickListener {
+            store.accept(ProfileEvent.Ui.OnRefreshOwnClick)
+        }
     }
 
     override fun render(state: ProfileState) {
@@ -76,11 +83,12 @@ class OwnProfileFragment : ElmBaseFragment<ProfileEffect, ProfileState, ProfileE
     }
 
     override fun handleEffect(effect: ProfileEffect): Unit = when (effect) {
-        ProfileEffect.ShowError -> Unit //TODO обработка ошибки
+        ProfileEffect.ShowError -> applyError()
     }
 
     private fun applyLoading() {
         binding.apply {
+            error.isVisible = false
             toolbar.isVisible = false
 
             avatar.isVisible = false
@@ -89,6 +97,20 @@ class OwnProfileFragment : ElmBaseFragment<ProfileEffect, ProfileState, ProfileE
 
             shimmer.isVisible = true
             shimmer.startShimmer()
+        }
+    }
+
+    private fun applyError() {
+        binding.apply {
+            error.isVisible = true
+            toolbar.isVisible = false
+
+            avatar.isVisible = false
+            name.isVisible = false
+            onlineStatus.isVisible = false
+
+            shimmer.isVisible = false
+            shimmer.stopShimmer()
         }
     }
 
@@ -129,6 +151,7 @@ class OwnProfileFragment : ElmBaseFragment<ProfileEffect, ProfileState, ProfileE
 
     private fun setContentVisibility() {
         binding.apply {
+            error.isVisible = false
             toolbar.isVisible = false
 
             avatar.isVisible = true
