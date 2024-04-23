@@ -97,3 +97,11 @@
   - Для запроса в сеть используются Retrofit + Coroutines.
 
 [*Видео работы приложения*](https://gitlab.com/DaniilElmirov/tfs_spring_2024/-/blob/homework_6/app/src/main/res/raw/homework_6.webm?ref_type=heads)
+
+---
+## 7. Домашнее задание по лекции "Архитектура"
+
+### Выполнено:
+- Использовал библиотеку TEA.
+- Переписал с MVVM на ELM.
+- Добавил обработку состояния ошибки на всех экранах.
