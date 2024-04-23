@@ -1,5 +1,6 @@
 package com.elmirov.course.core.user.data.model
 
-data class AggregatedPresenceModel(
+data class PresenceInfoModel(
     val aggregated: PresenceModel,
+    val website: PresenceModel,
 )
