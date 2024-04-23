@@ -8,4 +8,6 @@ sealed interface ChannelsCommand {
     data class OpenTopics(val channelId: Int) : ChannelsCommand
 
     data class CloseTopics(val channelId: Int) : ChannelsCommand
+
+    data class Search(val query: String): ChannelsCommand
 }

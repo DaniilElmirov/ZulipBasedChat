@@ -39,6 +39,8 @@ class ChannelsActor @Inject constructor(
             }
 
             is ChannelsCommand.CloseTopics -> emit(ChannelsEvent.Internal.TopicsClosed(command.channelId))
+
+            is ChannelsCommand.Search -> emit(ChannelsEvent.Internal.SearchSuccess(command.query))
         }
     }
 }

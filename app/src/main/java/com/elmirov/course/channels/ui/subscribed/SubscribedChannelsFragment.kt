@@ -129,6 +129,6 @@ class SubscribedChannelsFragment : ElmBaseFragment<ChannelsEffect, ChannelsState
     }
 
     override fun passSearchQueryInSubscribed(query: String) {
-        //TODO придумать что-то с поиском
+        store.accept(ChannelsEvent.Ui.Search(query))
     }
 }

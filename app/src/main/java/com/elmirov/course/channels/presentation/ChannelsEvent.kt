@@ -13,6 +13,8 @@ sealed interface ChannelsEvent {
         data class OnChannelClick(val channelId: Int) : Ui
 
         data class OnTopicClick(val channelId: Int, val topicName: String): Ui
+
+        data class Search(val query: String): Ui
     }
 
     sealed interface Internal : ChannelsEvent {
@@ -23,5 +25,7 @@ sealed interface ChannelsEvent {
         data class TopicsClosed(val channelId: Int) : Internal
 
         data object LoadingError : Internal
+
+        data class SearchSuccess(val query: String): Internal
     }
 }

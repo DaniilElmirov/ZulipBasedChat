@@ -1,5 +1,6 @@
 package com.elmirov.course.channels.presentation
 
+import com.elmirov.course.channels.domain.entity.Channel
 import com.elmirov.course.navigation.router.GlobalRouter
 import vivid.money.elmslie.core.store.dsl.ScreenDslReducer
 import javax.inject.Inject
@@ -20,6 +21,8 @@ class ChannelsReducer @Inject constructor(
         const val EMPTY_CHANNEL_NAME = ""
     }
 
+    private var loadedData: List<Channel> = emptyList()
+
     override fun Result.internal(event: ChannelsEvent.Internal): Any = when (event) {
         ChannelsEvent.Internal.LoadingError -> {
             state { copy(loading = false) }
@@ -27,6 +30,7 @@ class ChannelsReducer @Inject constructor(
         }
 
         is ChannelsEvent.Internal.ChannelsLoadingSuccess -> {
+            loadedData = event.data
             state { copy(loading = false, content = event.data) }
         }
 
@@ -42,6 +46,7 @@ class ChannelsReducer @Inject constructor(
             currentChannels[targetChannelIndex] =
                 currentChannels[targetChannelIndex].copy(expanded = true, topics = topics)
 
+            loadedData = currentChannels
             state { copy(loading = false, content = currentChannels.toList()) }
         }
 
@@ -54,7 +59,20 @@ class ChannelsReducer @Inject constructor(
             currentChannels[targetChannelIndex] =
                 currentChannels[targetChannelIndex].copy(expanded = false, topics = null)
 
+            loadedData = currentChannels
             state { copy(loading = false, content = currentChannels.toList()) }
+        }
+
+        is ChannelsEvent.Internal.SearchSuccess -> {
+            if (event.query.isEmpty())
+                state { copy(loading = false, content = loadedData) }
+            else {
+                val searchedData = loadedData.filter {
+                    it.name.contains(other = event.query, ignoreCase = true)
+                }
+
+                state { copy(loading = false, content = searchedData) }
+            }
         }
     }
 
@@ -87,5 +105,7 @@ class ChannelsReducer @Inject constructor(
 
             globalRouter.openChat(channelName, event.topicName)
         }
+
+        is ChannelsEvent.Ui.Search -> commands { +ChannelsCommand.Search(event.query) }
     }
 }

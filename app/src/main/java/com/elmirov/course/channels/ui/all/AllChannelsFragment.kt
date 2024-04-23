@@ -128,6 +128,6 @@ class AllChannelsFragment : ElmBaseFragment<ChannelsEffect, ChannelsState, Chann
     }
 
     override fun passSearchQueryInAll(query: String) {
-        //viewModel.searchQueryPublisher.tryEmit(query) //TODO придумать что-то с поиском
+        store.accept(ChannelsEvent.Ui.Search(query))
     }
 }
