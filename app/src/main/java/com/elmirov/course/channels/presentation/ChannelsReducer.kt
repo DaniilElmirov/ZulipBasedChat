@@ -107,5 +107,15 @@ class ChannelsReducer @Inject constructor(
         }
 
         is ChannelsEvent.Ui.Search -> commands { +ChannelsCommand.Search(event.query) }
+
+        ChannelsEvent.Ui.OnRefreshAllClick -> {
+            state { copy(loading = true) }
+            commands { +ChannelsCommand.LoadAll }
+        }
+
+        ChannelsEvent.Ui.OnRefreshSubscribedClick -> {
+            state { copy(loading = true) }
+            commands { +ChannelsCommand.LoadSubscribed }
+        }
     }
 }
