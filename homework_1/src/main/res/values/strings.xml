@@ -1,0 +1,10 @@
+<resources>
+	<string name="app_name">Homework_1</string>
+	<string name="first_activity">First Activity</string>
+	<string name="next">Next</string>
+	<string name="second_activity">Second Activity</string>
+	<string name="load">Load</string>
+	<string name="contacts_request">Allow Contacts permission in app settings to start load</string>
+	<string name="contacts_permission_title">Access to phone book</string>
+	<string name="settings">SETTINGS</string>
+</resources>
