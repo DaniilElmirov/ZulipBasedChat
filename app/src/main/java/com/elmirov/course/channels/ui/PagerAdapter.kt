@@ -9,8 +9,7 @@ class PagerAdapter(
     fragmentManager: FragmentManager,
     lifecycle: Lifecycle,
     private val children: List<Fragment>,
-) :
-    FragmentStateAdapter(fragmentManager, lifecycle) {
+) : FragmentStateAdapter(fragmentManager, lifecycle) {
     override fun getItemCount(): Int =
         children.size
 

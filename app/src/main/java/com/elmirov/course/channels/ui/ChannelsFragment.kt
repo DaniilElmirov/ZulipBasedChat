@@ -6,13 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
-import androidx.viewpager2.widget.ViewPager2
+import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.elmirov.course.R
-import com.elmirov.course.databinding.FragmentChannelsBinding
 import com.elmirov.course.channels.ui.all.AllChannelsFragment
 import com.elmirov.course.channels.ui.communicator.AllChannelsCommunicator
 import com.elmirov.course.channels.ui.communicator.SubscribedChannelsCommunicator
 import com.elmirov.course.channels.ui.subscribed.SubscribedChannelsFragment
+import com.elmirov.course.databinding.FragmentChannelsBinding
 import com.google.android.material.tabs.TabLayoutMediator
 
 class ChannelsFragment : Fragment(), SubscribedChannelsCommunicator, AllChannelsCommunicator {
@@ -31,6 +31,8 @@ class ChannelsFragment : Fragment(), SubscribedChannelsCommunicator, AllChannels
         get() = _binding!!
 
     private lateinit var tabLayoutMediator: TabLayoutMediator
+
+    private lateinit var pageChangeCallback: OnPageChangeCallback
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -71,12 +73,11 @@ class ChannelsFragment : Fragment(), SubscribedChannelsCommunicator, AllChannels
 
                 else -> throw RuntimeException("ADD NEW TAB in ${javaClass.name}")
             }
-        }
-        tabLayoutMediator.attach()
+        }.apply { attach() }
     }
 
     private fun setupOnPageChangeCallback() {
-        val callback = object : ViewPager2.OnPageChangeCallback() {
+        pageChangeCallback = object : OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 when (position) {
@@ -86,7 +87,8 @@ class ChannelsFragment : Fragment(), SubscribedChannelsCommunicator, AllChannels
                 }
             }
         }
-        binding.pager.registerOnPageChangeCallback(callback)
+
+        binding.pager.registerOnPageChangeCallback(pageChangeCallback)
     }
 
     private fun setSubscribedTextChangeListener() {
@@ -119,10 +121,11 @@ class ChannelsFragment : Fragment(), SubscribedChannelsCommunicator, AllChannels
             it is AllChannelsFragment
         } as AllChannelsFragment
 
-    override fun onDestroy() {
+    override fun onDestroyView() {
         tabLayoutMediator.detach()
+        binding.pager.unregisterOnPageChangeCallback(pageChangeCallback)
         binding.pager.adapter = null
         _binding = null
-        super.onDestroy()
+        super.onDestroyView()
     }
 }

@@ -128,9 +128,9 @@ class UsersFragment : ElmBaseFragment<UsersEffect, UsersState, UsersEvent>() {
         }
     }
 
-    override fun onDestroy() {
+    override fun onDestroyView() {
         binding.users.adapter = null
         _binding = null
-        super.onDestroy()
+        super.onDestroyView()
     }
 }

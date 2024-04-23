@@ -82,8 +82,8 @@ class MainFragment : Fragment(), OnItemSelectedListener {
         return true
     }
 
-    override fun onDestroy() {
+    override fun onDestroyView() {
         _binding = null
-        super.onDestroy()
+        super.onDestroyView()
     }
 }

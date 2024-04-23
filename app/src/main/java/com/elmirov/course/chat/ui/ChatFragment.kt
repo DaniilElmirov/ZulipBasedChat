@@ -249,9 +249,9 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
         }
     }
 
-    override fun onDestroy() {
+    override fun onDestroyView() {
         binding.chat.adapter = null
         _binding = null
-        super.onDestroy()
+        super.onDestroyView()
     }
 }

@@ -121,10 +121,10 @@ class AllChannelsFragment : ElmBaseFragment<ChannelsEffect, ChannelsState, Chann
         }
     }
 
-    override fun onDestroy() {
+    override fun onDestroyView() {
         binding.channels.adapter = null
         _binding = null
-        super.onDestroy()
+        super.onDestroyView()
     }
 
     override fun passSearchQueryInAll(query: String) {
