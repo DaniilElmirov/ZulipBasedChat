@@ -33,15 +33,6 @@ class OwnProfileFragment : ElmBaseFragment<ProfileEffect, ProfileState, ProfileE
     private val binding
         get() = _binding!!
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        _binding = FragmentProfileBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
     private val component by lazy {
         (requireActivity().application as CourseApplication).component
     }
@@ -58,6 +49,15 @@ class OwnProfileFragment : ElmBaseFragment<ProfileEffect, ProfileState, ProfileE
     override fun onAttach(context: Context) {
         component.inject(this)
         super.onAttach(context)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): View {
+        _binding = FragmentProfileBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -43,15 +43,6 @@ class OtherProfileFragment : ElmBaseFragment<ProfileEffect, ProfileState, Profil
 
     private var userId: Int = 0
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        _binding = FragmentProfileBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
     private val component by lazy {
         (requireActivity().application as CourseApplication).component
     }
@@ -68,6 +59,15 @@ class OtherProfileFragment : ElmBaseFragment<ProfileEffect, ProfileState, Profil
     override fun onAttach(context: Context) {
         component.inject(this)
         super.onAttach(context)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): View {
+        _binding = FragmentProfileBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
