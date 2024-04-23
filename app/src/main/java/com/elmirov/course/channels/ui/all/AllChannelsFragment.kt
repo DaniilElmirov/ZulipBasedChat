@@ -6,23 +6,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.elmirov.course.CourseApplication
+import com.elmirov.course.base.ElmBaseFragment
 import com.elmirov.course.channels.domain.entity.Channel
-import com.elmirov.course.channels.presentation.all.AllChannelsState
-import com.elmirov.course.channels.presentation.all.AllChannelsViewModel
+import com.elmirov.course.channels.presentation.ChannelsEffect
+import com.elmirov.course.channels.presentation.ChannelsEvent
+import com.elmirov.course.channels.presentation.ChannelsState
+import com.elmirov.course.channels.presentation.ChannelsStoreFactory
 import com.elmirov.course.channels.ui.communicator.AllChannelsCommunicator
 import com.elmirov.course.channels.ui.delegate.channel.ChannelDelegate
 import com.elmirov.course.channels.ui.delegate.topic.TopicDelegate
 import com.elmirov.course.core.adapter.MainAdapter
-import com.elmirov.course.core.factory.ViewModelFactory
 import com.elmirov.course.databinding.FragmentPageChannelsBinding
-import com.elmirov.course.util.collectLifecycleFlow
 import com.elmirov.course.util.toDelegateItems
+import vivid.money.elmslie.android.renderer.elmStoreWithRenderer
+import vivid.money.elmslie.core.store.Store
 import javax.inject.Inject
 
-class AllChannelsFragment : Fragment(), AllChannelsCommunicator {
+class AllChannelsFragment : ElmBaseFragment<ChannelsEffect, ChannelsState, ChannelsEvent>(),
+    AllChannelsCommunicator {
 
     companion object {
         fun newInstance(): AllChannelsFragment =
@@ -33,13 +35,6 @@ class AllChannelsFragment : Fragment(), AllChannelsCommunicator {
     private val binding
         get() = _binding!!
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    private val viewModel by lazy {
-        ViewModelProvider(this, viewModelFactory)[AllChannelsViewModel::class.java]
-    }
-
     private val component by lazy {
         (requireActivity().application as CourseApplication).component
     }
@@ -48,12 +43,31 @@ class AllChannelsFragment : Fragment(), AllChannelsCommunicator {
         MainAdapter().apply {
             addDelegate(
                 ChannelDelegate(
-                    showChannelTopics = viewModel::showTopics,
-                    closeChannelTopics = viewModel::closeTopics,
+                    showChannelTopics = {
+                        store.accept(ChannelsEvent.Ui.OnChannelClick(it))
+                    },
+                    closeChannelTopics = {
+                        store.accept(ChannelsEvent.Ui.OnChannelClick(it))
+                    },
                 )
             )
-            addDelegate(TopicDelegate(viewModel::openChat))
+            addDelegate(
+                TopicDelegate(
+                    onTopicClick = { channelId, topicName ->
+                        store.accept(ChannelsEvent.Ui.OnTopicClick(channelId, topicName))
+                    }
+                )
+            )
         }
+    }
+
+    @Inject
+    lateinit var channelsStoreFactory: ChannelsStoreFactory
+
+    override val store: Store<ChannelsEvent, ChannelsEffect, ChannelsState> by elmStoreWithRenderer(
+        elmRenderer = this
+    ) {
+        channelsStoreFactory.create()
     }
 
     override fun onAttach(context: Context) {
@@ -74,20 +88,20 @@ class AllChannelsFragment : Fragment(), AllChannelsCommunicator {
         super.onViewCreated(view, savedInstanceState)
 
         binding.channels.adapter = allChannelsAdapter
-
-        applyState()
+        store.accept(ChannelsEvent.Ui.InitAll)
     }
 
-    private fun applyState() {
-        collectLifecycleFlow(viewModel.allChannels) { state ->
-            when (state) {
-                is AllChannelsState.Content -> applyContent(state.data)
+    override fun render(state: ChannelsState) {
+        if (state.loading)
+            applyLoading()
 
-                AllChannelsState.Loading -> applyLoading()
-
-                AllChannelsState.Error -> Unit //TODO добавить обработку стейта
-            }
+        state.content?.let {
+            applyContent(it)
         }
+    }
+
+    override fun handleEffect(effect: ChannelsEffect): Unit = when (effect) {
+        ChannelsEffect.ShowError -> Unit //TODO обработка стейта
     }
 
     private fun applyContent(data: List<Channel>) {
@@ -117,6 +131,6 @@ class AllChannelsFragment : Fragment(), AllChannelsCommunicator {
     }
 
     override fun passSearchQueryInAll(query: String) {
-        viewModel.searchQueryPublisher.tryEmit(query)
+        //viewModel.searchQueryPublisher.tryEmit(query) //TODO придумать что-то с поиском
     }
 }
