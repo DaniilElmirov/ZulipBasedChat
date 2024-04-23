@@ -86,6 +86,13 @@ class AllChannelsFragment : ElmBaseFragment<ChannelsEffect, ChannelsState, Chann
 
         binding.channels.adapter = allChannelsAdapter
         store.accept(ChannelsEvent.Ui.InitAll)
+        setClickListeners()
+    }
+
+    private fun setClickListeners() {
+        binding.refresh.setOnClickListener {
+            store.accept(ChannelsEvent.Ui.OnRefreshAllClick)
+        }
     }
 
     override fun render(state: ChannelsState) {
@@ -98,13 +105,14 @@ class AllChannelsFragment : ElmBaseFragment<ChannelsEffect, ChannelsState, Chann
     }
 
     override fun handleEffect(effect: ChannelsEffect): Unit = when (effect) {
-        ChannelsEffect.ShowError -> Unit //TODO обработка стейта
+        ChannelsEffect.ShowError -> applyError()
     }
 
     private fun applyContent(data: List<Channel>) {
         allChannelsAdapter.submitList(data.toDelegateItems())
 
         binding.apply {
+            error.isVisible = false
             channels.isVisible = true
 
             shimmer.isVisible = false
@@ -114,10 +122,21 @@ class AllChannelsFragment : ElmBaseFragment<ChannelsEffect, ChannelsState, Chann
 
     private fun applyLoading() {
         binding.apply {
+            error.isVisible = false
             channels.isVisible = false
 
             shimmer.isVisible = true
             shimmer.startShimmer()
+        }
+    }
+
+    private fun applyError() {
+        binding.apply {
+            error.isVisible = true
+            channels.isVisible = false
+
+            shimmer.isVisible = false
+            shimmer.stopShimmer()
         }
     }
 
