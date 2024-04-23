@@ -6,24 +6,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.elmirov.course.CourseApplication
+import com.elmirov.course.base.ElmBaseFragment
 import com.elmirov.course.channels.domain.entity.Channel
-import com.elmirov.course.channels.presentation.subscribed.SubscribedChannelsState
-import com.elmirov.course.channels.presentation.subscribed.SubscribedChannelsViewModel
+import com.elmirov.course.channels.presentation.ChannelsEffect
+import com.elmirov.course.channels.presentation.ChannelsEvent
+import com.elmirov.course.channels.presentation.ChannelsState
+import com.elmirov.course.channels.presentation.ChannelsStoreFactory
 import com.elmirov.course.channels.ui.communicator.SubscribedChannelsCommunicator
 import com.elmirov.course.channels.ui.delegate.channel.ChannelDelegate
 import com.elmirov.course.channels.ui.delegate.topic.TopicDelegate
 import com.elmirov.course.core.adapter.MainAdapter
-import com.elmirov.course.core.factory.ViewModelFactory
 import com.elmirov.course.databinding.FragmentPageChannelsBinding
-import com.elmirov.course.util.collectLifecycleFlow
 import com.elmirov.course.util.toDelegateItems
+import vivid.money.elmslie.android.renderer.elmStoreWithRenderer
+import vivid.money.elmslie.core.store.Store
 import javax.inject.Inject
 
 
-class SubscribedChannelsFragment : Fragment(), SubscribedChannelsCommunicator {
+class SubscribedChannelsFragment : ElmBaseFragment<ChannelsEffect, ChannelsState, ChannelsEvent>(),
+    SubscribedChannelsCommunicator {
 
     companion object {
         fun newInstance(): SubscribedChannelsFragment =
@@ -35,10 +37,12 @@ class SubscribedChannelsFragment : Fragment(), SubscribedChannelsCommunicator {
         get() = _binding!!
 
     @Inject
-    lateinit var viewModelFactory: ViewModelFactory
+    lateinit var channelsStoreFactory: ChannelsStoreFactory
 
-    private val viewModel by lazy {
-        ViewModelProvider(this, viewModelFactory)[SubscribedChannelsViewModel::class.java]
+    override val store: Store<ChannelsEvent, ChannelsEffect, ChannelsState> by elmStoreWithRenderer(
+        elmRenderer = this
+    ) {
+        channelsStoreFactory.create()
     }
 
     private val component by lazy {
@@ -49,11 +53,21 @@ class SubscribedChannelsFragment : Fragment(), SubscribedChannelsCommunicator {
         MainAdapter().apply {
             addDelegate(
                 ChannelDelegate(
-                    showChannelTopics = viewModel::showTopics,
-                    closeChannelTopics = viewModel::closeTopics,
+                    showChannelTopics = {
+                        store.accept(ChannelsEvent.Ui.OnChannelClick(it))
+                    },
+                    closeChannelTopics = {
+                        store.accept(ChannelsEvent.Ui.OnChannelClick(it))
+                    },
                 )
             )
-            addDelegate(TopicDelegate(viewModel::openChat))
+            addDelegate(
+                TopicDelegate(
+                    onTopicClick = { channelId, topicName ->
+                        store.accept(ChannelsEvent.Ui.OnTopicClick(channelId, topicName))
+                    }
+                )
+            )
         }
     }
 
@@ -75,20 +89,20 @@ class SubscribedChannelsFragment : Fragment(), SubscribedChannelsCommunicator {
         super.onViewCreated(view, savedInstanceState)
 
         binding.channels.adapter = subscribedChannelsAdapter
-
-        applyState()
+        store.accept(ChannelsEvent.Ui.InitSubscribed)
     }
 
-    private fun applyState() {
-        collectLifecycleFlow(viewModel.subscribedChannels) { state ->
-            when (state) {
-                is SubscribedChannelsState.Content -> applyContent(state.data)
+    override fun render(state: ChannelsState) {
+        if (state.loading)
+            applyLoading()
 
-                SubscribedChannelsState.Loading -> applyLoading()
-
-                SubscribedChannelsState.Error -> Unit //TODO добавить обработку стейта
-            }
+        state.content?.let {
+            applyContent(it)
         }
+    }
+
+    override fun handleEffect(effect: ChannelsEffect): Unit = when (effect) {
+        ChannelsEffect.ShowError -> Unit //TODO обработка стейта
     }
 
     private fun applyContent(data: List<Channel>) {
@@ -118,6 +132,6 @@ class SubscribedChannelsFragment : Fragment(), SubscribedChannelsCommunicator {
     }
 
     override fun passSearchQueryInSubscribed(query: String) {
-        viewModel.searchQueryPublisher.tryEmit(query)
+        //TODO придумать что-то с поиском
     }
 }
