@@ -36,6 +36,10 @@ class SubscribedChannelsFragment : ElmBaseFragment<ChannelsEffect, ChannelsState
     private val binding
         get() = _binding!!
 
+    private val component by lazy {
+        (requireActivity().application as CourseApplication).component
+    }
+
     @Inject
     lateinit var channelsStoreFactory: ChannelsStoreFactory
 
@@ -43,10 +47,6 @@ class SubscribedChannelsFragment : ElmBaseFragment<ChannelsEffect, ChannelsState
         elmRenderer = this
     ) {
         channelsStoreFactory.create()
-    }
-
-    private val component by lazy {
-        (requireActivity().application as CourseApplication).component
     }
 
     private val subscribedChannelsAdapter by lazy {
@@ -109,6 +109,10 @@ class SubscribedChannelsFragment : ElmBaseFragment<ChannelsEffect, ChannelsState
         ChannelsEffect.ShowError -> applyError()
     }
 
+    override fun passSearchQueryInSubscribed(query: String) {
+        store.accept(ChannelsEvent.Ui.Search(query))
+    }
+
     private fun applyContent(data: List<Channel>) {
         subscribedChannelsAdapter.submitList(data.toDelegateItems())
 
@@ -145,9 +149,5 @@ class SubscribedChannelsFragment : ElmBaseFragment<ChannelsEffect, ChannelsState
         binding.channels.adapter = null
         _binding = null
         super.onDestroyView()
-    }
-
-    override fun passSearchQueryInSubscribed(query: String) {
-        store.accept(ChannelsEvent.Ui.Search(query))
     }
 }

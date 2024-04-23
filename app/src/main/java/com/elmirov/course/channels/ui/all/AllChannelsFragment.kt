@@ -39,6 +39,15 @@ class AllChannelsFragment : ElmBaseFragment<ChannelsEffect, ChannelsState, Chann
         (requireActivity().application as CourseApplication).component
     }
 
+    @Inject
+    lateinit var channelsStoreFactory: ChannelsStoreFactory
+
+    override val store: Store<ChannelsEvent, ChannelsEffect, ChannelsState> by elmStoreWithRenderer(
+        elmRenderer = this
+    ) {
+        channelsStoreFactory.create()
+    }
+
     private val allChannelsAdapter by lazy {
         MainAdapter().apply {
             addDelegate(
@@ -56,15 +65,6 @@ class AllChannelsFragment : ElmBaseFragment<ChannelsEffect, ChannelsState, Chann
                 )
             )
         }
-    }
-
-    @Inject
-    lateinit var channelsStoreFactory: ChannelsStoreFactory
-
-    override val store: Store<ChannelsEvent, ChannelsEffect, ChannelsState> by elmStoreWithRenderer(
-        elmRenderer = this
-    ) {
-        channelsStoreFactory.create()
     }
 
     override fun onAttach(context: Context) {
@@ -108,6 +108,10 @@ class AllChannelsFragment : ElmBaseFragment<ChannelsEffect, ChannelsState, Chann
         ChannelsEffect.ShowError -> applyError()
     }
 
+    override fun passSearchQueryInAll(query: String) {
+        store.accept(ChannelsEvent.Ui.Search(query))
+    }
+
     private fun applyContent(data: List<Channel>) {
         allChannelsAdapter.submitList(data.toDelegateItems())
 
@@ -144,9 +148,5 @@ class AllChannelsFragment : ElmBaseFragment<ChannelsEffect, ChannelsState, Chann
         binding.channels.adapter = null
         _binding = null
         super.onDestroyView()
-    }
-
-    override fun passSearchQueryInAll(query: String) {
-        store.accept(ChannelsEvent.Ui.Search(query))
     }
 }
