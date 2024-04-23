@@ -10,6 +10,10 @@ sealed interface ProfileEvent {
         data class InitOther(val userId: Int) : Ui
 
         data object BackClick : Ui
+
+        data object OnRefreshOwnClick : Ui
+
+        data class OnRefreshOtherClick(val userId: Int) : Ui
     }
 
     sealed interface Internal : ProfileEvent {

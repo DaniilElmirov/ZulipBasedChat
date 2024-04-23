@@ -39,5 +39,15 @@ class ProfileReducer @Inject constructor(
             state { copy(loading = true) }
             commands { +ProfileCommand.LoadOther(event.userId) }
         }
+
+        ProfileEvent.Ui.OnRefreshOwnClick -> {
+            state { copy(loading = true) }
+            commands { +ProfileCommand.LoadOwn }
+        }
+
+        is ProfileEvent.Ui.OnRefreshOtherClick -> {
+            state { copy(loading = true) }
+            commands { +ProfileCommand.LoadOther(event.userId) }
+        }
     }
 }
