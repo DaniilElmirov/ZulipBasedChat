@@ -34,7 +34,8 @@ class OwnProfileFragment : ElmBaseFragment<ProfileEffect, ProfileState, ProfileE
         get() = _binding!!
 
     private val component by lazy {
-        (requireActivity().application as CourseApplication).component
+        (requireActivity().application as CourseApplication).component.profileComponentFactory()
+            .create()
     }
 
     @Inject

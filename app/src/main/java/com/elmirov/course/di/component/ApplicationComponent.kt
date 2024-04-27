@@ -9,8 +9,7 @@ import com.elmirov.course.di.chat.component.ChatComponent
 import com.elmirov.course.di.module.DataModule
 import com.elmirov.course.di.module.DispatcherModule
 import com.elmirov.course.di.module.NavigationModule
-import com.elmirov.course.profile.ui.OtherProfileFragment
-import com.elmirov.course.profile.ui.OwnProfileFragment
+import com.elmirov.course.di.profile.component.ProfileComponent
 import com.elmirov.course.users.ui.UsersFragment
 import dagger.BindsInstance
 import dagger.Component
@@ -31,13 +30,11 @@ interface ApplicationComponent {
 
     fun inject(fragment: UsersFragment)
 
-    fun inject(fragment: OwnProfileFragment)
-
-    fun inject(fragment: OtherProfileFragment)
-
     fun chatComponentFactory(): ChatComponent.Factory
 
     fun channelsComponentFactory(): ChannelsComponent.Factory
+
+    fun profileComponentFactory(): ProfileComponent.Factory
 
     @Component.Factory
     interface Factory {

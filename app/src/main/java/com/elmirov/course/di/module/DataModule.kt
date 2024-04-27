@@ -2,14 +2,9 @@ package com.elmirov.course.di.module
 
 import com.elmirov.course.core.network.AuthorizationInterceptor
 import com.elmirov.course.core.user.data.network.OnlineStatusesApi
-import com.elmirov.course.core.user.data.network.ProfileApi
 import com.elmirov.course.core.user.data.network.UsersApi
-import com.elmirov.course.core.user.domain.repository.OtherProfileRepository
-import com.elmirov.course.core.user.domain.repository.OwnProfileRepository
 import com.elmirov.course.core.user.domain.repository.UsersRepository
 import com.elmirov.course.di.annotation.ApplicationScope
-import com.elmirov.course.profile.data.repository.OtherProfileRepositoryImpl
-import com.elmirov.course.profile.data.repository.OwnProfileRepositoryImpl
 import com.elmirov.course.users.data.repository.UsersRepositoryImpl
 import dagger.Binds
 import dagger.Module
@@ -49,25 +44,9 @@ class DataModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-//    @Provides
-//    @ApplicationScope
-//    fun provideAllChannelsApi(retrofit: Retrofit): AllChannelsApi = retrofit.create()
-//
-//    @Provides
-//    @ApplicationScope
-//    fun provideSubscribedChannelsApi(retrofit: Retrofit): SubscribedChannelsApi = retrofit.create()
-
     @Provides
     @ApplicationScope
     fun provideUsersApi(retrofit: Retrofit): UsersApi = retrofit.create()
-
-    @Provides
-    @ApplicationScope
-    fun provideProfileApi(retrofit: Retrofit): ProfileApi = retrofit.create()
-
-//    @Provides
-//    @ApplicationScope
-//    fun provideTopicsApi(retrofit: Retrofit): TopicsApi = retrofit.create()
 
     @Provides
     @ApplicationScope
@@ -80,12 +59,4 @@ interface BindDataModule {
     @Binds
     @ApplicationScope
     fun bindUsersRepository(impl: UsersRepositoryImpl): UsersRepository
-
-    @Binds
-    @ApplicationScope
-    fun bindOwnProfileRepository(impl: OwnProfileRepositoryImpl): OwnProfileRepository
-
-    @Binds
-    @ApplicationScope
-    fun bindOtherProfileRepository(impl: OtherProfileRepositoryImpl): OtherProfileRepository
 }

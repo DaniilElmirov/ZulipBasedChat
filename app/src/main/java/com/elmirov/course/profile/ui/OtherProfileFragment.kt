@@ -44,7 +44,8 @@ class OtherProfileFragment : ElmBaseFragment<ProfileEffect, ProfileState, Profil
     private var userId: Int = 0
 
     private val component by lazy {
-        (requireActivity().application as CourseApplication).component
+        (requireActivity().application as CourseApplication).component.profileComponentFactory()
+            .create()
     }
 
     @Inject
