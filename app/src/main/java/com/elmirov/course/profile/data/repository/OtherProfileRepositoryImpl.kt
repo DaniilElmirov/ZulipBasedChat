@@ -6,7 +6,7 @@ import com.elmirov.course.core.user.data.network.OnlineStatusesApi
 import com.elmirov.course.core.user.data.network.ProfileApi
 import com.elmirov.course.core.user.domain.entity.User
 import com.elmirov.course.core.user.domain.repository.OtherProfileRepository
-import com.elmirov.course.di.annotation.DispatcherIo
+import com.elmirov.course.di.application.annotation.DispatcherIo
 import com.elmirov.course.util.getResultWithHandleError
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject

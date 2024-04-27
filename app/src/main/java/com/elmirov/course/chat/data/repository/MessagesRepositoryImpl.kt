@@ -5,7 +5,7 @@ import com.elmirov.course.chat.data.network.MessagesApi
 import com.elmirov.course.chat.domain.entity.Message
 import com.elmirov.course.chat.domain.repository.MessagesRepository
 import com.elmirov.course.core.result.domain.entity.Result
-import com.elmirov.course.di.annotation.DispatcherIo
+import com.elmirov.course.di.application.annotation.DispatcherIo
 import com.elmirov.course.util.getResultWithHandleError
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineDispatcher

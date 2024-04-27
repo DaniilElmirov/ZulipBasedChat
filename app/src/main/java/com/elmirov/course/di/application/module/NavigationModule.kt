@@ -1,6 +1,6 @@
-package com.elmirov.course.di.module
+package com.elmirov.course.di.application.module
 
-import com.elmirov.course.di.annotation.ApplicationScope
+import com.elmirov.course.di.application.annotation.ApplicationScope
 import com.elmirov.course.navigation.router.GlobalRouter
 import com.elmirov.course.navigation.router.GlobalRouterImpl
 import com.github.terrakok.cicerone.Cicerone

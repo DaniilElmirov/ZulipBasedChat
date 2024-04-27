@@ -1,4 +1,4 @@
-package com.elmirov.course.di.annotation
+package com.elmirov.course.di.application.annotation
 
 import javax.inject.Qualifier
 

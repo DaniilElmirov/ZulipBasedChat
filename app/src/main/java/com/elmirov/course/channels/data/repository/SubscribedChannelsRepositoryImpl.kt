@@ -5,7 +5,7 @@ import com.elmirov.course.channels.data.network.SubscribedChannelsApi
 import com.elmirov.course.channels.domain.entity.Channel
 import com.elmirov.course.channels.domain.repository.SubscribedChannelsRepository
 import com.elmirov.course.core.result.domain.entity.Result
-import com.elmirov.course.di.annotation.DispatcherIo
+import com.elmirov.course.di.application.annotation.DispatcherIo
 import com.elmirov.course.util.getResultWithHandleError
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject

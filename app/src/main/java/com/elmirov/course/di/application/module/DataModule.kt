@@ -1,8 +1,8 @@
-package com.elmirov.course.di.module
+package com.elmirov.course.di.application.module
 
 import com.elmirov.course.core.network.AuthorizationInterceptor
 import com.elmirov.course.core.user.data.network.OnlineStatusesApi
-import com.elmirov.course.di.annotation.ApplicationScope
+import com.elmirov.course.di.application.annotation.ApplicationScope
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient

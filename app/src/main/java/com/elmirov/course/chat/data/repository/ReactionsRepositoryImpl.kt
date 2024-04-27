@@ -3,7 +3,7 @@ package com.elmirov.course.chat.data.repository
 import com.elmirov.course.chat.data.network.ReactionsApi
 import com.elmirov.course.chat.domain.repository.ReactionsRepository
 import com.elmirov.course.core.result.domain.entity.Result
-import com.elmirov.course.di.annotation.DispatcherIo
+import com.elmirov.course.di.application.annotation.DispatcherIo
 import com.elmirov.course.util.getResultWithHandleError
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
