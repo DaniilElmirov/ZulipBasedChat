@@ -53,7 +53,8 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
         get() = _binding!!
 
     private val component by lazy {
-        (requireActivity().application as CourseApplication).component
+        (requireActivity().application as CourseApplication).component.chatComponentFactory()
+            .create()
     }
 
     @Inject
