@@ -3,9 +3,8 @@ package com.elmirov.course.di.component
 import android.content.Context
 import com.elmirov.course.CourseApplication
 import com.elmirov.course.activity.ui.MainActivity
-import com.elmirov.course.channels.ui.all.AllChannelsFragment
-import com.elmirov.course.channels.ui.subscribed.SubscribedChannelsFragment
 import com.elmirov.course.di.annotation.ApplicationScope
+import com.elmirov.course.di.channels.component.ChannelsComponent
 import com.elmirov.course.di.chat.component.ChatComponent
 import com.elmirov.course.di.module.DataModule
 import com.elmirov.course.di.module.DispatcherModule
@@ -32,15 +31,13 @@ interface ApplicationComponent {
 
     fun inject(fragment: UsersFragment)
 
-    fun inject(fragment: AllChannelsFragment)
-
-    fun inject(fragment: SubscribedChannelsFragment)
-
     fun inject(fragment: OwnProfileFragment)
 
     fun inject(fragment: OtherProfileFragment)
 
     fun chatComponentFactory(): ChatComponent.Factory
+
+    fun channelsComponentFactory(): ChannelsComponent.Factory
 
     @Component.Factory
     interface Factory {

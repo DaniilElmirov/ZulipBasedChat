@@ -36,7 +36,8 @@ class AllChannelsFragment : ElmBaseFragment<ChannelsEffect, ChannelsState, Chann
         get() = _binding!!
 
     private val component by lazy {
-        (requireActivity().application as CourseApplication).component
+        (requireActivity().application as CourseApplication).component.channelsComponentFactory()
+            .create()
     }
 
     @Inject

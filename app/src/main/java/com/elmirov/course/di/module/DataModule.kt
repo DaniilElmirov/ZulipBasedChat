@@ -1,14 +1,5 @@
 package com.elmirov.course.di.module
 
-import com.elmirov.course.channels.data.network.AllChannelsApi
-import com.elmirov.course.channels.data.network.SubscribedChannelsApi
-import com.elmirov.course.channels.data.network.TopicsApi
-import com.elmirov.course.channels.data.repository.AllChannelsRepositoryImpl
-import com.elmirov.course.channels.data.repository.ChannelTopicsRepositoryImpl
-import com.elmirov.course.channels.data.repository.SubscribedChannelsRepositoryImpl
-import com.elmirov.course.channels.domain.repository.AllChannelsRepository
-import com.elmirov.course.channels.domain.repository.ChannelTopicsRepository
-import com.elmirov.course.channels.domain.repository.SubscribedChannelsRepository
 import com.elmirov.course.core.network.AuthorizationInterceptor
 import com.elmirov.course.core.user.data.network.OnlineStatusesApi
 import com.elmirov.course.core.user.data.network.ProfileApi
@@ -58,13 +49,13 @@ class DataModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-    @Provides
-    @ApplicationScope
-    fun provideAllChannelsApi(retrofit: Retrofit): AllChannelsApi = retrofit.create()
-
-    @Provides
-    @ApplicationScope
-    fun provideSubscribedChannelsApi(retrofit: Retrofit): SubscribedChannelsApi = retrofit.create()
+//    @Provides
+//    @ApplicationScope
+//    fun provideAllChannelsApi(retrofit: Retrofit): AllChannelsApi = retrofit.create()
+//
+//    @Provides
+//    @ApplicationScope
+//    fun provideSubscribedChannelsApi(retrofit: Retrofit): SubscribedChannelsApi = retrofit.create()
 
     @Provides
     @ApplicationScope
@@ -74,9 +65,9 @@ class DataModule {
     @ApplicationScope
     fun provideProfileApi(retrofit: Retrofit): ProfileApi = retrofit.create()
 
-    @Provides
-    @ApplicationScope
-    fun provideTopicsApi(retrofit: Retrofit): TopicsApi = retrofit.create()
+//    @Provides
+//    @ApplicationScope
+//    fun provideTopicsApi(retrofit: Retrofit): TopicsApi = retrofit.create()
 
     @Provides
     @ApplicationScope
@@ -92,21 +83,9 @@ interface BindDataModule {
 
     @Binds
     @ApplicationScope
-    fun bindAllChannelsRepository(impl: AllChannelsRepositoryImpl): AllChannelsRepository
-
-    @Binds
-    @ApplicationScope
-    fun bindSubscribedChannelsRepository(impl: SubscribedChannelsRepositoryImpl): SubscribedChannelsRepository
-
-    @Binds
-    @ApplicationScope
     fun bindOwnProfileRepository(impl: OwnProfileRepositoryImpl): OwnProfileRepository
 
     @Binds
     @ApplicationScope
     fun bindOtherProfileRepository(impl: OtherProfileRepositoryImpl): OtherProfileRepository
-
-    @Binds
-    @ApplicationScope
-    fun bindChannelTopicsRepository(impl: ChannelTopicsRepositoryImpl): ChannelTopicsRepository
 }
