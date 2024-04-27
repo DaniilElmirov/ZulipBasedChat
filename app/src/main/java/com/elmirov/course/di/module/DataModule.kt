@@ -2,11 +2,7 @@ package com.elmirov.course.di.module
 
 import com.elmirov.course.core.network.AuthorizationInterceptor
 import com.elmirov.course.core.user.data.network.OnlineStatusesApi
-import com.elmirov.course.core.user.data.network.UsersApi
-import com.elmirov.course.core.user.domain.repository.UsersRepository
 import com.elmirov.course.di.annotation.ApplicationScope
-import com.elmirov.course.users.data.repository.UsersRepositoryImpl
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -15,7 +11,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 
-@Module(includes = [BindDataModule::class])
+@Module
 class DataModule {
 
     private companion object {
@@ -46,17 +42,5 @@ class DataModule {
 
     @Provides
     @ApplicationScope
-    fun provideUsersApi(retrofit: Retrofit): UsersApi = retrofit.create()
-
-    @Provides
-    @ApplicationScope
     fun provideOnlineStatusesApi(retrofit: Retrofit): OnlineStatusesApi = retrofit.create()
-}
-
-@Module
-interface BindDataModule {
-
-    @Binds
-    @ApplicationScope
-    fun bindUsersRepository(impl: UsersRepositoryImpl): UsersRepository
 }

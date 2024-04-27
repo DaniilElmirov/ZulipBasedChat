@@ -31,7 +31,8 @@ class UsersFragment : ElmBaseFragment<UsersEffect, UsersState, UsersEvent>() {
         get() = _binding!!
 
     private val component by lazy {
-        (requireActivity().application as CourseApplication).component
+        (requireActivity().application as CourseApplication).component.usersComponentFactory()
+            .create()
     }
 
     @Inject
