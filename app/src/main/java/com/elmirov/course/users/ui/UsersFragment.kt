@@ -10,12 +10,13 @@ import com.elmirov.course.CourseApplication
 import com.elmirov.course.base.ElmBaseFragment
 import com.elmirov.course.core.user.domain.entity.User
 import com.elmirov.course.databinding.FragmentUsersBinding
+import com.elmirov.course.users.presentation.UsersCommand
 import com.elmirov.course.users.presentation.UsersEffect
 import com.elmirov.course.users.presentation.UsersEvent
 import com.elmirov.course.users.presentation.UsersState
-import com.elmirov.course.users.presentation.UsersStoreFactory
 import com.elmirov.course.users.ui.adapter.UsersAdapter
 import vivid.money.elmslie.android.renderer.elmStoreWithRenderer
+import vivid.money.elmslie.core.store.ElmStore
 import vivid.money.elmslie.core.store.Store
 import javax.inject.Inject
 
@@ -36,12 +37,12 @@ class UsersFragment : ElmBaseFragment<UsersEffect, UsersState, UsersEvent>() {
     }
 
     @Inject
-    lateinit var usersStoreFactory: UsersStoreFactory
+    lateinit var usersStore: ElmStore<UsersEvent, UsersState, UsersEffect, UsersCommand>
 
     override val store: Store<UsersEvent, UsersEffect, UsersState> by elmStoreWithRenderer(
         elmRenderer = this
     ) {
-        usersStoreFactory.create()
+        usersStore
     }
 
     private val usersAdapter by lazy {
