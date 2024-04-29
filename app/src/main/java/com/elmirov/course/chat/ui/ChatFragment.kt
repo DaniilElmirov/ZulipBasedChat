@@ -133,6 +133,16 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
     }
 
     override fun render(state: ChatState) {
+        val chatInfo = state.chatInfo
+
+        if (chatInfo != null) {
+            binding.toolbar.title =
+                String.format(getString(R.string.hashtag_with_stream_name, chatInfo.channelName))
+
+            binding.topic.text =
+                String.format(getString(R.string.topic_with_name), chatInfo.topicName)
+        }
+
         if (state.loading)
             applyLoading()
 
@@ -148,10 +158,6 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
     private fun applyArguments() {
         channelName = requireArguments().getString(KEY_TOPIC_CHANNEL_NAME) ?: EMPTY_STRING
         topicName = requireArguments().getString(KEY_TOPIC_NAME) ?: EMPTY_STRING
-
-        binding.toolbar.title =
-            String.format(getString(R.string.hashtag_with_stream_name, channelName))
-        binding.topic.text = String.format(getString(R.string.topic_with_name), topicName)
 
         store.accept(ChatEvent.Ui.Init(channelName, topicName))
     }
