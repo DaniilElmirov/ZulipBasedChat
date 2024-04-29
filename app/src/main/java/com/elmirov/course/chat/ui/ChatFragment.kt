@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.elmirov.course.CourseApplication
 import com.elmirov.course.R
 import com.elmirov.course.base.ElmBaseFragment
+import com.elmirov.course.chat.domain.entity.ChatInfo
 import com.elmirov.course.chat.domain.entity.Message
 import com.elmirov.course.chat.presentation.ChatCommand
 import com.elmirov.course.chat.presentation.ChatEffect
@@ -54,8 +55,11 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
         get() = _binding!!
 
     private val component by lazy {
+        val channelName = requireArguments().getString(KEY_TOPIC_CHANNEL_NAME) ?: EMPTY_STRING
+        val topicName = requireArguments().getString(KEY_TOPIC_NAME) ?: EMPTY_STRING
+
         (requireActivity().application as CourseApplication).component.chatComponentFactory()
-            .create()
+            .create(ChatInfo(channelName, topicName))
     }
 
     @Inject
@@ -75,8 +79,6 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
                     onReactionClick = { messageId, reaction, selected ->
                         store.accept(
                             ChatEvent.Ui.OnReactionClick(
-                                channelName,
-                                topicName,
                                 messageId,
                                 reaction,
                                 selected
@@ -91,8 +93,6 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
                     onReactionClick = { messageId, reaction, selected ->
                         store.accept(
                             ChatEvent.Ui.OnReactionClick(
-                                channelName,
-                                topicName,
                                 messageId,
                                 reaction,
                                 selected
@@ -104,9 +104,6 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
             addDelegate(DateDelegate())
         }
     }
-
-    private lateinit var channelName: String
-    private lateinit var topicName: String
 
     override fun onAttach(context: Context) {
         component.inject(this)
@@ -125,7 +122,7 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        applyArguments()
+        store.accept(ChatEvent.Ui.Init)
         setupAdapter()
         setupListeners()
         setTextChangeListener()
@@ -133,15 +130,6 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
     }
 
     override fun render(state: ChatState) {
-        val chatInfo = state.chatInfo
-
-        if (chatInfo != null) {
-            binding.toolbar.title =
-                String.format(getString(R.string.hashtag_with_stream_name, chatInfo.channelName))
-
-            binding.topic.text =
-                String.format(getString(R.string.topic_with_name), chatInfo.topicName)
-        }
 
         if (state.loading)
             applyLoading()
@@ -153,13 +141,8 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
 
     override fun handleEffect(effect: ChatEffect): Unit = when (effect) {
         ChatEffect.ShowError -> applyError()
-    }
 
-    private fun applyArguments() {
-        channelName = requireArguments().getString(KEY_TOPIC_CHANNEL_NAME) ?: EMPTY_STRING
-        topicName = requireArguments().getString(KEY_TOPIC_NAME) ?: EMPTY_STRING
-
-        store.accept(ChatEvent.Ui.Init(channelName, topicName))
+        is ChatEffect.ShowInfo -> applyShowInfo(effect.chatInfo)
     }
 
     private fun setupAdapter() {
@@ -178,12 +161,8 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
             val messageText = binding.newMessage.text?.trim().toString()
             binding.newMessage.text = null
 
-            sendMessage(messageText)
+            store.accept(ChatEvent.Ui.OnSendMessageClick(messageText))
         }
-    }
-
-    private fun sendMessage(text: String) {
-        store.accept(ChatEvent.Ui.OnSendMessageClick(channelName, topicName, text))
     }
 
     private fun applyContent(data: List<Message>) {
@@ -210,6 +189,20 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
 
     private fun applyError() {
         showSnack()
+    }
+
+    private fun applyShowInfo(chatInfo: ChatInfo) {
+        //TODO собрать ChatInfo в компоненте, прокинуть через презентейшн слой и тут обработать, что-то я делаю явно не так
+        binding.toolbar.title =
+            String.format(
+                getString(
+                    R.string.hashtag_with_stream_name,
+                    chatInfo.channelName
+                )
+            )
+
+        binding.topic.text =
+            String.format(getString(R.string.topic_with_name), chatInfo.topicName)
     }
 
     private fun setTextChangeListener() {
@@ -247,8 +240,6 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
         dialog.click = { _, reaction, selected ->
             store.accept(
                 ChatEvent.Ui.OnReactionClick(
-                    channelName,
-                    topicName,
                     messageId,
                     reaction,
                     selected

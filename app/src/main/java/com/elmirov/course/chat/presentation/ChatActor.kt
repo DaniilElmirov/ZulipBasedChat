@@ -1,5 +1,6 @@
 package com.elmirov.course.chat.presentation
 
+import com.elmirov.course.chat.domain.entity.ChatInfo
 import com.elmirov.course.chat.domain.entity.Message
 import com.elmirov.course.chat.domain.usecase.AddReactionToMessageUseCase
 import com.elmirov.course.chat.domain.usecase.GetChannelTopicMessagesUseCase
@@ -12,6 +13,7 @@ import vivid.money.elmslie.core.store.Actor
 import javax.inject.Inject
 
 class ChatActor @Inject constructor(
+    private val chatInfo: ChatInfo,
     private val getChannelTopicMessagesUseCase: GetChannelTopicMessagesUseCase,
     private val sendMessageToChannelTopicUseCase: SendMessageToChannelTopicUseCase,
     private val addReactionToMessageUseCase: AddReactionToMessageUseCase,
@@ -20,28 +22,33 @@ class ChatActor @Inject constructor(
 
     override fun execute(command: ChatCommand): Flow<ChatEvent> = flow {
         when (command) {
+
+            ChatCommand.ShowInfo -> emit(ChatEvent.Internal.ShowInfo(chatInfo))
+
             is ChatCommand.Load -> emit(
-                applyLoadMessage(
+                applyLoadMessages(
                     getChannelTopicMessagesUseCase(
-                        command.channelName,
-                        command.topicName
+                        chatInfo.channelName,
+                        chatInfo.topicName
                     )
                 )
             )
 
             is ChatCommand.Send -> {
-                when (sendMessageToChannelTopicUseCase(
-                    command.channelName,
-                    command.topicName,
-                    command.text
-                )) {
+                when (
+                    sendMessageToChannelTopicUseCase(
+                        chatInfo.channelName,
+                        chatInfo.topicName,
+                        command.text
+                    )
+                ) {
                     is Result.Error -> emit(ChatEvent.Internal.ChatLoadingError)
 
                     is Result.Success -> emit(
-                        applyLoadMessage(
+                        applyLoadMessages(
                             getChannelTopicMessagesUseCase(
-                                command.channelName,
-                                command.topicName
+                                chatInfo.channelName,
+                                chatInfo.topicName,
                             )
                         )
                     )
@@ -66,10 +73,10 @@ class ChatActor @Inject constructor(
                     is Result.Error -> emit(ChatEvent.Internal.ChatLoadingError)
 
                     is Result.Success -> emit(
-                        applyLoadMessage(
+                        applyLoadMessages(
                             getChannelTopicMessagesUseCase(
-                                command.channelName,
-                                command.topicName
+                                chatInfo.channelName,
+                                chatInfo.topicName,
                             )
                         )
                     )
@@ -78,7 +85,7 @@ class ChatActor @Inject constructor(
         }
     }
 
-    private fun applyLoadMessage(result: Result<List<Message>>): ChatEvent.Internal =
+    private fun applyLoadMessages(result: Result<List<Message>>): ChatEvent.Internal =
         when (result) {
             is Result.Error -> ChatEvent.Internal.ChatLoadingError
             is Result.Success -> ChatEvent.Internal.ChatLoadingSuccess(result.data)

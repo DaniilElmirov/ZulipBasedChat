@@ -16,7 +16,11 @@ class ChatReducer @Inject constructor(
     ChatEvent.Ui::class, ChatEvent.Internal::class
 ) {
     override fun Result.internal(event: ChatEvent.Internal): Any = when (event) {
-        ChatEvent.Internal.ChatLoadingError -> {
+        is ChatEvent.Internal.ShowInfo -> {
+            effects { +ChatEffect.ShowInfo(event.chatInfo) }
+        }
+
+        is ChatEvent.Internal.ChatLoadingError -> {
             state { copy(loading = false) }
             effects { +ChatEffect.ShowError }
         }
@@ -29,7 +33,8 @@ class ChatReducer @Inject constructor(
     override fun Result.ui(event: ChatEvent.Ui): Any = when (event) {
         is ChatEvent.Ui.Init -> {
             state { copy(loading = true) }
-            commands { +ChatCommand.Load(event.channelName, event.topicName) }
+            commands { +ChatCommand.ShowInfo }
+            commands { +ChatCommand.Load }
         }
 
         ChatEvent.Ui.OnBackClick -> globalRouter.back()
@@ -37,17 +42,15 @@ class ChatReducer @Inject constructor(
         is ChatEvent.Ui.OnReactionClick -> {
             commands {
                 +ChatCommand.AddReaction(
-                    event.channelName,
-                    event.topicName,
-                    event.messageId,
-                    event.reaction,
-                    event.selected
+                    messageId = event.messageId,
+                    reaction = event.reaction,
+                    selected = event.selected,
                 )
             }
         }
 
         is ChatEvent.Ui.OnSendMessageClick -> {
-            commands { +ChatCommand.Send(event.channelName, event.topicName, event.text) }
+            commands { +ChatCommand.Send(event.text) }
         }
     }
 }

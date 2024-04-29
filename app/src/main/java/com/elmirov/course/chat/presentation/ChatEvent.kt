@@ -1,24 +1,21 @@
 package com.elmirov.course.chat.presentation
 
+import com.elmirov.course.chat.domain.entity.ChatInfo
 import com.elmirov.course.chat.domain.entity.Message
 import com.elmirov.course.chat.domain.entity.Reaction
 
 sealed interface ChatEvent {
 
     sealed interface Ui : ChatEvent {
-        data class Init(val channelName: String, val topicName: String) : Ui
+        data object Init : Ui
 
         data class OnReactionClick(
-            val channelName: String,
-            val topicName: String,
             val messageId: Int,
             val reaction: Reaction,
             val selected: Boolean
         ) : Ui
 
         data class OnSendMessageClick(
-            val channelName: String,
-            val topicName: String,
             val text: String
         ) : Ui
 
@@ -26,6 +23,8 @@ sealed interface ChatEvent {
     }
 
     sealed interface Internal : ChatEvent {
+        data class ShowInfo(val chatInfo: ChatInfo) : Internal
+
         data class ChatLoadingSuccess(val data: List<Message>) : Internal
 
         data object ChatLoadingError : Internal
