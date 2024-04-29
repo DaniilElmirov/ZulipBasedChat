@@ -13,18 +13,18 @@ import com.elmirov.course.R
 import com.elmirov.course.base.ElmBaseFragment
 import com.elmirov.course.core.user.domain.entity.User
 import com.elmirov.course.databinding.FragmentProfileBinding
+import com.elmirov.course.profile.presentation.ProfileCommand
 import com.elmirov.course.profile.presentation.ProfileEffect
 import com.elmirov.course.profile.presentation.ProfileEvent
 import com.elmirov.course.profile.presentation.ProfileState
-import com.elmirov.course.profile.presentation.ProfileStoreFactory
 import com.elmirov.course.util.dpToPix
 import vivid.money.elmslie.android.renderer.elmStoreWithRenderer
+import vivid.money.elmslie.core.store.ElmStore
 import vivid.money.elmslie.core.store.Store
 import javax.inject.Inject
 
 class OtherProfileFragment : ElmBaseFragment<ProfileEffect, ProfileState, ProfileEvent>() {
 
-    //TODO нужен общий фрагмент для other и own profile, сделать его и прокидывать store через di сразу, а не через "фабрику"
     companion object {
 
         private const val KEY_USER_ID = "KEY_USER_ID"
@@ -49,12 +49,12 @@ class OtherProfileFragment : ElmBaseFragment<ProfileEffect, ProfileState, Profil
     }
 
     @Inject
-    lateinit var profileStoreFactory: ProfileStoreFactory
+    lateinit var profileStore: ElmStore<ProfileEvent, ProfileState, ProfileEffect, ProfileCommand>
 
     override val store: Store<ProfileEvent, ProfileEffect, ProfileState> by elmStoreWithRenderer(
         elmRenderer = this
     ) {
-        profileStoreFactory.create()
+        profileStore
     }
 
     override fun onAttach(context: Context) {
