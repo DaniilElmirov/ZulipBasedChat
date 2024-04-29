@@ -9,15 +9,40 @@ import com.elmirov.course.channels.data.repository.SubscribedChannelsRepositoryI
 import com.elmirov.course.channels.domain.repository.AllChannelsRepository
 import com.elmirov.course.channels.domain.repository.ChannelTopicsRepository
 import com.elmirov.course.channels.domain.repository.SubscribedChannelsRepository
+import com.elmirov.course.channels.presentation.ChannelsActor
+import com.elmirov.course.channels.presentation.ChannelsCommand
+import com.elmirov.course.channels.presentation.ChannelsEffect
+import com.elmirov.course.channels.presentation.ChannelsEvent
+import com.elmirov.course.channels.presentation.ChannelsReducer
+import com.elmirov.course.channels.presentation.ChannelsState
 import com.elmirov.course.di.channels.annotation.ChannelsScope
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
 import retrofit2.create
+import vivid.money.elmslie.core.store.ElmStore
 
 @Module(includes = [BindChannelsDataModule::class])
 class ChannelsDataModule {
+
+    @Provides
+    @ChannelsScope
+    fun provideChannelsState(): ChannelsState = ChannelsState()
+
+    @Provides
+    @ChannelsScope
+    fun provideChannelsStore(
+        channelsState: ChannelsState,
+        channelsReducer: ChannelsReducer,
+        channelsActor: ChannelsActor
+    ): ElmStore<ChannelsEvent, ChannelsState, ChannelsEffect, ChannelsCommand> =
+        ElmStore(
+            initialState = channelsState,
+            reducer = channelsReducer,
+            actor = channelsActor,
+        )
+
     @Provides
     @ChannelsScope
     fun provideAllChannelsApi(retrofit: Retrofit): AllChannelsApi = retrofit.create()

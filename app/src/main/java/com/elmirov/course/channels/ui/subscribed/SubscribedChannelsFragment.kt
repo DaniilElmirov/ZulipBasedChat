@@ -9,10 +9,10 @@ import androidx.core.view.isVisible
 import com.elmirov.course.CourseApplication
 import com.elmirov.course.base.ElmBaseFragment
 import com.elmirov.course.channels.domain.entity.Channel
+import com.elmirov.course.channels.presentation.ChannelsCommand
 import com.elmirov.course.channels.presentation.ChannelsEffect
 import com.elmirov.course.channels.presentation.ChannelsEvent
 import com.elmirov.course.channels.presentation.ChannelsState
-import com.elmirov.course.channels.presentation.ChannelsStoreFactory
 import com.elmirov.course.channels.ui.communicator.SubscribedChannelsCommunicator
 import com.elmirov.course.channels.ui.delegate.channel.ChannelDelegate
 import com.elmirov.course.channels.ui.delegate.topic.TopicDelegate
@@ -20,6 +20,7 @@ import com.elmirov.course.core.adapter.MainAdapter
 import com.elmirov.course.databinding.FragmentPageChannelsBinding
 import com.elmirov.course.util.toDelegateItems
 import vivid.money.elmslie.android.renderer.elmStoreWithRenderer
+import vivid.money.elmslie.core.store.ElmStore
 import vivid.money.elmslie.core.store.Store
 import javax.inject.Inject
 
@@ -42,12 +43,12 @@ class SubscribedChannelsFragment : ElmBaseFragment<ChannelsEffect, ChannelsState
     }
 
     @Inject
-    lateinit var channelsStoreFactory: ChannelsStoreFactory
+    lateinit var channelsStore: ElmStore<ChannelsEvent, ChannelsState, ChannelsEffect, ChannelsCommand>
 
     override val store: Store<ChannelsEvent, ChannelsEffect, ChannelsState> by elmStoreWithRenderer(
         elmRenderer = this
     ) {
-        channelsStoreFactory.create()
+        channelsStore
     }
 
     private val subscribedChannelsAdapter by lazy {
