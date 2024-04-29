@@ -12,10 +12,10 @@ import com.elmirov.course.CourseApplication
 import com.elmirov.course.R
 import com.elmirov.course.base.ElmBaseFragment
 import com.elmirov.course.chat.domain.entity.Message
+import com.elmirov.course.chat.presentation.ChatCommand
 import com.elmirov.course.chat.presentation.ChatEffect
 import com.elmirov.course.chat.presentation.ChatEvent
 import com.elmirov.course.chat.presentation.ChatState
-import com.elmirov.course.chat.presentation.ChatStoreFactory
 import com.elmirov.course.chat.ui.delegate.date.DateDelegate
 import com.elmirov.course.chat.ui.delegate.incoming.IncomingMessageDelegate
 import com.elmirov.course.chat.ui.delegate.outgoing.OutgoingMessageDelegate
@@ -24,6 +24,7 @@ import com.elmirov.course.databinding.FragmentChatBinding
 import com.elmirov.course.util.toDelegateItems
 import com.google.android.material.snackbar.Snackbar
 import vivid.money.elmslie.android.renderer.elmStoreWithRenderer
+import vivid.money.elmslie.core.store.ElmStore
 import vivid.money.elmslie.core.store.Store
 import javax.inject.Inject
 
@@ -58,12 +59,12 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
     }
 
     @Inject
-    lateinit var chatStoreFactory: ChatStoreFactory
+    lateinit var chatStore: ElmStore<ChatEvent, ChatState, ChatEffect, ChatCommand>
 
     override val store: Store<ChatEvent, ChatEffect, ChatState> by elmStoreWithRenderer(
         elmRenderer = this
     ) {
-        chatStoreFactory.create()
+        chatStore
     }
 
     private val messagesAdapter: MainAdapter by lazy {
