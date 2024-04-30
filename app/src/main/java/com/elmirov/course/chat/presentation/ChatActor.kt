@@ -23,8 +23,6 @@ class ChatActor @Inject constructor(
     override fun execute(command: ChatCommand): Flow<ChatEvent> = flow {
         when (command) {
 
-            ChatCommand.ShowInfo -> emit(ChatEvent.Internal.ShowInfo(chatInfo))
-
             is ChatCommand.Load -> emit(
                 applyLoadMessages(
                     getChannelTopicMessagesUseCase(

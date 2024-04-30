@@ -1,5 +1,6 @@
 package com.elmirov.course.chat.presentation
 
+import com.elmirov.course.chat.domain.entity.ChatInfo
 import com.elmirov.course.navigation.router.GlobalRouter
 import vivid.money.elmslie.core.store.dsl.ScreenDslReducer
 import javax.inject.Inject
@@ -16,9 +17,6 @@ class ChatReducer @Inject constructor(
     ChatEvent.Ui::class, ChatEvent.Internal::class
 ) {
     override fun Result.internal(event: ChatEvent.Internal): Any = when (event) {
-        is ChatEvent.Internal.ShowInfo -> {
-            effects { +ChatEffect.ShowInfo(event.chatInfo) }
-        }
 
         is ChatEvent.Internal.ChatLoadingError -> {
             state { copy(loading = false) }
@@ -32,8 +30,15 @@ class ChatReducer @Inject constructor(
 
     override fun Result.ui(event: ChatEvent.Ui): Any = when (event) {
         is ChatEvent.Ui.Init -> {
-            state { copy(loading = true) }
-            commands { +ChatCommand.ShowInfo }
+            state {
+                copy(
+                    loading = true,
+                    chatInfo = ChatInfo(
+                        channelName = event.channelName,
+                        topicName = event.topicName
+                    ),
+                )
+            }
             commands { +ChatCommand.Load }
         }
 

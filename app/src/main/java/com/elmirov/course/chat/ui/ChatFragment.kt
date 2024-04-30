@@ -122,14 +122,24 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        store.accept(ChatEvent.Ui.Init)
+        applyArguments()
         setupAdapter()
         setupListeners()
         setTextChangeListener()
         setNavigationIconClickListener()
     }
 
+    private fun applyArguments() {
+        val channelName = requireArguments().getString(KEY_TOPIC_CHANNEL_NAME) ?: EMPTY_STRING
+        val topicName = requireArguments().getString(KEY_TOPIC_NAME) ?: EMPTY_STRING
+
+        store.accept(ChatEvent.Ui.Init(channelName, topicName))
+    }
+
     override fun render(state: ChatState) {
+        state.chatInfo?.let {
+            setupToolbar(it.channelName, it.topicName)
+        }
 
         if (state.loading)
             applyLoading()
@@ -141,8 +151,19 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
 
     override fun handleEffect(effect: ChatEffect): Unit = when (effect) {
         ChatEffect.ShowError -> applyError()
+    }
 
-        is ChatEffect.ShowInfo -> applyShowInfo(effect.chatInfo)
+    private fun setupToolbar(channelName: String, topicName: String) {
+        binding.toolbar.title =
+            String.format(
+                getString(
+                    R.string.hashtag_with_stream_name,
+                    channelName
+                )
+            )
+
+        binding.topic.text =
+            String.format(getString(R.string.topic_with_name), topicName)
     }
 
     private fun setupAdapter() {
@@ -189,20 +210,6 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
 
     private fun applyError() {
         showSnack()
-    }
-
-    private fun applyShowInfo(chatInfo: ChatInfo) {
-        //TODO собрать ChatInfo в компоненте, прокинуть через презентейшн слой и тут обработать, что-то я делаю явно не так
-        binding.toolbar.title =
-            String.format(
-                getString(
-                    R.string.hashtag_with_stream_name,
-                    chatInfo.channelName
-                )
-            )
-
-        binding.topic.text =
-            String.format(getString(R.string.topic_with_name), chatInfo.topicName)
     }
 
     private fun setTextChangeListener() {
