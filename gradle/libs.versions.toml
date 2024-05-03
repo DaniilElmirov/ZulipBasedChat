@@ -16,6 +16,7 @@ retrofit = "2.9.0"
 interceptor = "4.12.0"
 coil = "2.5.0"
 elmslie = "3.0.0-alpha10"
+room = "2.6.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -35,6 +36,9 @@ okhttp-loggin-interceptor = { group = "com.squareup.okhttp3", name = "logging-in
 coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
 elmslie-core = { module = "com.github.vivid-money.elmslie:elmslie-core", version.ref = "elmslie" }
 elmslie-android = { module = "com.github.vivid-money.elmslie:elmslie-android", version.ref = "elmslie" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -44,3 +48,4 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 [bundles]
 retrofit = ["squareup-retrofit", "squareup-retrofit-converter", "okhttp-loggin-interceptor"]
 elmslie = ["elmslie-core", "elmslie-android"]
+room = ["room-ktx", "room-runtime"]
