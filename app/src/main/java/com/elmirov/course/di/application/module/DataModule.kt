@@ -1,5 +1,8 @@
 package com.elmirov.course.di.application.module
 
+import android.content.Context
+import androidx.room.Room
+import com.elmirov.course.channels.data.local.dao.ChannelsDao
 import com.elmirov.course.channels.data.remote.network.AllChannelsApi
 import com.elmirov.course.channels.data.remote.network.SubscribedChannelsApi
 import com.elmirov.course.channels.data.remote.network.TopicsApi
@@ -15,6 +18,7 @@ import com.elmirov.course.chat.data.repository.MessagesRepositoryImpl
 import com.elmirov.course.chat.data.repository.ReactionsRepositoryImpl
 import com.elmirov.course.chat.domain.repository.MessagesRepository
 import com.elmirov.course.chat.domain.repository.ReactionsRepository
+import com.elmirov.course.core.database.AppDatabase
 import com.elmirov.course.core.network.AuthorizationInterceptor
 import com.elmirov.course.core.user.data.network.OnlineStatusesApi
 import com.elmirov.course.core.user.data.network.ProfileApi
@@ -63,6 +67,20 @@ class DataModule {
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+
+    @Provides
+    @ApplicationScope
+    fun provideAppDatabase(context: Context): AppDatabase =
+        Room.databaseBuilder(
+            context = context,
+            klass = AppDatabase::class.java,
+            AppDatabase.DATABASE_NAME
+        ).build()
+
+    @Provides
+    @ApplicationScope
+    fun provideChannelsDao(database: AppDatabase): ChannelsDao =
+        database.channelsDao()
 
     @Provides
     @ApplicationScope
