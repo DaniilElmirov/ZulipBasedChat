@@ -18,11 +18,14 @@ import com.elmirov.course.chat.domain.repository.ReactionsRepository
 import com.elmirov.course.core.network.AuthorizationInterceptor
 import com.elmirov.course.core.user.data.network.OnlineStatusesApi
 import com.elmirov.course.core.user.data.network.ProfileApi
+import com.elmirov.course.core.user.data.network.UsersApi
 import com.elmirov.course.core.user.domain.repository.OtherProfileRepository
 import com.elmirov.course.core.user.domain.repository.OwnProfileRepository
+import com.elmirov.course.core.user.domain.repository.UsersRepository
 import com.elmirov.course.di.application.annotation.ApplicationScope
 import com.elmirov.course.profile.data.repository.OtherProfileRepositoryImpl
 import com.elmirov.course.profile.data.repository.OwnProfileRepositoryImpl
+import com.elmirov.course.users.data.repository.UsersRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -89,6 +92,10 @@ class DataModule {
     @Provides
     @ApplicationScope
     fun provideProfileApi(retrofit: Retrofit): ProfileApi = retrofit.create()
+
+    @Provides
+    @ApplicationScope
+    fun provideUsersApi(retrofit: Retrofit): UsersApi = retrofit.create()
 }
 
 @Module
@@ -120,4 +127,8 @@ interface BindDataModule {
     @Binds
     @ApplicationScope
     fun bindOtherProfileRepository(impl: OtherProfileRepositoryImpl): OtherProfileRepository
+
+    @Binds
+    @ApplicationScope
+    fun bindUsersRepository(impl: UsersRepositoryImpl): UsersRepository
 }
