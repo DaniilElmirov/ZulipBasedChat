@@ -1,7 +1,7 @@
 package com.elmirov.course.chat.data.repository
 
 import com.elmirov.course.chat.data.mapper.toEntities
-import com.elmirov.course.chat.data.network.MessagesApi
+import com.elmirov.course.chat.data.remote.network.MessagesApi
 import com.elmirov.course.chat.domain.entity.Message
 import com.elmirov.course.chat.domain.repository.MessagesRepository
 import com.elmirov.course.core.result.domain.entity.Result

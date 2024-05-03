@@ -1,4 +1,4 @@
-package com.elmirov.course.chat.data.model
+package com.elmirov.course.chat.data.remote.model
 
 import com.google.gson.annotations.SerializedName
 

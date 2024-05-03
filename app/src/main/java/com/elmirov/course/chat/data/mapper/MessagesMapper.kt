@@ -1,8 +1,8 @@
 package com.elmirov.course.chat.data.mapper
 
-import com.elmirov.course.chat.data.model.MessageModel
-import com.elmirov.course.chat.data.model.MessagesResponseModel
-import com.elmirov.course.chat.data.model.ReactionModel
+import com.elmirov.course.chat.data.remote.model.MessageModel
+import com.elmirov.course.chat.data.remote.model.MessagesResponseModel
+import com.elmirov.course.chat.data.remote.model.ReactionModel
 import com.elmirov.course.chat.domain.entity.Message
 import com.elmirov.course.chat.domain.entity.Reaction
 import com.elmirov.course.chat.domain.entity.ReactionParams

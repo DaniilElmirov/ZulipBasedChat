@@ -1,7 +1,7 @@
 package com.elmirov.course.di.chat.module
 
-import com.elmirov.course.chat.data.network.MessagesApi
-import com.elmirov.course.chat.data.network.ReactionsApi
+import com.elmirov.course.chat.data.remote.network.MessagesApi
+import com.elmirov.course.chat.data.remote.network.ReactionsApi
 import com.elmirov.course.chat.data.repository.MessagesRepositoryImpl
 import com.elmirov.course.chat.data.repository.ReactionsRepositoryImpl
 import com.elmirov.course.chat.domain.repository.MessagesRepository
