@@ -1,6 +1,6 @@
-package com.elmirov.course.channels.data.network
+package com.elmirov.course.channels.data.remote.network
 
-import com.elmirov.course.channels.data.model.SubscribedChannelsResponseModel
+import com.elmirov.course.channels.data.remote.model.SubscribedChannelsResponseModel
 import retrofit2.http.GET
 
 interface SubscribedChannelsApi {

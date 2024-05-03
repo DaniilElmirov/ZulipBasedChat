@@ -1,7 +1,7 @@
 package com.elmirov.course.channels.data.mapper
 
-import com.elmirov.course.channels.data.model.TopicModel
-import com.elmirov.course.channels.data.model.TopicsResponseModel
+import com.elmirov.course.channels.data.remote.model.TopicModel
+import com.elmirov.course.channels.data.remote.model.TopicsResponseModel
 import com.elmirov.course.channels.domain.entity.Topic
 
 fun TopicsResponseModel.toEntities(topicChannelId: Int): List<Topic> =

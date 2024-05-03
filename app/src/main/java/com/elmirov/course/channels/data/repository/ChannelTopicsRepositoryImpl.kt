@@ -1,7 +1,7 @@
 package com.elmirov.course.channels.data.repository
 
 import com.elmirov.course.channels.data.mapper.toEntities
-import com.elmirov.course.channels.data.network.TopicsApi
+import com.elmirov.course.channels.data.remote.network.TopicsApi
 import com.elmirov.course.channels.domain.entity.Topic
 import com.elmirov.course.channels.domain.repository.ChannelTopicsRepository
 import com.elmirov.course.core.result.domain.entity.Result

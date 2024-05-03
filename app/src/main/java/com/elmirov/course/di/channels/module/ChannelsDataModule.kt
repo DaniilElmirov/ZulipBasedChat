@@ -1,8 +1,8 @@
 package com.elmirov.course.di.channels.module
 
-import com.elmirov.course.channels.data.network.AllChannelsApi
-import com.elmirov.course.channels.data.network.SubscribedChannelsApi
-import com.elmirov.course.channels.data.network.TopicsApi
+import com.elmirov.course.channels.data.remote.network.AllChannelsApi
+import com.elmirov.course.channels.data.remote.network.SubscribedChannelsApi
+import com.elmirov.course.channels.data.remote.network.TopicsApi
 import com.elmirov.course.channels.data.repository.AllChannelsRepositoryImpl
 import com.elmirov.course.channels.data.repository.ChannelTopicsRepositoryImpl
 import com.elmirov.course.channels.data.repository.SubscribedChannelsRepositoryImpl

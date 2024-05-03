@@ -1,4 +1,4 @@
-package com.elmirov.course.channels.data.model
+package com.elmirov.course.channels.data.remote.model
 
 import com.google.gson.annotations.SerializedName
 
