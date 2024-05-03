@@ -2,15 +2,15 @@ package com.elmirov.course.di.chat.component
 
 import com.elmirov.course.chat.domain.entity.ChatInfo
 import com.elmirov.course.chat.ui.ChatFragment
-import com.elmirov.course.di.chat.module.ChatDataModule
 import com.elmirov.course.di.chat.annotation.ChatScope
+import com.elmirov.course.di.chat.module.ChatPresentationModule
 import dagger.BindsInstance
 import dagger.Subcomponent
 
 @ChatScope
 @Subcomponent(
     modules = [
-        ChatDataModule::class,
+        ChatPresentationModule::class,
     ]
 )
 interface ChatComponent {

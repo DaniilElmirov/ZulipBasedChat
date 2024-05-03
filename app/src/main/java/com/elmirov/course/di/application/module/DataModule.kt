@@ -9,6 +9,12 @@ import com.elmirov.course.channels.data.repository.SubscribedChannelsRepositoryI
 import com.elmirov.course.channels.domain.repository.AllChannelsRepository
 import com.elmirov.course.channels.domain.repository.ChannelTopicsRepository
 import com.elmirov.course.channels.domain.repository.SubscribedChannelsRepository
+import com.elmirov.course.chat.data.remote.network.MessagesApi
+import com.elmirov.course.chat.data.remote.network.ReactionsApi
+import com.elmirov.course.chat.data.repository.MessagesRepositoryImpl
+import com.elmirov.course.chat.data.repository.ReactionsRepositoryImpl
+import com.elmirov.course.chat.domain.repository.MessagesRepository
+import com.elmirov.course.chat.domain.repository.ReactionsRepository
 import com.elmirov.course.core.network.AuthorizationInterceptor
 import com.elmirov.course.core.user.data.network.OnlineStatusesApi
 import com.elmirov.course.di.application.annotation.ApplicationScope
@@ -66,6 +72,14 @@ class DataModule {
     @Provides
     @ApplicationScope
     fun provideTopicsApi(retrofit: Retrofit): TopicsApi = retrofit.create()
+
+    @Provides
+    @ApplicationScope
+    fun provideMessagesApi(retrofit: Retrofit): MessagesApi = retrofit.create()
+
+    @Provides
+    @ApplicationScope
+    fun provideReactionsApi(retrofit: Retrofit): ReactionsApi = retrofit.create()
 }
 
 @Module
@@ -81,4 +95,12 @@ interface BindDataModule {
     @Binds
     @ApplicationScope
     fun bindChannelTopicsRepository(impl: ChannelTopicsRepositoryImpl): ChannelTopicsRepository
+
+    @Binds
+    @ApplicationScope
+    fun bindMessagesRepository(impl: MessagesRepositoryImpl): MessagesRepository
+
+    @Binds
+    @ApplicationScope
+    fun bindReactionsRepository(impl: ReactionsRepositoryImpl): ReactionsRepository
 }
