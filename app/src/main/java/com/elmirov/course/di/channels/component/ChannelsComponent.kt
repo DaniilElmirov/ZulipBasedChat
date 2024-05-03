@@ -3,13 +3,13 @@ package com.elmirov.course.di.channels.component
 import com.elmirov.course.channels.ui.all.AllChannelsFragment
 import com.elmirov.course.channels.ui.subscribed.SubscribedChannelsFragment
 import com.elmirov.course.di.channels.annotation.ChannelsScope
-import com.elmirov.course.di.channels.module.ChannelsDataModule
+import com.elmirov.course.di.channels.module.ChannelsPresentationModule
 import dagger.Subcomponent
 
 @ChannelsScope
 @Subcomponent(
     modules = [
-        ChannelsDataModule::class,
+        ChannelsPresentationModule::class,
     ]
 )
 interface ChannelsComponent {
