@@ -7,6 +7,8 @@ import androidx.room.PrimaryKey
 @Entity
 data class MessageDbModel(
     @PrimaryKey @ColumnInfo(name = COLUMN_ID) val id: Int,
+    val channelName: String,
+    val topicName: String,
     val timestamp: Int,
     val authorId: Int,
     val avatarUrl: String?,

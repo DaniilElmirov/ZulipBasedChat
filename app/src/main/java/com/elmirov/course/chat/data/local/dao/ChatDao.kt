@@ -13,8 +13,11 @@ import com.elmirov.course.chat.data.local.model.ReactionDbModel
 interface ChatDao {
 
     @Transaction
-    @Query("SELECT * FROM MessageDbModel")
-    suspend fun getMessages(): List<MessageWithReactionsDbModel>
+    @Query("SELECT * FROM MessageDbModel WHERE (channelName = :channelName AND topicName = :topicName)")
+    suspend fun getMessages(
+        channelName: String,
+        topicName: String
+    ): List<MessageWithReactionsDbModel>
 
     @Transaction
     suspend fun insertMessages(messages: List<MessageWithReactionsDbModel>) {
