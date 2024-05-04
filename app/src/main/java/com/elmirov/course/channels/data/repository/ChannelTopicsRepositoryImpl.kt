@@ -1,5 +1,7 @@
 package com.elmirov.course.channels.data.repository
 
+import com.elmirov.course.channels.data.local.dao.TopicsDao
+import com.elmirov.course.channels.data.mapper.toDb
 import com.elmirov.course.channels.data.mapper.toEntities
 import com.elmirov.course.channels.data.remote.network.TopicsApi
 import com.elmirov.course.channels.domain.entity.Topic
@@ -12,6 +14,7 @@ import javax.inject.Inject
 
 class ChannelTopicsRepositoryImpl @Inject constructor(
     private val api: TopicsApi,
+    private val dao: TopicsDao,
     @DispatcherIo private val dispatcherIo: CoroutineDispatcher,
 ) : ChannelTopicsRepository {
 
@@ -19,7 +22,11 @@ class ChannelTopicsRepositoryImpl @Inject constructor(
         getResultWithHandleError(
             dispatcher = dispatcherIo,
             data = {
-                api.getChannelTopics(channelId).toEntities(channelId)
+                val remoteData = api.getChannelTopics(channelId)
+                dao.delete(channelId)
+                dao.insert(remoteData.toDb(channelId))
+
+                dao.get(channelId).toEntities()
             },
         )
 }
