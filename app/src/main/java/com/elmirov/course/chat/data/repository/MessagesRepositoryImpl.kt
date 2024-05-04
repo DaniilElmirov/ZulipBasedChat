@@ -1,5 +1,7 @@
 package com.elmirov.course.chat.data.repository
 
+import com.elmirov.course.chat.data.local.dao.ChatDao
+import com.elmirov.course.chat.data.mapper.toDb
 import com.elmirov.course.chat.data.mapper.toEntities
 import com.elmirov.course.chat.data.remote.network.MessagesApi
 import com.elmirov.course.chat.domain.entity.Message
@@ -13,6 +15,7 @@ import javax.inject.Inject
 
 class MessagesRepositoryImpl @Inject constructor(
     private val api: MessagesApi,
+    private val dao: ChatDao,
     @DispatcherIo private val dispatcherIo: CoroutineDispatcher,
 ) : MessagesRepository {
 
@@ -28,7 +31,10 @@ class MessagesRepositoryImpl @Inject constructor(
         dispatcher = dispatcherIo,
         data = {
             val narrow = getNarrowJson(channelName, topicName)
-            api.getChannelTopicMessages(narrow).toEntities()
+            val remoteData = api.getChannelTopicMessages(narrow)
+            dao.insertMessages(remoteData.toDb(channelName, topicName))
+
+            dao.getMessages(channelName, topicName).toEntities()
         },
     )
 
