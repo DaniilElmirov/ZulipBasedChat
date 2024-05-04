@@ -1,6 +1,7 @@
 package com.elmirov.course.chat.data.repository
 
 import com.elmirov.course.chat.data.local.dao.ChatDao
+import com.elmirov.course.chat.data.local.model.MessageWithReactionsDbModel
 import com.elmirov.course.chat.data.mapper.toDb
 import com.elmirov.course.chat.data.mapper.toEntities
 import com.elmirov.course.chat.data.remote.network.MessagesApi
@@ -22,6 +23,8 @@ class MessagesRepositoryImpl @Inject constructor(
     private companion object {
         const val STREAM_OPERATOR = "stream"
         const val TOPIC_OPERATOR = "topic"
+
+        const val MAX_TABLE_SIZE = 50
     }
 
     override suspend fun getChannelTopicMessages(
@@ -32,6 +35,8 @@ class MessagesRepositoryImpl @Inject constructor(
         data = {
             val narrow = getNarrowJson(channelName, topicName)
             val remoteData = api.getChannelTopicMessages(narrow)
+
+            optimizeMessagesTable(remoteData.toDb(channelName, topicName))
             dao.insertMessages(remoteData.toDb(channelName, topicName))
 
             dao.getMessages(channelName, topicName).toEntities()
@@ -69,6 +74,30 @@ class MessagesRepositoryImpl @Inject constructor(
             narrow.add(Narrow(operator = TOPIC_OPERATOR, operand = topicName))
 
         return Gson().toJson(narrow)
+    }
+
+    private suspend fun optimizeMessagesTable(newMessages: List<MessageWithReactionsDbModel>) {
+        val currentTableSize = dao.getTableSize()
+        val expectedTableSize = currentTableSize + newMessages.size
+
+        if (expectedTableSize <= MAX_TABLE_SIZE)
+            return
+
+        val channelName = newMessages.first().message.channelName
+        val topicName = newMessages.first().message.topicName
+
+        val messageCountInChat = dao.getMessagesCount(channelName, topicName)
+        val messageCountInOtherChats = MAX_TABLE_SIZE - messageCountInChat
+
+        val extraMessageCount = expectedTableSize - MAX_TABLE_SIZE
+        val oldestCount = currentTableSize - messageCountInOtherChats
+
+        if (extraMessageCount <= messageCountInOtherChats) {
+            dao.deleteExtraMessagesNoInclude(channelName, topicName, extraMessageCount)
+        } else {
+            dao.deleteExtraMessagesNoInclude(channelName, topicName, messageCountInOtherChats)
+            dao.deleteOldestInChat(oldestCount)
+        }
     }
 }
 
