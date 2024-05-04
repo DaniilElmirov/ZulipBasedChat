@@ -1,6 +1,7 @@
 package com.elmirov.course.channels.presentation
 
 import com.elmirov.course.channels.domain.usecase.GetAllChannelsUseCase
+import com.elmirov.course.channels.domain.usecase.GetCachedAllChannelsUseCase
 import com.elmirov.course.channels.domain.usecase.GetChannelTopicsUseCase
 import com.elmirov.course.channels.domain.usecase.GetSubscribedChannelsUseCase
 import com.elmirov.course.core.result.domain.entity.Result
@@ -11,6 +12,7 @@ import javax.inject.Inject
 
 class ChannelsActor @Inject constructor(
     private val getAllChannelsUseCase: GetAllChannelsUseCase,
+    private val getCachedAllChannelsUseCase: GetCachedAllChannelsUseCase,
     private val getSubscribedChannelsUseCase: GetSubscribedChannelsUseCase,
     private val getChannelTopicsUseCase: GetChannelTopicsUseCase,
 ) : Actor<ChannelsCommand, ChannelsEvent>() {
@@ -19,6 +21,13 @@ class ChannelsActor @Inject constructor(
         when (command) {
             ChannelsCommand.LoadAll -> {
                 when (val result = getAllChannelsUseCase()) {
+                    is Result.Error -> emit(ChannelsEvent.Internal.LoadingError)
+                    is Result.Success -> emit(ChannelsEvent.Internal.ChannelsLoadingSuccess(result.data))
+                }
+            }
+
+            ChannelsCommand.LoadCachedAll -> {
+                when (val result = getCachedAllChannelsUseCase()) {
                     is Result.Error -> emit(ChannelsEvent.Internal.LoadingError)
                     is Result.Success -> emit(ChannelsEvent.Internal.ChannelsLoadingSuccess(result.data))
                 }
@@ -38,9 +47,13 @@ class ChannelsActor @Inject constructor(
                 }
             }
 
-            is ChannelsCommand.CloseTopics -> emit(ChannelsEvent.Internal.TopicsClosed(command.channelId))
+            is ChannelsCommand.CloseTopics -> {
+                emit(ChannelsEvent.Internal.TopicsClosed(command.channelId))
+            }
 
-            is ChannelsCommand.Search -> emit(ChannelsEvent.Internal.SearchSuccess(command.query))
+            is ChannelsCommand.Search -> {
+                emit(ChannelsEvent.Internal.SearchSuccess(command.query))
+            }
         }
     }
 }

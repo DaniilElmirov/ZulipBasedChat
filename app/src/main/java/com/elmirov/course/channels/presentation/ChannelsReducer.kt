@@ -79,6 +79,7 @@ class ChannelsReducer @Inject constructor(
     override fun Result.ui(event: ChannelsEvent.Ui): Any = when (event) {
 
         ChannelsEvent.Ui.InitAll -> {
+            commands { +ChannelsCommand.LoadCachedAll }
             state { copy(loading = true) }
             commands { +ChannelsCommand.LoadAll }
         }
