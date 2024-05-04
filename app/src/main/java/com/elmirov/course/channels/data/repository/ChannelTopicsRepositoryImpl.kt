@@ -29,4 +29,12 @@ class ChannelTopicsRepositoryImpl @Inject constructor(
                 dao.get(channelId).toEntities()
             },
         )
+
+    override suspend fun getCachedByChannelId(channelId: Int): Result<List<Topic>> =
+        getResultWithHandleError(
+            dispatcher = dispatcherIo,
+            data = {
+                dao.get(channelId).toEntities()
+            },
+        )
 }

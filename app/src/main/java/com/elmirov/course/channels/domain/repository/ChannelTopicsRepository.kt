@@ -6,4 +6,6 @@ import com.elmirov.course.core.result.domain.entity.Result
 interface ChannelTopicsRepository {
 
     suspend fun getByChannelId(channelId: Int): Result<List<Topic>>
+
+    suspend fun getCachedByChannelId(channelId: Int): Result<List<Topic>>
 }
