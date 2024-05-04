@@ -14,10 +14,10 @@ interface ChannelsDao {
         const val FALSE = 0
     }
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertSubscribed(subscribedChannels: List<ChannelDbModel>)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAll(allChannels: List<ChannelDbModel>)
 
     @Query("SELECT * FROM ChannelDbModel WHERE subscribed = $TRUE")
