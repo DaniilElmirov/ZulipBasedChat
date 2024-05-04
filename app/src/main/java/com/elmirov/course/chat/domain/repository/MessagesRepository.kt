@@ -10,6 +10,11 @@ interface MessagesRepository {
         topicName: String
     ): Result<List<Message>>
 
+    suspend fun getCachedChannelTopicMessages(
+        channelName: String,
+        topicName: String
+    ): Result<List<Message>>
+
     suspend fun sendToChannelTopic(
         channelName: String,
         topicName: String,

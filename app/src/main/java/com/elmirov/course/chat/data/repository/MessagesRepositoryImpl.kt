@@ -38,6 +38,16 @@ class MessagesRepositoryImpl @Inject constructor(
         },
     )
 
+    override suspend fun getCachedChannelTopicMessages(
+        channelName: String,
+        topicName: String
+    ): Result<List<Message>> = getResultWithHandleError(
+        dispatcher = dispatcherIo,
+        data = {
+            dao.getMessages(channelName, topicName).toEntities()
+        },
+    )
+
     override suspend fun sendToChannelTopic(
         channelName: String,
         topicName: String,
