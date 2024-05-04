@@ -3,6 +3,7 @@ package com.elmirov.course.chat.presentation
 import com.elmirov.course.chat.domain.entity.ChatInfo
 import com.elmirov.course.chat.domain.entity.Message
 import com.elmirov.course.chat.domain.usecase.AddReactionToMessageUseCase
+import com.elmirov.course.chat.domain.usecase.GetCachedChannelTopicMessagesUseCase
 import com.elmirov.course.chat.domain.usecase.GetChannelTopicMessagesUseCase
 import com.elmirov.course.chat.domain.usecase.RemoveReactionUseCase
 import com.elmirov.course.chat.domain.usecase.SendMessageToChannelTopicUseCase
@@ -15,6 +16,7 @@ import javax.inject.Inject
 class ChatActor @Inject constructor(
     private val chatInfo: ChatInfo,
     private val getChannelTopicMessagesUseCase: GetChannelTopicMessagesUseCase,
+    private val getCachedChannelTopicMessagesUseCase: GetCachedChannelTopicMessagesUseCase,
     private val sendMessageToChannelTopicUseCase: SendMessageToChannelTopicUseCase,
     private val addReactionToMessageUseCase: AddReactionToMessageUseCase,
     private val removeReactionUseCase: RemoveReactionUseCase,
@@ -26,6 +28,15 @@ class ChatActor @Inject constructor(
             is ChatCommand.Load -> emit(
                 applyLoadMessages(
                     getChannelTopicMessagesUseCase(
+                        chatInfo.channelName,
+                        chatInfo.topicName
+                    )
+                )
+            )
+
+            is ChatCommand.LoadCached -> emit(
+                applyLoadMessages(
+                    getCachedChannelTopicMessagesUseCase(
                         chatInfo.channelName,
                         chatInfo.topicName
                     )

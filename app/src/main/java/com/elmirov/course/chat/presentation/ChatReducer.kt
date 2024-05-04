@@ -24,12 +24,16 @@ class ChatReducer @Inject constructor(
         }
 
         is ChatEvent.Internal.ChatLoadingSuccess -> {
-            state { copy(loading = false, content = event.data) }
+            if (event.data.isEmpty())
+                state { copy(loading = true) }
+            else
+                state { copy(loading = false, content = event.data) }
         }
     }
 
     override fun Result.ui(event: ChatEvent.Ui): Any = when (event) {
         is ChatEvent.Ui.Init -> {
+            commands { +ChatCommand.LoadCached }
             state {
                 copy(
                     loading = true,
