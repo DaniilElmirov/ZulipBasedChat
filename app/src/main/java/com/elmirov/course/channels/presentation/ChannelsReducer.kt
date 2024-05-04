@@ -41,16 +41,7 @@ class ChannelsReducer @Inject constructor(
 
         is ChannelsEvent.Internal.TopicsOpened -> {
             if (event.data.isEmpty())
-                Unit
-            else {
-                updateCurrentData(event.data)
-                state { copy(loading = false, content = currentData) }
-            }
-        }
-
-        is ChannelsEvent.Internal.CachedTopicsOpened -> {
-            if (event.data.isEmpty())
-                Unit
+                Unit //TODO нужен стейт загрузки и шиммер к нему на ui
             else {
                 updateCurrentData(event.data)
                 state { copy(loading = false, content = currentData) }
