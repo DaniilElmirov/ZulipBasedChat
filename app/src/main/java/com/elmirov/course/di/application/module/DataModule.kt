@@ -13,6 +13,7 @@ import com.elmirov.course.channels.data.repository.SubscribedChannelsRepositoryI
 import com.elmirov.course.channels.domain.repository.AllChannelsRepository
 import com.elmirov.course.channels.domain.repository.ChannelTopicsRepository
 import com.elmirov.course.channels.domain.repository.SubscribedChannelsRepository
+import com.elmirov.course.chat.data.local.dao.ChatDao
 import com.elmirov.course.chat.data.remote.network.MessagesApi
 import com.elmirov.course.chat.data.remote.network.ReactionsApi
 import com.elmirov.course.chat.data.repository.MessagesRepositoryImpl
@@ -87,6 +88,11 @@ class DataModule {
     @ApplicationScope
     fun provideTopicsDao(database: AppDatabase): TopicsDao =
         database.topicsDao()
+
+    @Provides
+    @ApplicationScope
+    fun provideChatDao(database: AppDatabase): ChatDao =
+        database.chatDao()
 
     @Provides
     @ApplicationScope
