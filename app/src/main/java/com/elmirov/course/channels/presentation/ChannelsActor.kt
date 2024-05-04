@@ -2,6 +2,7 @@ package com.elmirov.course.channels.presentation
 
 import com.elmirov.course.channels.domain.usecase.GetAllChannelsUseCase
 import com.elmirov.course.channels.domain.usecase.GetCachedAllChannelsUseCase
+import com.elmirov.course.channels.domain.usecase.GetCachedSubscribedChannelsUseCase
 import com.elmirov.course.channels.domain.usecase.GetChannelTopicsUseCase
 import com.elmirov.course.channels.domain.usecase.GetSubscribedChannelsUseCase
 import com.elmirov.course.core.result.domain.entity.Result
@@ -14,6 +15,7 @@ class ChannelsActor @Inject constructor(
     private val getAllChannelsUseCase: GetAllChannelsUseCase,
     private val getCachedAllChannelsUseCase: GetCachedAllChannelsUseCase,
     private val getSubscribedChannelsUseCase: GetSubscribedChannelsUseCase,
+    private val getCachedSubscribedChannelsUseCase: GetCachedSubscribedChannelsUseCase,
     private val getChannelTopicsUseCase: GetChannelTopicsUseCase,
 ) : Actor<ChannelsCommand, ChannelsEvent>() {
 
@@ -35,6 +37,13 @@ class ChannelsActor @Inject constructor(
 
             ChannelsCommand.LoadSubscribed -> {
                 when (val result = getSubscribedChannelsUseCase()) {
+                    is Result.Error -> emit(ChannelsEvent.Internal.LoadingError)
+                    is Result.Success -> emit(ChannelsEvent.Internal.ChannelsLoadingSuccess(result.data))
+                }
+            }
+
+            ChannelsCommand.LoadCachedSubscribed -> {
+                when (val result = getCachedSubscribedChannelsUseCase()) {
                     is Result.Error -> emit(ChannelsEvent.Internal.LoadingError)
                     is Result.Success -> emit(ChannelsEvent.Internal.ChannelsLoadingSuccess(result.data))
                 }

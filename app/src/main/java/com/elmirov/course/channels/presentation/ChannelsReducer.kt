@@ -85,6 +85,7 @@ class ChannelsReducer @Inject constructor(
         }
 
         is ChannelsEvent.Ui.InitSubscribed -> {
+            commands { +ChannelsCommand.LoadCachedSubscribed }
             state { copy(loading = true) }
             commands { +ChannelsCommand.LoadSubscribed }
         }

@@ -7,6 +7,8 @@ sealed interface ChannelsCommand {
 
     data object LoadSubscribed : ChannelsCommand
 
+    data object LoadCachedSubscribed : ChannelsCommand
+
     data class OpenTopics(val channelId: Int) : ChannelsCommand
 
     data class CloseTopics(val channelId: Int) : ChannelsCommand
