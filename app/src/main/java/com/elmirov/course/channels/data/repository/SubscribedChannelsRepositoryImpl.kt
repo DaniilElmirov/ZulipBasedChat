@@ -27,4 +27,11 @@ class SubscribedChannelsRepositoryImpl @Inject constructor(
             dao.getSubscribed().toEntities()
         },
     )
+
+    override suspend fun getCached(): Result<List<Channel>> = getResultWithHandleError(
+        dispatcher = dispatcherIo,
+        data = {
+            dao.getSubscribed().toEntities()
+        },
+    )
 }
