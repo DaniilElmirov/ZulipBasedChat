@@ -3,6 +3,7 @@ package com.elmirov.course.di.application.module
 import android.content.Context
 import androidx.room.Room
 import com.elmirov.course.channels.data.local.dao.ChannelsDao
+import com.elmirov.course.channels.data.local.dao.TopicsDao
 import com.elmirov.course.channels.data.remote.network.AllChannelsApi
 import com.elmirov.course.channels.data.remote.network.SubscribedChannelsApi
 import com.elmirov.course.channels.data.remote.network.TopicsApi
@@ -81,6 +82,11 @@ class DataModule {
     @ApplicationScope
     fun provideChannelsDao(database: AppDatabase): ChannelsDao =
         database.channelsDao()
+
+    @Provides
+    @ApplicationScope
+    fun provideTopicsDao(database: AppDatabase): TopicsDao =
+        database.topicsDao()
 
     @Provides
     @ApplicationScope
