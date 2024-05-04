@@ -97,8 +97,11 @@ class ChannelsReducer @Inject constructor(
 
             if (targetChannel?.expanded == true)
                 commands { +ChannelsCommand.CloseTopics(event.channelId) }
-            else
+            else {
+                commands { +ChannelsCommand.OpenCachedTopics(event.channelId) }
+                state { copy(loading = true) }
                 commands { +ChannelsCommand.OpenTopics(event.channelId) }
+            }
         }
 
         is ChannelsEvent.Ui.OnTopicClick -> {
