@@ -1,6 +1,7 @@
 package com.elmirov.course.channels.presentation
 
 import com.elmirov.course.channels.domain.entity.Channel
+import com.elmirov.course.channels.domain.entity.Topic
 import com.elmirov.course.navigation.router.GlobalRouter
 import vivid.money.elmslie.core.store.dsl.ScreenDslReducer
 import javax.inject.Inject
@@ -21,7 +22,7 @@ class ChannelsReducer @Inject constructor(
         const val EMPTY_CHANNEL_NAME = ""
     }
 
-    private var loadedData: List<Channel> = emptyList()
+    private var currentData: List<Channel> = emptyList()
 
     override fun Result.internal(event: ChannelsEvent.Internal): Any = when (event) {
         ChannelsEvent.Internal.LoadingError -> {
@@ -30,24 +31,30 @@ class ChannelsReducer @Inject constructor(
         }
 
         is ChannelsEvent.Internal.ChannelsLoadingSuccess -> {
-            loadedData = event.data
-            state { copy(loading = false, content = event.data) }
+            if (event.data.isEmpty())
+                state { copy(loading = true) }
+            else {
+                currentData = event.data
+                state { copy(loading = false, content = event.data) }
+            }
         }
 
         is ChannelsEvent.Internal.TopicsOpened -> {
-            val topics = event.data
-            val currentChannels = (state.content ?: emptyList()).toMutableList()
-
-            val targetId = event.data.getOrNull(0)?.topicChannelId ?: -1 //TODO переделать
-            val targetChannelIndex = currentChannels.indexOfFirst {
-                it.id == targetId
+            if (event.data.isEmpty())
+                Unit
+            else {
+                updateCurrentData(event.data)
+                state { copy(loading = false, content = currentData) }
             }
+        }
 
-            currentChannels[targetChannelIndex] =
-                currentChannels[targetChannelIndex].copy(expanded = true, topics = topics)
-
-            loadedData = currentChannels
-            state { copy(loading = false, content = currentChannels.toList()) }
+        is ChannelsEvent.Internal.CachedTopicsOpened -> {
+            if (event.data.isEmpty())
+                Unit
+            else {
+                updateCurrentData(event.data)
+                state { copy(loading = false, content = currentData) }
+            }
         }
 
         is ChannelsEvent.Internal.TopicsClosed -> {
@@ -59,21 +66,35 @@ class ChannelsReducer @Inject constructor(
             currentChannels[targetChannelIndex] =
                 currentChannels[targetChannelIndex].copy(expanded = false, topics = null)
 
-            loadedData = currentChannels
+            currentData = currentChannels
             state { copy(loading = false, content = currentChannels.toList()) }
         }
 
         is ChannelsEvent.Internal.SearchSuccess -> {
             if (event.query.isEmpty())
-                state { copy(loading = false, content = loadedData) }
+                state { copy(loading = false, content = currentData) }
             else {
-                val searchedData = loadedData.filter {
+                val searchedData = currentData.filter {
                     it.name.contains(other = event.query, ignoreCase = true)
                 }
 
                 state { copy(loading = false, content = searchedData) }
             }
         }
+    }
+
+    private fun updateCurrentData(topics: List<Topic>) {
+        val currentChannels = currentData.toMutableList()
+
+        val targetId = topics[0].topicChannelId
+        val targetChannelIndex = currentChannels.indexOfFirst {
+            it.id == targetId
+        }
+
+        currentChannels[targetChannelIndex] =
+            currentChannels[targetChannelIndex].copy(expanded = true, topics = topics)
+
+        currentData = currentChannels
     }
 
     override fun Result.ui(event: ChannelsEvent.Ui): Any = when (event) {

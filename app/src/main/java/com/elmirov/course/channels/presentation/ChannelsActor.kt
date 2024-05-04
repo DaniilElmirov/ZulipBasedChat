@@ -61,7 +61,7 @@ class ChannelsActor @Inject constructor(
             is ChannelsCommand.OpenCachedTopics -> {
                 when (val result = getCachedChannelTopicsUseCase(command.channelId)) {
                     is Result.Error -> emit(ChannelsEvent.Internal.LoadingError)
-                    is Result.Success -> emit(ChannelsEvent.Internal.TopicsOpened(result.data))
+                    is Result.Success -> emit(ChannelsEvent.Internal.CachedTopicsOpened(result.data))
                 }
             }
 

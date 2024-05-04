@@ -26,6 +26,8 @@ sealed interface ChannelsEvent {
 
         data class TopicsOpened(val data: List<Topic>) : Internal
 
+        data class CachedTopicsOpened(val data: List<Topic>) : Internal
+
         data class TopicsClosed(val channelId: Int) : Internal
 
         data object LoadingError : Internal
