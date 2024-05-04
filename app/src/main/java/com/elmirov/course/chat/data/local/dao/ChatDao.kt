@@ -34,4 +34,32 @@ interface ChatDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertReaction(reaction: ReactionDbModel)
+
+    //TODO подумать над неймингом
+    @Query("SELECT COUNT(*) FROM MessageDbModel")
+    fun getTableSize(): Int
+
+    @Query("SELECT COUNT(*) FROM MessageDbModel WHERE (channelName = :channelName AND topicName = :topicName)")
+    suspend fun getMessagesCount(
+        channelName: String,
+        topicName: String
+    ): Int
+
+    @Query(
+        "DELETE FROM MessageDbModel WHERE id IN " +
+                "(SELECT id WHERE (channelName != :channelName AND topicName != :topicName) LIMIT :count)"
+    )
+    suspend fun deleteExtraMessagesNoInclude(
+        channelName: String,
+        topicName: String,
+        count: Int
+    )
+
+    @Query(
+        "DELETE FROM MessageDbModel WHERE timestamp IN " +
+                "(SELECT timestamp FROM MessageDbModel ORDER BY timestamp ASC LIMIT :count)"
+    )
+    suspend fun deleteOldestInChat(
+        count: Int
+    )
 }
