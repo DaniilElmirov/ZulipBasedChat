@@ -5,6 +5,7 @@ import com.elmirov.course.chat.domain.entity.Message
 
 data class ChatState(
     val loading: Boolean = false,
+    val loadingMore: Boolean = false,
     val content: List<Message>? = null,
     val chatInfo: ChatInfo? = null,
 )
