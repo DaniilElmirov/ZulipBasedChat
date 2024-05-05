@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.elmirov.course.CourseApplication
 import com.elmirov.course.R
 import com.elmirov.course.base.ElmBaseFragment
@@ -124,7 +126,8 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
         binding.chat.adapter = messagesAdapter
 
         applyArguments()
-        setupListeners()
+        setupClickListeners()
+        setupScrollListener()
         setTextChangeListener()
         setNavigationIconClickListener()
     }
@@ -166,13 +169,46 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
             String.format(getString(R.string.topic_with_name), topicName)
     }
 
-    private fun setupListeners() {
+    private fun setupClickListeners() {
         binding.sendOrAttach.setOnClickListener {
             val messageText = binding.newMessage.text?.trim().toString()
             binding.newMessage.text = null
 
             store.accept(ChatEvent.Ui.OnSendMessageClick(messageText))
         }
+    }
+
+    private fun setupScrollListener() {
+        val listener = object : RecyclerView.OnScrollListener() {
+
+            private val layoutManager = binding.chat.layoutManager as LinearLayoutManager
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                var firstVisiblePosition = layoutManager.findFirstCompletelyVisibleItemPosition()
+                if (firstVisiblePosition == RecyclerView.NO_POSITION)
+                    firstVisiblePosition = layoutManager.findFirstVisibleItemPosition()
+
+                var lastVisiblePosition = layoutManager.findLastCompletelyVisibleItemPosition()
+                if (lastVisiblePosition == RecyclerView.NO_POSITION)
+                    lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
+
+                if (dy > 0) {
+                    val needLoadNext = (messagesAdapter.itemCount - lastVisiblePosition - 1) <= 5
+
+                    if (needLoadNext)
+                        store.accept(ChatEvent.Ui.ScrollDown)
+                } else {
+                    val needLoadPrev = firstVisiblePosition <= 5
+
+                    if (needLoadPrev)
+                        store.accept(ChatEvent.Ui.ScrollUp)
+                }
+            }
+        }
+
+        binding.chat.addOnScrollListener(listener)
     }
 
     private fun applyContent(data: List<Message>) {
