@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
-import androidx.recyclerview.widget.RecyclerView
 import com.elmirov.course.CourseApplication
 import com.elmirov.course.R
 import com.elmirov.course.base.ElmBaseFragment
@@ -122,8 +121,9 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.chat.adapter = messagesAdapter
+
         applyArguments()
-        setupAdapter()
         setupListeners()
         setTextChangeListener()
         setNavigationIconClickListener()
@@ -164,17 +164,6 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
 
         binding.topic.text =
             String.format(getString(R.string.topic_with_name), topicName)
-    }
-
-    private fun setupAdapter() {
-        binding.chat.adapter = messagesAdapter
-
-        val observer = object : RecyclerView.AdapterDataObserver() {
-            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                binding.chat.scrollToPosition(messagesAdapter.itemCount - 1)
-            }
-        }
-        messagesAdapter.registerAdapterDataObserver(observer)
     }
 
     private fun setupListeners() {
