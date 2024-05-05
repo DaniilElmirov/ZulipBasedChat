@@ -7,6 +7,8 @@ sealed interface ChatCommand {
 
     data object LoadCached : ChatCommand
 
+    data class LoadMore(val next: Boolean) : ChatCommand
+
     data class Send(val text: String) : ChatCommand
 
     data class AddReaction(

@@ -22,6 +22,10 @@ sealed interface ChatEvent {
         ) : Ui
 
         data object OnBackClick : Ui
+
+        data object ScrollDown : Ui
+
+        data object ScrollUp : Ui
     }
 
     sealed interface Internal : ChatEvent {

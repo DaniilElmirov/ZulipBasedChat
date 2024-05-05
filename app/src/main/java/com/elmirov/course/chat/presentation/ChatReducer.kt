@@ -61,5 +61,13 @@ class ChatReducer @Inject constructor(
         is ChatEvent.Ui.OnSendMessageClick -> {
             commands { +ChatCommand.Send(event.text) }
         }
+
+        is ChatEvent.Ui.ScrollDown -> {
+            commands { +ChatCommand.LoadMore(next = true) }
+        }
+
+        ChatEvent.Ui.ScrollUp -> {
+            commands { +ChatCommand.LoadMore(next = false) }
+        }
     }
 }

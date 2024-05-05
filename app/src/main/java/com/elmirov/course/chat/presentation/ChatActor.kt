@@ -5,6 +5,8 @@ import com.elmirov.course.chat.domain.entity.Message
 import com.elmirov.course.chat.domain.usecase.AddReactionToMessageUseCase
 import com.elmirov.course.chat.domain.usecase.GetCachedChannelTopicMessagesUseCase
 import com.elmirov.course.chat.domain.usecase.GetChannelTopicMessagesUseCase
+import com.elmirov.course.chat.domain.usecase.LoadNextMessagesPageUseCase
+import com.elmirov.course.chat.domain.usecase.LoadPrevMessagesPageUseCase
 import com.elmirov.course.chat.domain.usecase.RemoveReactionUseCase
 import com.elmirov.course.chat.domain.usecase.SendMessageToChannelTopicUseCase
 import com.elmirov.course.core.result.domain.entity.Result
@@ -20,7 +22,12 @@ class ChatActor @Inject constructor(
     private val sendMessageToChannelTopicUseCase: SendMessageToChannelTopicUseCase,
     private val addReactionToMessageUseCase: AddReactionToMessageUseCase,
     private val removeReactionUseCase: RemoveReactionUseCase,
+    private val loadNextMessagesPageUseCase: LoadNextMessagesPageUseCase,
+    private val loadPrevMessagesPageUseCase: LoadPrevMessagesPageUseCase,
 ) : Actor<ChatCommand, ChatEvent>() {
+
+    private var firstMessageId = 0
+    private var lastMessageId = 0
 
     override fun execute(command: ChatCommand): Flow<ChatEvent> = flow {
         when (command) {
@@ -42,6 +49,24 @@ class ChatActor @Inject constructor(
                     )
                 )
             )
+
+            is ChatCommand.LoadMore -> {
+                val result =
+                    if (command.next)
+                        loadNextMessagesPageUseCase(
+                            channelName = chatInfo.channelName,
+                            topicName = chatInfo.topicName,
+                            id = lastMessageId
+                        )
+                    else
+                        loadPrevMessagesPageUseCase(
+                            channelName = chatInfo.channelName,
+                            topicName = chatInfo.topicName,
+                            id = firstMessageId
+                        )
+
+                emit(applyLoadMessages(result))
+            }
 
             is ChatCommand.Send -> {
                 when (
@@ -97,6 +122,12 @@ class ChatActor @Inject constructor(
     private fun applyLoadMessages(result: Result<List<Message>>): ChatEvent.Internal =
         when (result) {
             is Result.Error -> ChatEvent.Internal.ChatLoadingError
-            is Result.Success -> ChatEvent.Internal.ChatLoadingSuccess(result.data)
+
+            is Result.Success -> {
+                firstMessageId = result.data.first().id
+                lastMessageId = result.data.last().id
+
+                ChatEvent.Internal.ChatLoadingSuccess(result.data)
+            }
         }
 }
