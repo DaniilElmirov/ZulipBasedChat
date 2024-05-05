@@ -27,7 +27,7 @@ class ChatReducer @Inject constructor(
             if (event.data.isEmpty())
                 state { copy(loading = true) }
             else
-                state { copy(loading = false, content = event.data) }
+                state { copy(loading = false, loadingMore = false, content = event.data) }
         }
     }
 
@@ -63,11 +63,21 @@ class ChatReducer @Inject constructor(
         }
 
         is ChatEvent.Ui.ScrollDown -> {
-            commands { +ChatCommand.LoadMore(next = true) }
+            if (state.loadingMore)
+                Unit
+            else {
+                state { copy(loadingMore = true) }
+                commands { +ChatCommand.LoadMore(next = true) }
+            }
         }
 
         ChatEvent.Ui.ScrollUp -> {
-            commands { +ChatCommand.LoadMore(next = false) }
+            if (state.loadingMore)
+                Unit
+            else {
+                state { copy(loadingMore = true) }
+                commands { +ChatCommand.LoadMore(next = false) }
+            }
         }
     }
 }
