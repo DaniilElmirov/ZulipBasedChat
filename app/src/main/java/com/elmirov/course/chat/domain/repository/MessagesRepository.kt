@@ -20,4 +20,16 @@ interface MessagesRepository {
         topicName: String,
         text: String
     ): Result<String>
+
+    suspend fun loadNext(
+        channelName: String,
+        topicName: String,
+        id: Int,
+    ): Result<List<Message>>
+
+    suspend fun loadPrev(
+        channelName: String,
+        topicName: String,
+        id: Int,
+    ): Result<List<Message>>
 }

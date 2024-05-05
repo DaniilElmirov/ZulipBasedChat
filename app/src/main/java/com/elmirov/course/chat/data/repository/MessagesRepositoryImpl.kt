@@ -64,6 +64,42 @@ class MessagesRepositoryImpl @Inject constructor(
         },
     )
 
+    override suspend fun loadNext(
+        channelName: String,
+        topicName: String,
+        id: Int
+    ): Result<List<Message>> = getResultWithHandleError(
+        dispatcherIo
+    ) {
+        val narrow = getNarrowJson(channelName, topicName)
+        val remoteData = api.getNextMessages(
+            narrow = narrow,
+            anchor = id.toString(),
+        )
+
+        dao.insertMessages(remoteData.toDb(channelName, topicName))
+
+        dao.getMessages(channelName, topicName).toEntities()
+    }
+
+    override suspend fun loadPrev(
+        channelName: String,
+        topicName: String,
+        id: Int
+    ): Result<List<Message>> = getResultWithHandleError(
+        dispatcherIo
+    ) {
+        val narrow = getNarrowJson(channelName, topicName)
+        val remoteData = api.getPrevMessages(
+            narrow = narrow,
+            anchor = id.toString(),
+        )
+
+        dao.insertMessages(remoteData.toDb(channelName, topicName))
+
+        dao.getMessages(channelName, topicName).toEntities()
+    }
+
     private fun getNarrowJson(channelName: String, topicName: String): String {
         val narrow = mutableListOf<Narrow>()
 
