@@ -35,6 +35,9 @@ interface ChatDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertReaction(reaction: ReactionDbModel)
 
+    @Query("DELETE FROM MessageDbModel WHERE (channelName = :channelName AND topicName = :topicName)")
+    suspend fun clear(channelName: String, topicName: String)
+
     //TODO подумать над неймингом
     @Query("SELECT COUNT(*) FROM MessageDbModel")
     fun getTableSize(): Int
@@ -45,21 +48,43 @@ interface ChatDao {
         topicName: String
     ): Int
 
+    @Query("SELECT COUNT(*) FROM MessageDbModel WHERE (channelName != :channelName OR topicName != :topicName)")
+    suspend fun getOtherMessagesCount(
+        channelName: String,
+        topicName: String
+    ): Int
+
     @Query(
         "DELETE FROM MessageDbModel WHERE id IN " +
-                "(SELECT id WHERE (channelName != :channelName AND topicName != :topicName) LIMIT :count)"
+                "(SELECT id FROM MessageDbModel WHERE (channelName != :channelName OR topicName != :topicName) LIMIT :count)"
     )
     suspend fun deleteExtraMessagesNoInclude(
         channelName: String,
         topicName: String,
         count: Int
-    )
+    ): Int
 
     @Query(
         "DELETE FROM MessageDbModel WHERE timestamp IN " +
-                "(SELECT timestamp FROM MessageDbModel ORDER BY timestamp ASC LIMIT :count)"
+                "(SELECT timestamp FROM MessageDbModel " +
+                "WHERE (channelName = :channelName AND topicName = :topicName) " +
+                "ORDER BY timestamp ASC LIMIT :count)"
     )
     suspend fun deleteOldestInChat(
+        channelName: String,
+        topicName: String,
+        count: Int
+    ): Int
+
+    @Query(
+        "DELETE FROM MessageDbModel WHERE timestamp IN " +
+                "(SELECT timestamp FROM MessageDbModel " +
+                "WHERE (channelName = :channelName AND topicName = :topicName) " +
+                "ORDER BY timestamp DESC LIMIT :count)"
+    )
+    suspend fun deleteNewestInChat(
+        channelName: String,
+        topicName: String,
         count: Int
     )
 }

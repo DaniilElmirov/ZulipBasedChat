@@ -1,7 +1,6 @@
 package com.elmirov.course.chat.data.repository
 
 import com.elmirov.course.chat.data.local.dao.ChatDao
-import com.elmirov.course.chat.data.local.model.MessageWithReactionsDbModel
 import com.elmirov.course.chat.data.mapper.toDb
 import com.elmirov.course.chat.data.mapper.toEntities
 import com.elmirov.course.chat.data.remote.network.MessagesApi
@@ -36,7 +35,8 @@ class MessagesRepositoryImpl @Inject constructor(
             val narrow = getNarrowJson(channelName, topicName)
             val remoteData = api.getChannelTopicMessages(narrow)
 
-            optimizeMessagesTable(remoteData.toDb(channelName, topicName))
+            dao.clear(channelName, topicName)
+            optimizeMessagesTable(channelName, topicName, remoteData.messageModels.size, true)
             dao.insertMessages(remoteData.toDb(channelName, topicName))
 
             dao.getMessages(channelName, topicName).toEntities()
@@ -77,6 +77,7 @@ class MessagesRepositoryImpl @Inject constructor(
             anchor = id.toString(),
         )
 
+        optimizeMessagesTable(channelName, topicName, remoteData.messageModels.size, true)
         dao.insertMessages(remoteData.toDb(channelName, topicName))
 
         dao.getMessages(channelName, topicName).toEntities()
@@ -95,6 +96,7 @@ class MessagesRepositoryImpl @Inject constructor(
             anchor = id.toString(),
         )
 
+        optimizeMessagesTable(channelName, topicName, remoteData.messageModels.size, false)
         dao.insertMessages(remoteData.toDb(channelName, topicName))
 
         dao.getMessages(channelName, topicName).toEntities()
@@ -112,28 +114,33 @@ class MessagesRepositoryImpl @Inject constructor(
         return Gson().toJson(narrow)
     }
 
-    private suspend fun optimizeMessagesTable(newMessages: List<MessageWithReactionsDbModel>) {
+    private suspend fun optimizeMessagesTable(
+        channelName: String,
+        topicName: String,
+        size: Int,
+        oldest: Boolean
+    ) {
         val currentTableSize = dao.getTableSize()
-        val expectedTableSize = currentTableSize + newMessages.size
+        val expectedSize = currentTableSize + size
 
-        if (expectedTableSize <= MAX_TABLE_SIZE)
+        if (expectedSize <= MAX_TABLE_SIZE)
             return
 
-        val channelName = newMessages.first().message.channelName
-        val topicName = newMessages.first().message.topicName
+        var extraCount = expectedSize - MAX_TABLE_SIZE
+        val inOtherCount = dao.getOtherMessagesCount(channelName, topicName)
 
-        val messageCountInChat = dao.getMessagesCount(channelName, topicName)
-        val messageCountInOtherChats = MAX_TABLE_SIZE - messageCountInChat
-
-        val extraMessageCount = expectedTableSize - MAX_TABLE_SIZE
-        val oldestCount = currentTableSize - messageCountInOtherChats
-
-        if (extraMessageCount <= messageCountInOtherChats) {
-            dao.deleteExtraMessagesNoInclude(channelName, topicName, extraMessageCount)
+        if (extraCount <= inOtherCount) {
+            dao.deleteExtraMessagesNoInclude(channelName, topicName, extraCount)
+            return
         } else {
-            dao.deleteExtraMessagesNoInclude(channelName, topicName, messageCountInOtherChats)
-            dao.deleteOldestInChat(oldestCount)
+            dao.deleteExtraMessagesNoInclude(channelName, topicName, inOtherCount)
+            extraCount -= inOtherCount
         }
+
+        if (oldest)
+            dao.deleteOldestInChat(channelName, topicName, extraCount)
+        else
+            dao.deleteNewestInChat(channelName, topicName, extraCount)
     }
 }
 
