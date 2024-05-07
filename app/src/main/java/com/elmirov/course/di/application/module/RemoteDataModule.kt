@@ -1,9 +1,5 @@
 package com.elmirov.course.di.application.module
 
-import android.content.Context
-import androidx.room.Room
-import com.elmirov.course.channels.data.local.dao.ChannelsDao
-import com.elmirov.course.channels.data.local.dao.TopicsDao
 import com.elmirov.course.channels.data.remote.network.AllChannelsApi
 import com.elmirov.course.channels.data.remote.network.SubscribedChannelsApi
 import com.elmirov.course.channels.data.remote.network.TopicsApi
@@ -13,14 +9,12 @@ import com.elmirov.course.channels.data.repository.SubscribedChannelsRepositoryI
 import com.elmirov.course.channels.domain.repository.AllChannelsRepository
 import com.elmirov.course.channels.domain.repository.ChannelTopicsRepository
 import com.elmirov.course.channels.domain.repository.SubscribedChannelsRepository
-import com.elmirov.course.chat.data.local.dao.ChatDao
 import com.elmirov.course.chat.data.remote.network.MessagesApi
 import com.elmirov.course.chat.data.remote.network.ReactionsApi
 import com.elmirov.course.chat.data.repository.MessagesRepositoryImpl
 import com.elmirov.course.chat.data.repository.ReactionsRepositoryImpl
 import com.elmirov.course.chat.domain.repository.MessagesRepository
 import com.elmirov.course.chat.domain.repository.ReactionsRepository
-import com.elmirov.course.core.database.AppDatabase
 import com.elmirov.course.core.network.AuthorizationInterceptor
 import com.elmirov.course.core.user.data.network.OnlineStatusesApi
 import com.elmirov.course.core.user.data.network.ProfileApi
@@ -42,7 +36,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 
 @Module(includes = [BindDataModule::class])
-class DataModule {
+class RemoteDataModule {
 
     private companion object {
 
@@ -72,32 +66,7 @@ class DataModule {
 
     @Provides
     @ApplicationScope
-    fun provideAppDatabase(context: Context): AppDatabase =
-        Room.databaseBuilder(
-            context = context,
-            klass = AppDatabase::class.java,
-            AppDatabase.DATABASE_NAME
-        ).build()
-
-    @Provides
-    @ApplicationScope
-    fun provideChannelsDao(database: AppDatabase): ChannelsDao =
-        database.channelsDao()
-
-    @Provides
-    @ApplicationScope
-    fun provideTopicsDao(database: AppDatabase): TopicsDao =
-        database.topicsDao()
-
-    @Provides
-    @ApplicationScope
-    fun provideChatDao(database: AppDatabase): ChatDao =
-        database.chatDao()
-
-    @Provides
-    @ApplicationScope
     fun provideOnlineStatusesApi(retrofit: Retrofit): OnlineStatusesApi = retrofit.create()
-
 
     @Provides
     @ApplicationScope
