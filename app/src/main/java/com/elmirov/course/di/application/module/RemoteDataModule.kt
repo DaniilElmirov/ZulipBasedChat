@@ -23,6 +23,7 @@ import com.elmirov.course.core.user.domain.repository.OtherProfileRepository
 import com.elmirov.course.core.user.domain.repository.OwnProfileRepository
 import com.elmirov.course.core.user.domain.repository.UsersRepository
 import com.elmirov.course.di.application.annotation.ApplicationScope
+import com.elmirov.course.di.application.annotation.BaseUrl
 import com.elmirov.course.profile.data.repository.OtherProfileRepositoryImpl
 import com.elmirov.course.profile.data.repository.OwnProfileRepositoryImpl
 import com.elmirov.course.users.data.repository.UsersRepositoryImpl
@@ -38,11 +39,6 @@ import retrofit2.create
 @Module(includes = [BindDataModule::class])
 class RemoteDataModule {
 
-    private companion object {
-
-        private const val BASE_URL = "https://tinkoff-android-spring-2024.zulipchat.com/api/v1/"
-    }
-
     @Provides
     @ApplicationScope
     fun provideHttpClient(authorizationInterceptor: AuthorizationInterceptor): OkHttpClient =
@@ -57,10 +53,10 @@ class RemoteDataModule {
 
     @Provides
     @ApplicationScope
-    fun provideRetrofit(client: OkHttpClient): Retrofit =
+    fun provideRetrofit(client: OkHttpClient, @BaseUrl baseUrl: String): Retrofit =
         Retrofit.Builder()
             .client(client)
-            .baseUrl(BASE_URL)
+            .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 

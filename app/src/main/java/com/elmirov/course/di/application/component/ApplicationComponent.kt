@@ -8,6 +8,7 @@ import com.elmirov.course.di.application.module.DispatcherModule
 import com.elmirov.course.di.application.module.LocalDataModule
 import com.elmirov.course.di.application.module.NavigationModule
 import com.elmirov.course.di.application.module.RemoteDataModule
+import com.elmirov.course.di.application.module.BaseUrlModule
 import com.elmirov.course.di.channels.component.ChannelsComponent
 import com.elmirov.course.di.chat.component.ChatComponent
 import com.elmirov.course.di.profile.component.ProfileComponent
@@ -22,6 +23,7 @@ import dagger.Component
         RemoteDataModule::class,
         LocalDataModule::class,
         DispatcherModule::class,
+        BaseUrlModule::class,
     ]
 )
 interface ApplicationComponent {
