@@ -1,0 +1,14 @@
+{
+  "result": "success",
+  "msg": "",
+  "subscriptions": [
+    {
+      "stream_id": 1,
+      "name": "MOCK: first subscribed channel"
+    },
+    {
+      "stream_id": 379888,
+      "name": "MOCK: second subscribed channel"
+    }
+  ]
+}
