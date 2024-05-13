@@ -35,14 +35,22 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
+import java.util.concurrent.TimeUnit
 
 @Module(includes = [BindDataModule::class])
 class RemoteDataModule {
+
+    private companion object {
+        private const val TIME_OUT_SECONDS = 15L
+    }
 
     @Provides
     @ApplicationScope
     fun provideHttpClient(authorizationInterceptor: AuthorizationInterceptor): OkHttpClient =
         OkHttpClient.Builder()
+            .connectTimeout(TIME_OUT_SECONDS, TimeUnit.SECONDS)
+            .readTimeout(TIME_OUT_SECONDS, TimeUnit.SECONDS)
+            .writeTimeout(TIME_OUT_SECONDS, TimeUnit.SECONDS)
             .addInterceptor(
                 HttpLoggingInterceptor().apply {
                     level = HttpLoggingInterceptor.Level.BODY
