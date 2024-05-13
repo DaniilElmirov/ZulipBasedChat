@@ -2,8 +2,8 @@ package com.elmirov.course.chat
 
 import androidx.core.os.bundleOf
 import com.elmirov.course.R
-import com.elmirov.course.chat.mock.MockChat
 import com.elmirov.course.chat.mock.MockChat.Companion.messages
+import com.elmirov.course.chat.mock.MockChat.Companion.messagesUrlPattern
 import com.elmirov.course.chat.screen.ChatScreen
 import com.elmirov.course.chat.screen.ChooseReactionsScreen
 import com.elmirov.course.chat.ui.ChatFragment
@@ -12,7 +12,9 @@ import com.github.tomakehurst.wiremock.client.WireMock
 import com.github.tomakehurst.wiremock.client.WireMock.verify
 import com.kaspersky.kaspresso.testcases.api.testcase.TestCase
 import io.github.kakaocup.kakao.common.utilities.getResourceString
+import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -36,22 +38,36 @@ class ChatFragmentTest : TestCase() {
     @get:Rule
     val rule = FragmentTestRule(ChatFragment(), testBundle)
 
-    @Test
-    fun messagesHappyPath() = run {
+    @Before
+    fun setupMockServer() {
+        rule.wiremockRule.start()
         rule.wiremockRule.messages {
             withAll()
-            withSend()
         }
+    }
+
+    @After
+    fun stopMockServer() {
+        rule.wiremockRule.stop()
+    }
+
+    @Test
+    fun messagesHappyPath() = run {
 
         ChatScreen {
             step("Enter text in message field") {
                 newMessage.replaceText("ssss")
             }
+            step("Change server answer") {
+                rule.wiremockRule.messages {
+                    withSend()
+                }
+            }
             step("Click on send button") {
                 sendOrAttach.click()
             }
             step("Verify method") {
-                verify(WireMock.getRequestedFor(MockChat.messagesUrlPattern))
+                verify(WireMock.postRequestedFor(messagesUrlPattern))
             }
             step("New message visible") {
                 messages.childAt<ChatScreen.MessageItem>(MY_MESSAGE) {
@@ -63,9 +79,6 @@ class ChatFragmentTest : TestCase() {
 
     @Test
     fun chatWithContent() = run {
-        rule.wiremockRule.messages {
-            withAll()
-        }
 
         ChatScreen {
             step("Screen with messages") {
@@ -88,15 +101,12 @@ class ChatFragmentTest : TestCase() {
 
     @Test
     fun sendOrAttachIcon() = run {
-        rule.wiremockRule.messages {
-            withAll()
-        }
 
         ChatScreen {
             step("When message field empty icon attach") {
                 sendOrAttach.hasDrawable(R.drawable.icon_attach)
             }
-            step("When message field empty icon send") {
+            step("When message field not empty icon send") {
                 newMessage.replaceText("some text")
                 sendOrAttach.hasDrawable(R.drawable.icon_send)
             }
@@ -105,9 +115,6 @@ class ChatFragmentTest : TestCase() {
 
     @Test
     fun onMessageLongClick() = run {
-        rule.wiremockRule.messages {
-            withAll()
-        }
 
         ChatScreen {
             step("On message long click") {

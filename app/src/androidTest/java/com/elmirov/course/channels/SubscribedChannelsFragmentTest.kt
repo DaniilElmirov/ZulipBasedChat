@@ -8,7 +8,9 @@ import com.elmirov.course.channels.screen.SubscribedScreen
 import com.elmirov.course.chat.mock.MockChat.Companion.messages
 import com.elmirov.course.util.rule.AppTestRule
 import com.kaspersky.kaspresso.testcases.api.testcase.TestCase
+import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -25,17 +27,25 @@ class SubscribedChannelsFragmentTest : TestCase() {
     @get:Rule
     val rule = AppTestRule<MainActivity>(getIntent())
 
+    @Before
+    fun setupMockServer() {
+        rule.wiremockRule.start()
+
+        rule.wiremockRule.channels {
+            withSubscribed()
+        }
+        rule.wiremockRule.messages {
+            withAll()
+        }
+    }
+
+    @After
+    fun stopMockServer() {
+        rule.wiremockRule.stop()
+    }
+
     @Test
     fun channelsIntegration() = run {
-        rule.wiremockRule.apply {
-            channels {
-                withSubscribed()
-            }
-
-            messages {
-                withAll()
-            }
-        }
 
         SubscribedScreen {
             step("On first channel click") {
