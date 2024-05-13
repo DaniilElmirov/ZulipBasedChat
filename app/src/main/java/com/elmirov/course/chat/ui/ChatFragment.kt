@@ -194,12 +194,14 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
                 if (lastVisiblePosition == RecyclerView.NO_POSITION)
                     lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
 
-                if (dy >= 0) {
+                if (dy > 0) {
                     val needLoadNext = (messagesAdapter.itemCount - lastVisiblePosition - 1) <= 5
 
                     if (needLoadNext)
                         store.accept(ChatEvent.Ui.ScrollDown)
-                } else {
+                }
+
+                if (dy < 0) {
                     val needLoadPrev = firstVisiblePosition <= 5
 
                     if (needLoadPrev)
