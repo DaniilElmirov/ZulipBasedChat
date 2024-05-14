@@ -28,6 +28,10 @@ fragment-testing = "1.7.0"
 androidx-test = "1.5.0"
 httpclientAndroid = "4.3.5.1"
 wiremock = "2.27.2"
+mokito-kotlin = "4.1.0"
+mokito-junit = "5.3.0"
+turbine = "1.0.0"
+coroutines-test = "1.7.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -61,6 +65,10 @@ fragment-testing = { group = "androidx.fragment", name = "fragment-testing", ver
 androidx-test-core = { group = "androidx.test", name = "core", version.ref = "androidx-test" }
 httpclient-android = { module = "org.apache.httpcomponents:httpclient-android", version.ref = "httpclientAndroid" }
 wiremock = { group = "com.github.tomakehurst", name = "wiremock-standalone", version.ref = "wiremock" }
+mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mokito-kotlin" }
+mockito-junit = { group = "org.mockito", name = "mockito-junit-jupiter", version.ref = "mokito-junit" }
+turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
+coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines-test" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -71,3 +79,5 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 retrofit = ["squareup-retrofit", "squareup-retrofit-converter", "okhttp-loggin-interceptor"]
 elmslie = ["elmslie-core", "elmslie-android"]
 room = ["room-ktx", "room-runtime"]
+unit-test = ["junit", "mockito-kotlin", "mockito-junit", "turbine", "coroutines-test"]
+ui-test = ["androidx-junit", "junit-ktx", "hamcrest", "kaspresso", "androidx-espresso-intents", "httpclient-android"]

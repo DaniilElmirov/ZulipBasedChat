@@ -73,21 +73,13 @@ dependencies {
     //Test
     implementation(libs.androidx.rules)
 
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.junit.ktx)
+    testImplementation(libs.bundles.unit.test)
 
-    androidTestImplementation(libs.hamcrest)
-
-    androidTestImplementation(libs.kaspresso)
-
-    androidTestImplementation(libs.androidx.espresso.intents)
-
-    debugImplementation (libs.fragment.testing)
-
-    debugImplementation(libs.androidx.test.core)
-    androidTestImplementation(libs.httpclient.android)
+    androidTestImplementation(libs.bundles.ui.test)
     androidTestImplementation(libs.wiremock) {
         exclude(group = "org.apache.httpcomponents", module = "httpclient")
     }
+
+    debugImplementation (libs.fragment.testing)
+    debugImplementation(libs.androidx.test.core)
 }
