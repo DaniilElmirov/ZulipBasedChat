@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/avatar"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="@dimen/user_avatar_width"
+        android:layout_height="@dimen/user_avatar_height"
         android:contentDescription="@null"
         tools:src="@drawable/ic_launcher_foreground"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,7 +38,7 @@
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
+        android:layout_marginLeft="@dimen/margin_12"
         android:layout_marginTop="@dimen/margin_8"
         app:layout_constraintStart_toEndOf="@id/avatar"
         app:layout_constraintTop_toTopOf="parent"
@@ -48,7 +48,7 @@
         android:id="@+id/email"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="@dimen/margin_4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/name"
         app:layout_constraintTop_toBottomOf="@id/name"

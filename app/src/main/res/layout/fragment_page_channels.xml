@@ -64,11 +64,11 @@
             android:id="@+id/refresh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="65dp"
+            android:layout_marginTop="@dimen/margin_24"
+            android:layout_marginBottom="@dimen/margin_64"
             android:background="@drawable/log_out_shape"
-            android:paddingHorizontal="56dp"
-            android:paddingVertical="16dp"
+            android:paddingHorizontal="@dimen/padding_56"
+            android:paddingVertical="@dimen/padding_16"
             android:text="@string/try_again" />
 
     </LinearLayout>

@@ -3,6 +3,6 @@
     android:id="@+id/incoming_message"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="12dp"
-    android:layout_marginTop="28dp"
-    android:layout_marginRight="40dp" />
+    android:layout_marginLeft="@dimen/margin_12"
+    android:layout_marginTop="@dimen/margin_28"
+    android:layout_marginRight="@dimen/margin_40" />

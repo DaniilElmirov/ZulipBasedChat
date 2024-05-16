@@ -14,5 +14,5 @@
         android:paddingHorizontal="18dp"
         android:paddingVertical="4dp"
         android:textColor="@color/date_text_color"
-        tools:text="18.02.2022" />
+        tools:text="18 апр." />
 </FrameLayout>

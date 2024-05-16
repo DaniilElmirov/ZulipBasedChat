@@ -10,8 +10,8 @@
         android:orientation="vertical">
 
         <View
-            android:layout_width="64dp"
-            android:layout_height="8dp"
+            android:layout_width="@dimen/anchor_width"
+            android:layout_height="@dimen/anchor_height"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/margin_8"
             android:background="@drawable/reaction_top_line_shape" />
@@ -22,6 +22,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginHorizontal="@dimen/margin_8"
-            android:layout_marginTop="24dp" />
+            android:layout_marginTop="@dimen/margin_24" />
     </LinearLayout>
 </ScrollView>

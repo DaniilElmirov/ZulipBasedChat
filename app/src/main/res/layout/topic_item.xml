@@ -4,15 +4,15 @@
     android:id="@+id/test"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="4dp"
+    android:layout_marginBottom="@dimen/margin_4"
     android:orientation="horizontal"
-    android:paddingVertical="12dp">
+    android:paddingVertical="@dimen/padding_12">
 
     <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
+        android:layout_marginLeft="@dimen/margin_40"
         android:textColor="@color/black"
         tools:text="Testing" />
 
@@ -20,7 +20,7 @@
         android:id="@+id/message_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="24dp"
+        android:layout_marginLeft="@dimen/margin_24"
         android:textColor="@color/black"
         tools:text="1280 mes" />
 </LinearLayout>
