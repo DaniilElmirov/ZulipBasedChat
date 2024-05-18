@@ -5,6 +5,7 @@ import com.elmirov.course.chat.domain.entity.ChatInfo
 import com.elmirov.course.chat.domain.usecase.AddReactionToMessageUseCase
 import com.elmirov.course.chat.domain.usecase.GetCachedChannelTopicMessagesUseCase
 import com.elmirov.course.chat.domain.usecase.GetChannelTopicMessagesUseCase
+import com.elmirov.course.chat.domain.usecase.GetUpdatedMessagesUseCase
 import com.elmirov.course.chat.domain.usecase.LoadNextMessagesPageUseCase
 import com.elmirov.course.chat.domain.usecase.LoadPrevMessagesPageUseCase
 import com.elmirov.course.chat.domain.usecase.RemoveReactionUseCase
@@ -30,6 +31,7 @@ class ChatActorTest {
     private val removeReactionUseCase: RemoveReactionUseCase = mock()
     private val loadNextMessagesPageUseCase: LoadNextMessagesPageUseCase = mock()
     private val loadPrevMessagesPageUseCase: LoadPrevMessagesPageUseCase = mock()
+    private val getUpdatedMessagesUseCase: GetUpdatedMessagesUseCase = mock()
 
     private val actor = ChatActor(
         chatInfo,
@@ -39,7 +41,8 @@ class ChatActorTest {
         addReactionToMessageUseCase,
         removeReactionUseCase,
         loadNextMessagesPageUseCase,
-        loadPrevMessagesPageUseCase
+        loadPrevMessagesPageUseCase,
+        getUpdatedMessagesUseCase,
     )
 
     @Test
@@ -274,7 +277,7 @@ class ChatActorTest {
     }
 
     @Test
-    fun `command AddReactionSelected success and loading error EXPECT event ChatLoadingError`() =
+    fun `command AddReactionSelected success and get updated error EXPECT event ChatLoadingError`() =
         runTest {
             ChatPresentationTestData.apply {
 
@@ -286,9 +289,10 @@ class ChatActorTest {
                     )
                 ) doReturn resultSuccessString
                 whenever(
-                    getChannelTopicMessagesUseCase(
-                        CHANNEL_NAME,
-                        TOPIC_NAME
+                    getUpdatedMessagesUseCase(
+                        channelName = CHANNEL_NAME,
+                        topicName = TOPIC_NAME,
+                        id = MESSAGE_ID,
                     )
                 ) doReturn resultError
 
@@ -300,7 +304,7 @@ class ChatActorTest {
         }
 
     @Test
-    fun `command AddReactionSelected success and loading success EXPECT event ChatLoadingSuccess`() =
+    fun `command AddReactionSelected success and get updated success EXPECT event ChatLoadingSuccess`() =
         runTest {
             ChatPresentationTestData.apply {
 
@@ -312,9 +316,10 @@ class ChatActorTest {
                     )
                 ) doReturn resultSuccessString
                 whenever(
-                    getChannelTopicMessagesUseCase(
-                        CHANNEL_NAME,
-                        TOPIC_NAME
+                    getUpdatedMessagesUseCase(
+                        channelName = CHANNEL_NAME,
+                        topicName = TOPIC_NAME,
+                        id = MESSAGE_ID,
                     )
                 ) doReturn resultSuccess
 
@@ -345,7 +350,7 @@ class ChatActorTest {
     }
 
     @Test
-    fun `command AddReactionNoSelected success and loading error EXPECT event ChatLoadingError`() =
+    fun `command AddReactionNoSelected success and get updated error EXPECT event ChatLoadingError`() =
         runTest {
             ChatPresentationTestData.apply {
 
@@ -357,9 +362,10 @@ class ChatActorTest {
                     )
                 ) doReturn resultSuccessString
                 whenever(
-                    getChannelTopicMessagesUseCase(
-                        CHANNEL_NAME,
-                        TOPIC_NAME
+                    getUpdatedMessagesUseCase(
+                        channelName = CHANNEL_NAME,
+                        topicName = TOPIC_NAME,
+                        id = MESSAGE_ID,
                     )
                 ) doReturn resultError
 
@@ -371,7 +377,7 @@ class ChatActorTest {
         }
 
     @Test
-    fun `command AddReactionNoSelected success and loading success EXPECT event ChatLoadingSuccess`() =
+    fun `command AddReactionNoSelected success and get updated success EXPECT event ChatLoadingSuccess`() =
         runTest {
             ChatPresentationTestData.apply {
 
@@ -383,9 +389,10 @@ class ChatActorTest {
                     )
                 ) doReturn resultSuccessString
                 whenever(
-                    getChannelTopicMessagesUseCase(
-                        CHANNEL_NAME,
-                        TOPIC_NAME
+                    getUpdatedMessagesUseCase(
+                        channelName = CHANNEL_NAME,
+                        topicName = TOPIC_NAME,
+                        id = MESSAGE_ID,
                     )
                 ) doReturn resultSuccess
 
