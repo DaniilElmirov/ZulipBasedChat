@@ -5,6 +5,12 @@ import com.elmirov.course.core.result.domain.entity.Result
 
 interface MessagesRepository {
 
+    suspend fun getUpdated(
+        channelName: String,
+        topicName: String,
+        id: Int,
+    ): Result<List<Message>>
+
     suspend fun getChannelTopicMessages(
         channelName: String,
         topicName: String

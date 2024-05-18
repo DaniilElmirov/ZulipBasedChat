@@ -26,6 +26,25 @@ class MessagesRepositoryImpl @Inject constructor(
         const val MAX_TABLE_SIZE = 50
     }
 
+    override suspend fun getUpdated(
+        channelName: String,
+        topicName: String,
+        id: Int,
+    ): Result<List<Message>> = getResultWithHandleError(
+        dispatcher = dispatcherIo,
+    ) {
+        val narrow = getNarrowJson(channelName, topicName)
+        val remoteData = api.getChannelTopicMessages(
+            narrow = narrow,
+            anchor = id.toString(),
+        )
+
+        optimizeMessagesTable(channelName, topicName, remoteData.messageModels.size, true)
+        dao.insertMessages(remoteData.toDb(channelName, topicName))
+
+        dao.getMessages(channelName, topicName).toEntities()
+    }
+
     override suspend fun getChannelTopicMessages(
         channelName: String,
         topicName: String
