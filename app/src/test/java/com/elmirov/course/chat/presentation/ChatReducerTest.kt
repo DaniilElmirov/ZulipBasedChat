@@ -135,4 +135,14 @@ class ChatReducerTest {
             assertTrue(actual.commands.isEmpty())
         }
     }
+
+    @Test
+    fun `event OnRefreshClick AND state EXPECT command Load`() {
+        ChatPresentationTestData.apply {
+
+            val actual = reducer.reduce(eventOnRefreshClick, state)
+
+            assertTrue(actual.commands.contains(commandLoad))
+        }
+    }
 }

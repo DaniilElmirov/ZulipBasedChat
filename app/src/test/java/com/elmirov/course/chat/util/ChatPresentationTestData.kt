@@ -80,6 +80,7 @@ object ChatPresentationTestData {
     val eventOnSendMessageClick = ChatEvent.Ui.OnSendMessageClick(text = TEXT)
     val eventScrollDown = ChatEvent.Ui.ScrollDown
     val eventScrollUp = ChatEvent.Ui.ScrollUp
+    val eventOnRefreshClick = ChatEvent.Ui.OnRefreshClick
 
     val resultSuccess = Result.Success(messages)
     val resultSuccessString = Result.Success(TEXT)

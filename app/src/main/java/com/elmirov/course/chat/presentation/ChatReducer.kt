@@ -79,5 +79,9 @@ class ChatReducer @Inject constructor(
                 commands { +ChatCommand.LoadMore(next = false) }
             }
         }
+
+        ChatEvent.Ui.OnRefreshClick -> {
+            commands { +ChatCommand.Load }
+        }
     }
 }
