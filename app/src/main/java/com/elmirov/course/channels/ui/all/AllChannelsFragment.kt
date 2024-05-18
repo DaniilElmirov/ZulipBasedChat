@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import com.elmirov.course.CourseApplication
+import com.elmirov.course.R
 import com.elmirov.course.base.ElmBaseFragment
 import com.elmirov.course.channels.domain.entity.Channel
 import com.elmirov.course.channels.presentation.ChannelsCommand
@@ -18,7 +19,9 @@ import com.elmirov.course.channels.ui.delegate.channel.ChannelDelegate
 import com.elmirov.course.channels.ui.delegate.topic.TopicDelegate
 import com.elmirov.course.core.adapter.MainAdapter
 import com.elmirov.course.databinding.FragmentPageChannelsBinding
+import com.elmirov.course.util.getErrorSnackBar
 import com.elmirov.course.util.toDelegateItems
+import com.google.android.material.snackbar.Snackbar
 import vivid.money.elmslie.android.renderer.elmStoreWithRenderer
 import vivid.money.elmslie.core.store.ElmStore
 import vivid.money.elmslie.core.store.Store
@@ -69,6 +72,8 @@ class AllChannelsFragment : ElmBaseFragment<ChannelsEffect, ChannelsState, Chann
         }
     }
 
+    private var errorSnackBar: Snackbar? = null
+
     override fun onAttach(context: Context) {
         component.inject(this)
         super.onAttach(context)
@@ -88,13 +93,6 @@ class AllChannelsFragment : ElmBaseFragment<ChannelsEffect, ChannelsState, Chann
 
         binding.channels.adapter = allChannelsAdapter
         store.accept(ChannelsEvent.Ui.InitAll)
-        setClickListeners()
-    }
-
-    private fun setClickListeners() {
-        binding.refresh.setOnClickListener {
-            store.accept(ChannelsEvent.Ui.OnRefreshAllClick)
-        }
     }
 
     override fun render(state: ChannelsState) {
@@ -118,7 +116,6 @@ class AllChannelsFragment : ElmBaseFragment<ChannelsEffect, ChannelsState, Chann
         allChannelsAdapter.submitList(data.toDelegateItems())
 
         binding.apply {
-            error.isVisible = false
             channels.isVisible = true
 
             shimmer.isVisible = false
@@ -128,7 +125,6 @@ class AllChannelsFragment : ElmBaseFragment<ChannelsEffect, ChannelsState, Chann
 
     private fun applyLoading() {
         binding.apply {
-            error.isVisible = false
             channels.isVisible = false
 
             shimmer.isVisible = true
@@ -138,17 +134,26 @@ class AllChannelsFragment : ElmBaseFragment<ChannelsEffect, ChannelsState, Chann
 
     private fun applyError() {
         binding.apply {
-            error.isVisible = true
-            channels.isVisible = false
+            channels.isVisible = true
 
             shimmer.isVisible = false
             shimmer.stopShimmer()
         }
+
+        errorSnackBar = getErrorSnackBar(
+            textResId = R.string.unknown_error,
+            actionText = getString(R.string.try_again),
+            actionListener = {store.accept(ChannelsEvent.Ui.OnRefreshAllClick)}
+        )
+        errorSnackBar?.anchorView = binding.snakbarAnchor
+        errorSnackBar?.show()
     }
 
     override fun onDestroyView() {
         binding.channels.adapter = null
         _binding = null
+        errorSnackBar?.dismiss()
+        errorSnackBar = null
         super.onDestroyView()
     }
 }

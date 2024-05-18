@@ -244,6 +244,7 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
             actionText = getString(R.string.try_again),
             actionListener = { store.accept(ChatEvent.Ui.OnRefreshClick) }
         )
+        errorSnackBar?.anchorView = binding.inputArea
         errorSnackBar?.show()
     }
 
