@@ -1,17 +1,17 @@
 package com.elmirov.course.util
 
+import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.FlowCollector
-import kotlinx.coroutines.launch
+import com.google.android.material.snackbar.Snackbar
 
-fun <T> Fragment.collectLifecycleFlow(flow: Flow<T>, collector: FlowCollector<T>) {
-    viewLifecycleOwner.lifecycleScope.launch {
-        viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-            flow.collect(collector)
-        }
-    }
+fun Fragment.getErrorSnackBar(
+    textResId: Int,
+    actionText: String? = null,
+    actionListener: View.OnClickListener? = null,
+): Snackbar {
+    val view = requireActivity().findViewById<View>(android.R.id.content)
+    val snack = Snackbar.make(view, getString(textResId), Snackbar.LENGTH_LONG)
+    snack.setAction(actionText, actionListener)
+
+    return snack
 }
