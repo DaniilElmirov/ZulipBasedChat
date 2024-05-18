@@ -23,6 +23,7 @@ import com.elmirov.course.chat.ui.delegate.incoming.IncomingMessageDelegate
 import com.elmirov.course.chat.ui.delegate.outgoing.OutgoingMessageDelegate
 import com.elmirov.course.core.adapter.MainAdapter
 import com.elmirov.course.databinding.FragmentChatBinding
+import com.elmirov.course.util.getErrorSnackBar
 import com.elmirov.course.util.toDelegateItems
 import com.google.android.material.snackbar.Snackbar
 import vivid.money.elmslie.android.renderer.elmStoreWithRenderer
@@ -106,6 +107,8 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
         }
     }
 
+    private var errorSnackBar: Snackbar? = null
+
     override fun onAttach(context: Context) {
         component.inject(this)
         super.onAttach(context)
@@ -153,7 +156,7 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
     }
 
     override fun handleEffect(effect: ChatEffect): Unit = when (effect) {
-        ChatEffect.ShowError -> applyError()
+        ChatEffect.ShowError -> showErrorSnack()
     }
 
     private fun setupToolbar(channelName: String, topicName: String) {
@@ -235,8 +238,13 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
         }
     }
 
-    private fun applyError() {
-        showSnack()
+    private fun showErrorSnack() {
+        errorSnackBar = getErrorSnackBar(
+            textResId = R.string.unknown_error,
+            actionText = getString(R.string.try_again),
+            actionListener = { store.accept(ChatEvent.Ui.OnRefreshClick) }
+        )
+        errorSnackBar?.show()
     }
 
     private fun setTextChangeListener() {
@@ -251,11 +259,6 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
                 }
             }
         }
-    }
-
-    private fun showSnack() {
-        val view = requireActivity().findViewById<View>(android.R.id.content)
-        Snackbar.make(view, getString(R.string.unknown_error), Snackbar.LENGTH_SHORT).show()
     }
 
     private fun setNavigationIconClickListener() {
@@ -285,6 +288,8 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
     override fun onDestroyView() {
         binding.chat.adapter = null
         _binding = null
+        errorSnackBar?.dismiss()
+        errorSnackBar = null
         super.onDestroyView()
     }
 }
