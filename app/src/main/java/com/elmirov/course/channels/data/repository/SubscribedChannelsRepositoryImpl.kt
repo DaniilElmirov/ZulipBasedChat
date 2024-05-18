@@ -22,6 +22,7 @@ class SubscribedChannelsRepositoryImpl @Inject constructor(
         dispatcher = dispatcherIo,
         data = {
             val remoteData = api.get()
+            dao.clearSubscribed()
             dao.insertSubscribed(remoteData.toDb())
 
             dao.getSubscribed().toEntities()

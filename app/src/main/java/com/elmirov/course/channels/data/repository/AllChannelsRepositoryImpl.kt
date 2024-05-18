@@ -22,6 +22,7 @@ class AllChannelsRepositoryImpl @Inject constructor(
         dispatcher = dispatcherIo,
         data = {
             val remoteData = api.get().toDb()
+            dao.clearAll()
             dao.insertAll(remoteData)
 
             dao.getAll().toEntities()

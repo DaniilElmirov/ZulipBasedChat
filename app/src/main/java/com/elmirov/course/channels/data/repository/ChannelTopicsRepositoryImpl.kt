@@ -23,7 +23,7 @@ class ChannelTopicsRepositoryImpl @Inject constructor(
             dispatcher = dispatcherIo,
             data = {
                 val remoteData = api.getChannelTopics(channelId)
-                dao.delete(channelId)
+                dao.clear(channelId)
                 dao.insert(remoteData.toDb(channelId))
 
                 dao.get(channelId).toEntities()

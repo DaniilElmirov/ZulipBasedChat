@@ -25,4 +25,10 @@ interface ChannelsDao {
 
     @Query("SELECT * FROM ChannelDbModel WHERE subscribed = $FALSE")
     suspend fun getAll(): List<ChannelDbModel>
+
+    @Query("DELETE FROM ChannelDbModel WHERE subscribed = $TRUE")
+    suspend fun clearSubscribed()
+
+    @Query("DELETE FROM ChannelDbModel WHERE subscribed = $FALSE")
+    suspend fun clearAll()
 }

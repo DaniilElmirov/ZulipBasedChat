@@ -16,5 +16,5 @@ interface TopicsDao {
     suspend fun get(channelId: Int): List<TopicDbModel>
 
     @Query("DELETE FROM TopicDbModel WHERE channelId = :channelId")
-    suspend fun delete(channelId: Int)
+    suspend fun clear(channelId: Int)
 }
