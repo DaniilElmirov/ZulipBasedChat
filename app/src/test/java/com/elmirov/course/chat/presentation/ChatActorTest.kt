@@ -5,6 +5,7 @@ import com.elmirov.course.chat.domain.entity.ChatInfo
 import com.elmirov.course.chat.domain.usecase.AddReactionToMessageUseCase
 import com.elmirov.course.chat.domain.usecase.GetCachedChannelTopicMessagesUseCase
 import com.elmirov.course.chat.domain.usecase.GetChannelTopicMessagesUseCase
+import com.elmirov.course.chat.domain.usecase.GetLastMessagesUseCase
 import com.elmirov.course.chat.domain.usecase.GetUpdatedMessagesUseCase
 import com.elmirov.course.chat.domain.usecase.LoadNextMessagesPageUseCase
 import com.elmirov.course.chat.domain.usecase.LoadPrevMessagesPageUseCase
@@ -32,6 +33,7 @@ class ChatActorTest {
     private val loadNextMessagesPageUseCase: LoadNextMessagesPageUseCase = mock()
     private val loadPrevMessagesPageUseCase: LoadPrevMessagesPageUseCase = mock()
     private val getUpdatedMessagesUseCase: GetUpdatedMessagesUseCase = mock()
+    private val getLastMessagesUseCase: GetLastMessagesUseCase = mock()
 
     private val actor = ChatActor(
         chatInfo,
@@ -43,6 +45,7 @@ class ChatActorTest {
         loadNextMessagesPageUseCase,
         loadPrevMessagesPageUseCase,
         getUpdatedMessagesUseCase,
+        getLastMessagesUseCase,
     )
 
     @Test
@@ -189,11 +192,11 @@ class ChatActorTest {
     }
 
     @Test
-    fun `command Send success AND load success EXPECT event ChatLoadingSuccess`() = runTest {
+    fun `command Send success AND get lasts success EXPECT event ChatLoadingSuccess`() = runTest {
         ChatPresentationTestData.apply {
 
             whenever(
-                getChannelTopicMessagesUseCase(
+                getLastMessagesUseCase(
                     CHANNEL_NAME,
                     TOPIC_NAME
                 )
@@ -214,11 +217,11 @@ class ChatActorTest {
     }
 
     @Test
-    fun `command Send success AND load error EXPECT event ChatLoadingError`() = runTest {
+    fun `command Send success AND get lasts error EXPECT event ChatLoadingError`() = runTest {
         ChatPresentationTestData.apply {
 
             whenever(
-                getChannelTopicMessagesUseCase(
+                getLastMessagesUseCase(
                     CHANNEL_NAME,
                     TOPIC_NAME
                 )

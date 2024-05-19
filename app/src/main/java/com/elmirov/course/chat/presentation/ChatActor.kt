@@ -5,6 +5,7 @@ import com.elmirov.course.chat.domain.entity.Message
 import com.elmirov.course.chat.domain.usecase.AddReactionToMessageUseCase
 import com.elmirov.course.chat.domain.usecase.GetCachedChannelTopicMessagesUseCase
 import com.elmirov.course.chat.domain.usecase.GetChannelTopicMessagesUseCase
+import com.elmirov.course.chat.domain.usecase.GetLastMessagesUseCase
 import com.elmirov.course.chat.domain.usecase.GetUpdatedMessagesUseCase
 import com.elmirov.course.chat.domain.usecase.LoadNextMessagesPageUseCase
 import com.elmirov.course.chat.domain.usecase.LoadPrevMessagesPageUseCase
@@ -26,6 +27,7 @@ class ChatActor @Inject constructor(
     private val loadNextMessagesPageUseCase: LoadNextMessagesPageUseCase,
     private val loadPrevMessagesPageUseCase: LoadPrevMessagesPageUseCase,
     private val getUpdatedMessagesUseCase: GetUpdatedMessagesUseCase,
+    private val getLastMessagesUseCase: GetLastMessagesUseCase,
 ) : Actor<ChatCommand, ChatEvent>() {
 
     private var firstMessageId = 0
@@ -82,7 +84,7 @@ class ChatActor @Inject constructor(
 
                     is Result.Success -> emit(
                         applyLoadMessages(
-                            getChannelTopicMessagesUseCase(
+                            getLastMessagesUseCase(
                                 chatInfo.channelName,
                                 chatInfo.topicName,
                             )
