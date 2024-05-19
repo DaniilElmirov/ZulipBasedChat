@@ -11,6 +11,11 @@ interface MessagesRepository {
         id: Int,
     ): Result<List<Message>>
 
+    suspend fun getLasts(
+        channelName: String,
+        topicName: String,
+    ): Result<List<Message>>
+
     suspend fun getChannelTopicMessages(
         channelName: String,
         topicName: String

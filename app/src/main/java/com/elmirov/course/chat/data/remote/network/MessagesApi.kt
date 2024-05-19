@@ -8,19 +8,20 @@ import retrofit2.http.Query
 
 interface MessagesApi {
 
-    private companion object {
-        const val MAX_NUM_BEFORE = 10
-        const val MAX_NUM_AFTER = 10
+    companion object {
+        private const val MAX_NUM_BEFORE = 10
+        private const val MAX_NUM_AFTER = 10
 
-        const val NEXT_NUM_BEFORE = 0
+        private const val NEXT_NUM_BEFORE = 0
         const val NEXT_NUM_AFTER = 20
 
-        const val PREV_NUM_BEFORE = 20
-        const val PREV_NUM_AFTER = 0
+        private const val PREV_NUM_BEFORE = 20
+        private const val PREV_NUM_AFTER = 0
 
-        const val ANCHOR_FIRST_UNREAD = "first_unread"
+        private const val ANCHOR_FIRST_UNREAD = "first_unread"
+        const val ANCHOR_NEWEST = "newest"
 
-        const val TYPE_STREAM = "stream"
+        private const val TYPE_STREAM = "stream"
     }
 
     @GET("messages")
