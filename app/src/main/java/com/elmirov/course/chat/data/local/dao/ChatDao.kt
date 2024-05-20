@@ -12,11 +12,15 @@ import com.elmirov.course.chat.data.local.model.ReactionDbModel
 @Dao
 interface ChatDao {
 
-    @Transaction
     @Query("SELECT * FROM MessageDbModel WHERE (channelName = :channelName AND topicName = :topicName)")
     suspend fun getMessages(
         channelName: String,
         topicName: String
+    ): List<MessageWithReactionsDbModel>
+
+    @Query("SELECT * FROM MessageDbModel WHERE channelName = :channelName")
+    suspend fun getMessages(
+        channelName: String,
     ): List<MessageWithReactionsDbModel>
 
     @Transaction
@@ -38,20 +42,22 @@ interface ChatDao {
     @Query("DELETE FROM MessageDbModel WHERE (channelName = :channelName AND topicName = :topicName)")
     suspend fun clear(channelName: String, topicName: String)
 
+    @Query("DELETE FROM MessageDbModel WHERE (channelName = :channelName)")
+    suspend fun clear(channelName: String)
+
     //TODO подумать над неймингом
     @Query("SELECT COUNT(*) FROM MessageDbModel")
     fun getTableSize(): Int
-
-    @Query("SELECT COUNT(*) FROM MessageDbModel WHERE (channelName = :channelName AND topicName = :topicName)")
-    suspend fun getMessagesCount(
-        channelName: String,
-        topicName: String
-    ): Int
 
     @Query("SELECT COUNT(*) FROM MessageDbModel WHERE (channelName != :channelName OR topicName != :topicName)")
     suspend fun getOtherMessagesCount(
         channelName: String,
         topicName: String
+    ): Int
+
+    @Query("SELECT COUNT(*) FROM MessageDbModel WHERE channelName != :channelName")
+    suspend fun getOtherMessagesCount(
+        channelName: String,
     ): Int
 
     @Query(
@@ -62,7 +68,16 @@ interface ChatDao {
         channelName: String,
         topicName: String,
         count: Int
-    ): Int
+    )
+
+    @Query(
+        "DELETE FROM MessageDbModel WHERE id IN " +
+                "(SELECT id FROM MessageDbModel WHERE channelName != :channelName LIMIT :count)"
+    )
+    suspend fun deleteExtraMessagesNoInclude(
+        channelName: String,
+        count: Int
+    )
 
     @Query(
         "DELETE FROM MessageDbModel WHERE timestamp IN " +
@@ -74,7 +89,18 @@ interface ChatDao {
         channelName: String,
         topicName: String,
         count: Int
-    ): Int
+    )
+
+    @Query(
+        "DELETE FROM MessageDbModel WHERE timestamp IN " +
+                "(SELECT timestamp FROM MessageDbModel " +
+                "WHERE (channelName = :channelName)" +
+                "ORDER BY timestamp ASC LIMIT :count)"
+    )
+    suspend fun deleteOldestInChat(
+        channelName: String,
+        count: Int
+    )
 
     @Query(
         "DELETE FROM MessageDbModel WHERE timestamp IN " +
@@ -85,6 +111,17 @@ interface ChatDao {
     suspend fun deleteNewestInChat(
         channelName: String,
         topicName: String,
+        count: Int
+    )
+
+    @Query(
+        "DELETE FROM MessageDbModel WHERE timestamp IN " +
+                "(SELECT timestamp FROM MessageDbModel " +
+                "WHERE (channelName = :channelName) " +
+                "ORDER BY timestamp DESC LIMIT :count)"
+    )
+    suspend fun deleteNewestInChat(
+        channelName: String,
         count: Int
     )
 }
