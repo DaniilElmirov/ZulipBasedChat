@@ -19,7 +19,7 @@ class ChannelsReducer @Inject constructor(
 ) {
 
     private companion object {
-        const val EMPTY_CHANNEL_NAME = ""
+        const val EMPTY_NAME = ""
     }
 
     private var currentData: List<Channel> = emptyList()
@@ -103,6 +103,13 @@ class ChannelsReducer @Inject constructor(
         }
 
         is ChannelsEvent.Ui.OnChannelClick -> {
+            val channel = state.content?.find { it.id == event.channelId }
+            val channelName = channel?.name ?: EMPTY_NAME
+
+            globalRouter.openChat(channelName, EMPTY_NAME)
+        }
+
+        is ChannelsEvent.Ui.OnArrowClick -> {
             val targetChannel = state.content?.find {
                 it.id == event.channelId
             }
@@ -118,7 +125,7 @@ class ChannelsReducer @Inject constructor(
 
         is ChannelsEvent.Ui.OnTopicClick -> {
             val channel = state.content?.find { it.id == event.channelId }
-            val channelName = channel?.name ?: EMPTY_CHANNEL_NAME
+            val channelName = channel?.name ?: EMPTY_NAME
 
             globalRouter.openChat(channelName, event.topicName)
         }

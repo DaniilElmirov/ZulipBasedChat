@@ -12,6 +12,8 @@ sealed interface ChannelsEvent {
 
         data class OnChannelClick(val channelId: Int) : Ui
 
+        data class OnArrowClick(val channelId: Int) : Ui
+
         data class OnTopicClick(val channelId: Int, val topicName: String) : Ui
 
         data class Search(val query: String) : Ui
