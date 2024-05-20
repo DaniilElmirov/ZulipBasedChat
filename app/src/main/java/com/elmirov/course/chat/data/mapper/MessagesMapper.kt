@@ -12,18 +12,17 @@ import com.elmirov.course.chat.domain.entity.ReactionParams
 
 fun MessagesResponseModel.toDb(
     channelName: String,
-    topicName: String
 ): List<MessageWithReactionsDbModel> =
-    messageModels.map { it.toDb(channelName, topicName) }
+    messageModels.map { it.toDb(channelName) }
 
 fun List<MessageWithReactionsDbModel>.toEntities(): List<Message> = map { it.toEntity() }
 
-private fun MessageModel.toDb(channelName: String, topicName: String): MessageWithReactionsDbModel =
+private fun MessageModel.toDb(channelName: String): MessageWithReactionsDbModel =
     MessageWithReactionsDbModel(
         message = MessageDbModel(
             id = id,
             channelName = channelName,
-            topicName = topicName,
+            topicName = topic,
             timestamp = timestamp,
             authorId = authorId,
             avatarUrl = avatarUrl,
