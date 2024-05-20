@@ -168,8 +168,10 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
                 )
             )
 
-        binding.topic.text =
-            String.format(getString(R.string.topic_with_name), topicName)
+        if (topicName.isNotEmpty())
+            binding.topic.text = String.format(getString(R.string.topic_with_name), topicName)
+        else
+            binding.topic.isVisible = false
     }
 
     private fun setupClickListeners() {
