@@ -8,9 +8,14 @@ import com.elmirov.course.core.adapter.delegate.DelegateItem
 
 class ChannelDelegate(
     private val onChannelClick: (Int) -> Unit,
+    private val onArrowClick: (Int) -> Unit,
 ) : AdapterDelegate {
     override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder =
-        ChannelViewHolder(parent, onChannelClick)
+        ChannelViewHolder(
+            parent = parent,
+            onChannelClick = onChannelClick,
+            onArrowClick = onArrowClick
+        )
 
     override fun onBindViewHolder(
         holder: RecyclerView.ViewHolder,

@@ -11,6 +11,7 @@ import com.elmirov.course.databinding.ChannelItemBinding
 class ChannelViewHolder(
     parent: ViewGroup,
     private val onChannelClick: (Int) -> Unit,
+    private val onArrowClick: (Int) -> Unit,
 ) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.channel_item, parent, false)
 ) {
@@ -24,6 +25,13 @@ class ChannelViewHolder(
 
         binding.root.setOnClickListener {
             onChannelClick(channel.id)
+        }
+
+        binding.arrowBottom.setOnClickListener {
+            onArrowClick(channel.id)
+        }
+        binding.arrowTop.setOnClickListener {
+            onArrowClick(channel.id)
         }
 
         if (channel.expanded) {

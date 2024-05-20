@@ -60,6 +60,9 @@ class AllChannelsFragment : ElmBaseFragment<ChannelsEffect, ChannelsState, Chann
                     onChannelClick = {
                         store.accept(ChannelsEvent.Ui.OnChannelClick(it))
                     },
+                    onArrowClick = {
+                        store.accept(ChannelsEvent.Ui.OnArrowClick(it))
+                    },
                 )
             )
             addDelegate(
