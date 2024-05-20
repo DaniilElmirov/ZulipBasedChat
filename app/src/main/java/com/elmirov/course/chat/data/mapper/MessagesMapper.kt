@@ -36,6 +36,7 @@ private fun MessageWithReactionsDbModel.toEntity(): Message =
     Message(
         id = message.id,
         timestamp = message.timestamp,
+        topicName = message.topicName,
         authorId = message.authorId,
         avatarUrl = message.avatarUrl,
         authorName = message.authorName,
