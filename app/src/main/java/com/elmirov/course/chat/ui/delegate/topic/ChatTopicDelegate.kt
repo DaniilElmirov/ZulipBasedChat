@@ -5,9 +5,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.elmirov.course.core.adapter.delegate.AdapterDelegate
 import com.elmirov.course.core.adapter.delegate.DelegateItem
 
-class ChatTopicDelegate: AdapterDelegate {
+class ChatTopicDelegate(
+    private val onTopicClick: (topicName: String) -> Unit,
+) : AdapterDelegate {
     override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder =
-        ChatTopicViewHolder(parent)
+        ChatTopicViewHolder(parent = parent, onTopicClick = onTopicClick)
 
     override fun onBindViewHolder(
         holder: RecyclerView.ViewHolder,

@@ -21,6 +21,7 @@ import com.elmirov.course.chat.presentation.ChatState
 import com.elmirov.course.chat.ui.delegate.date.DateDelegate
 import com.elmirov.course.chat.ui.delegate.incoming.IncomingMessageDelegate
 import com.elmirov.course.chat.ui.delegate.outgoing.OutgoingMessageDelegate
+import com.elmirov.course.chat.ui.delegate.topic.ChatTopicDelegate
 import com.elmirov.course.core.adapter.MainAdapter
 import com.elmirov.course.databinding.FragmentChatBinding
 import com.elmirov.course.util.getErrorSnackBar
@@ -57,11 +58,8 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
         get() = _binding!!
 
     private val component by lazy {
-        val channelName = requireArguments().getString(KEY_TOPIC_CHANNEL_NAME) ?: EMPTY_STRING
-        val topicName = requireArguments().getString(KEY_TOPIC_NAME) ?: EMPTY_STRING
-
         (requireActivity().application as CourseApplication).component.chatComponentFactory()
-            .create(ChatInfo(channelName, topicName))
+            .create(ChatInfo(getChannelName(), getTopicName()))
     }
 
     @Inject
@@ -104,6 +102,13 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
                 )
             )
             addDelegate(DateDelegate())
+            addDelegate(
+                ChatTopicDelegate(
+                    onTopicClick = {
+                        store.accept(ChatEvent.Ui.OnTopicClick(getChannelName(), it))
+                    }
+                )
+            )
         }
     }
 
@@ -128,19 +133,18 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
 
         binding.chat.adapter = messagesAdapter
 
-        applyArguments()
+        store.accept(ChatEvent.Ui.Init(getChannelName(), getTopicName()))
         setupClickListeners()
         setupScrollListener()
         setTextChangeListener()
         setNavigationIconClickListener()
     }
 
-    private fun applyArguments() {
-        val channelName = requireArguments().getString(KEY_TOPIC_CHANNEL_NAME) ?: EMPTY_STRING
-        val topicName = requireArguments().getString(KEY_TOPIC_NAME) ?: EMPTY_STRING
+    private fun getChannelName(): String =
+        requireArguments().getString(KEY_TOPIC_CHANNEL_NAME) ?: EMPTY_STRING
 
-        store.accept(ChatEvent.Ui.Init(channelName, topicName))
-    }
+    private fun getTopicName(): String =
+        requireArguments().getString(KEY_TOPIC_NAME) ?: EMPTY_STRING
 
     override fun render(state: ChatState) {
         state.chatInfo?.let {
@@ -151,7 +155,8 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
             applyLoading()
 
         state.content?.let {
-            applyContent(it)
+            val withTopics = state.chatInfo?.topicName?.isEmpty() ?: false
+            applyContent(it, withTopics)
         }
     }
 
@@ -218,8 +223,8 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
         binding.chat.addOnScrollListener(listener)
     }
 
-    private fun applyContent(data: List<Message>) {
-        messagesAdapter.submitList(data.toDelegateItems(OWN_ID))
+    private fun applyContent(data: List<Message>, withTopics: Boolean) {
+        messagesAdapter.submitList(data.toDelegateItems(OWN_ID, withTopics))
 
         binding.apply {
             chat.isVisible = true

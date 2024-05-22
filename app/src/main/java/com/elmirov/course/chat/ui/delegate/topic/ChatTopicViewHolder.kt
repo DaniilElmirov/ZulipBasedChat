@@ -7,7 +7,8 @@ import com.elmirov.course.R
 import com.elmirov.course.databinding.TopicChatItemBinding
 
 class ChatTopicViewHolder(
-    parent: ViewGroup
+    parent: ViewGroup,
+    private val onTopicClick: (topicName: String) -> Unit,
 ) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.topic_chat_item, parent, false)
 ) {
@@ -16,5 +17,8 @@ class ChatTopicViewHolder(
 
     fun bind(name: String) {
         binding.name.text = name
+        binding.root.setOnClickListener {
+            onTopicClick(name)
+        }
     }
 }
