@@ -11,6 +11,11 @@ sealed interface ChatEvent {
             val topicName: String,
         ) : Ui
 
+        data class OnTopicClick(
+            val channelName: String,
+            val topicName: String,
+        ) : Ui
+
         data class OnReactionClick(
             val messageId: Int,
             val reaction: Reaction,

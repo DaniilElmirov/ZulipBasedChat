@@ -46,6 +46,10 @@ class ChatReducer @Inject constructor(
             commands { +ChatCommand.Load }
         }
 
+        is ChatEvent.Ui.OnTopicClick -> {
+            globalRouter.openChatTopic(event.channelName, event.topicName)
+        }
+
         ChatEvent.Ui.OnBackClick -> globalRouter.back()
 
         is ChatEvent.Ui.OnReactionClick -> {
