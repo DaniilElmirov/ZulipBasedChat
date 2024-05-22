@@ -7,6 +7,7 @@ import com.elmirov.course.chat.domain.entity.Message
 import com.elmirov.course.chat.ui.delegate.date.DateDelegateItem
 import com.elmirov.course.chat.ui.delegate.incoming.IncomingMessageDelegateItem
 import com.elmirov.course.chat.ui.delegate.outgoing.OutgoingMessageDelegateItem
+import com.elmirov.course.chat.ui.delegate.topic.ChatTopicDelegateItem
 import com.elmirov.course.core.adapter.delegate.DelegateItem
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -15,7 +16,7 @@ import java.util.Locale
 private const val IN_MILLIS = 1000
 private const val SECONDS_IN_DAY = 24 * 60 * 60
 
-fun List<Message>.toDelegateItems(ownId: Int): List<DelegateItem> {
+fun List<Message>.toDelegateItems(ownId: Int, withTopics: Boolean = false): List<DelegateItem> {
 
     val delegates = mutableListOf<DelegateItem>()
     val dates = mutableSetOf<String>()
@@ -32,7 +33,21 @@ fun List<Message>.toDelegateItems(ownId: Int): List<DelegateItem> {
             it.timestamp.timestampToFormattedDate() == messageDate
         }
 
+        var needDelegate: Boolean
+        var currentTopic = ""
         thisDayMessages.forEach { message ->
+            if (withTopics) {
+                if (message.topicName == currentTopic)
+                    needDelegate = false
+                else {
+                    needDelegate = true
+                    currentTopic = message.topicName
+                }
+
+                if (needDelegate)
+                    delegates.add(ChatTopicDelegateItem(currentTopic))
+            }
+
             if (message.authorId == ownId)
                 delegates.add(OutgoingMessageDelegateItem(id = message.id, value = message))
             else
