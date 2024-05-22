@@ -14,6 +14,8 @@ interface GlobalRouter {
 
     fun openChat(topicChannelName: String, topicName: String)
 
+    fun openChatTopic(topicChannelName: String, topicName: String)
+
     fun back()
 }
 
@@ -31,6 +33,10 @@ class GlobalRouterImpl @Inject constructor(
 
     override fun openChat(topicChannelName: String, topicName: String) {
         router.navigateTo(ChatScreen(topicChannelName, topicName))
+    }
+
+    override fun openChatTopic(topicChannelName: String, topicName: String) {
+        router.newChain(ChatScreen(topicChannelName, topicName))
     }
 
     override fun back() {
