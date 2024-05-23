@@ -184,7 +184,8 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
             val messageText = binding.newMessage.text?.trim().toString()
             binding.newMessage.text = null
 
-            store.accept(ChatEvent.Ui.OnSendMessageClick(messageText))
+            if (messageText.isNotEmpty())
+                store.accept(ChatEvent.Ui.OnSendMessageClick(messageText))
         }
     }
 
@@ -228,7 +229,10 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
 
         binding.apply {
             chat.isVisible = true
-            inputArea.isVisible = true
+
+            sendOrAttach.isVisible = true
+            newMessage.isVisible = true
+            topicName.isVisible = withTopics
 
             shimmer.isVisible = false
             shimmer.stopShimmer()
@@ -238,7 +242,10 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
     private fun applyLoading() {
         binding.apply {
             chat.isVisible = false
-            inputArea.isVisible = false
+
+            sendOrAttach.isVisible = false
+            newMessage.isVisible = false
+            topicName.isVisible = false
 
             shimmer.isVisible = true
             shimmer.startShimmer()
@@ -251,7 +258,7 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
             actionText = getString(R.string.try_again),
             actionListener = { store.accept(ChatEvent.Ui.OnRefreshClick) }
         )
-        errorSnackBar?.anchorView = binding.inputArea
+        errorSnackBar?.anchorView = binding.snackAnchor
         errorSnackBar?.show()
     }
 

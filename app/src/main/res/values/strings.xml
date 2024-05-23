@@ -13,4 +13,5 @@
 	<string name="active">active</string>
 	<string name="idle">idle</string>
 	<string name="offline">offline</string>
+    <string name="topic">#topic</string>
 </resources>
