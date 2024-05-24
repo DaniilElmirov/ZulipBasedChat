@@ -13,5 +13,5 @@
 	<string name="active">active</string>
 	<string name="idle">idle</string>
 	<string name="offline">offline</string>
-    <string name="topic">#topic</string>
+    <string name="enter_topic_name">Enter topic name</string>
 </resources>

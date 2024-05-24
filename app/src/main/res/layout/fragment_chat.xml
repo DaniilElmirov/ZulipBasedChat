@@ -91,11 +91,12 @@
         android:layout_marginEnd="@dimen/margin_16"
         android:layout_marginBottom="@dimen/margin_8"
         android:background="@drawable/new_message_shape"
-        android:hint="@string/topic"
+        android:hint="@string/enter_topic_name"
         android:paddingHorizontal="@dimen/padding_20"
         android:paddingVertical="@dimen/padding_12"
         android:textColor="@color/message_hint_text_color"
         android:textColorHint="@color/message_hint_text_color"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/new_message"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
