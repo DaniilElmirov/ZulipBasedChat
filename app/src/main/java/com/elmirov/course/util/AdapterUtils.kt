@@ -1,6 +1,7 @@
 package com.elmirov.course.util
 
 import com.elmirov.course.channels.domain.entity.Channel
+import com.elmirov.course.channels.domain.entity.Topic
 import com.elmirov.course.channels.ui.delegate.channel.ChannelDelegateItem
 import com.elmirov.course.channels.ui.delegate.topic.TopicDelegateItem
 import com.elmirov.course.chat.domain.entity.Message
@@ -15,6 +16,8 @@ import java.util.Locale
 
 private const val IN_MILLIS = 1000
 private const val SECONDS_IN_DAY = 24 * 60 * 60
+
+fun List<Topic>.toTopicNames(): List<String> = map { it.name }
 
 fun List<Message>.toDelegateItems(ownId: Int, withTopics: Boolean = false): List<DelegateItem> {
 
