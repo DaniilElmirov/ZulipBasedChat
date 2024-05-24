@@ -1,10 +1,12 @@
 package com.elmirov.course.chat.ui
 
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -39,16 +41,14 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
         //TODO временное решение, лучше личный id хранить в локальном хранилище
         private const val OWN_ID = 709286
 
-        private const val KEY_TOPIC_CHANNEL_NAME = "KEY_TOPIC_CHANNEL_NAME"
-        private const val KEY_TOPIC_NAME = "KEY_TOPIC_NAME"
+        private const val KEY_CHAT_INFO = "KEY_CHAT_INFO"
 
-        private const val EMPTY_STRING = ""
+        private const val EMPTY_NAME = ""
 
-        fun newInstance(topicChannelName: String, topicName: String): ChatFragment =
+        fun newInstance(chatInfo: ChatInfo): ChatFragment =
             ChatFragment().apply {
                 arguments = Bundle().apply {
-                    putString(KEY_TOPIC_CHANNEL_NAME, topicChannelName)
-                    putString(KEY_TOPIC_NAME, topicName)
+                    putParcelable(KEY_CHAT_INFO, chatInfo)
                 }
             }
     }
@@ -59,7 +59,7 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
 
     private val component by lazy {
         (requireActivity().application as CourseApplication).component.chatComponentFactory()
-            .create(ChatInfo(getChannelName(), getTopicName()))
+            .create(ChatInfo(getChannelId(), getChannelName(), getTopicName()))
     }
 
     @Inject
@@ -105,7 +105,13 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
             addDelegate(
                 ChatTopicDelegate(
                     onTopicClick = {
-                        store.accept(ChatEvent.Ui.OnTopicClick(getChannelName(), it))
+                        store.accept(
+                            ChatEvent.Ui.OnTopicClick(
+                                getChannelId(),
+                                getChannelName(),
+                                it
+                            )
+                        )
                     }
                 )
             )
@@ -133,18 +139,38 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
 
         binding.chat.adapter = messagesAdapter
 
-        store.accept(ChatEvent.Ui.Init(getChannelName(), getTopicName()))
-        setupClickListeners()
+        store.accept(ChatEvent.Ui.Init(getChannelId(), getChannelName(), getTopicName()))
         setupScrollListener()
         setTextChangeListener()
         setNavigationIconClickListener()
     }
 
-    private fun getChannelName(): String =
-        requireArguments().getString(KEY_TOPIC_CHANNEL_NAME) ?: EMPTY_STRING
+    @Suppress("DEPRECATION")
+    private fun getChannelId(): Int =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requireArguments().getParcelable(KEY_CHAT_INFO, ChatInfo::class.java)?.channelId ?: 0
 
+        } else {
+            requireArguments().getParcelable<ChatInfo>(KEY_CHAT_INFO)?.channelId ?: 0
+        }
+
+    @Suppress("DEPRECATION")
+    private fun getChannelName(): String =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requireArguments().getParcelable(KEY_CHAT_INFO, ChatInfo::class.java)?.channelName
+                ?: EMPTY_NAME
+        } else {
+            requireArguments().getParcelable<ChatInfo>(KEY_CHAT_INFO)?.channelName ?: EMPTY_NAME
+        }
+
+    @Suppress("DEPRECATION")
     private fun getTopicName(): String =
-        requireArguments().getString(KEY_TOPIC_NAME) ?: EMPTY_STRING
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requireArguments().getParcelable(KEY_CHAT_INFO, ChatInfo::class.java)?.topicName
+                ?: EMPTY_NAME
+        } else {
+            requireArguments().getParcelable<ChatInfo>(KEY_CHAT_INFO)?.topicName ?: EMPTY_NAME
+        }
 
     override fun render(state: ChatState) {
         state.chatInfo?.let {
@@ -154,9 +180,15 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
         if (state.loading)
             applyLoading()
 
-        state.content?.let {
+        state.content?.let { messages ->
             val withTopics = state.chatInfo?.topicName?.isEmpty() ?: false
-            applyContent(it, withTopics)
+            applyContent(messages, withTopics)
+
+            state.chatTopics?.let { names ->
+                addTopicNames(names, withTopics)
+            }
+
+            setupClickListeners(withTopics)
         }
     }
 
@@ -179,13 +211,24 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
             binding.topic.isVisible = false
     }
 
-    private fun setupClickListeners() {
+    private fun setupClickListeners(withTopics: Boolean) {
         binding.sendOrAttach.setOnClickListener {
             val messageText = binding.newMessage.text?.trim().toString()
             binding.newMessage.text = null
 
-            if (messageText.isNotEmpty())
-                store.accept(ChatEvent.Ui.OnSendMessageClick(messageText))
+            if (messageText.isNotEmpty()) {
+                if (withTopics) {
+                    val selectedTopicName = binding.topicName.text.toString()
+                    if (selectedTopicName.isNotEmpty())
+                        store.accept(
+                            ChatEvent.Ui.OnSendMessageClick(
+                                messageText,
+                                selectedTopicName
+                            )
+                        )
+                } else
+                    store.accept(ChatEvent.Ui.OnSendMessageClick(messageText, EMPTY_NAME))
+            }
         }
     }
 
@@ -260,6 +303,13 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
         )
         errorSnackBar?.anchorView = binding.snackAnchor
         errorSnackBar?.show()
+    }
+
+    private fun addTopicNames(topicNames: List<String>, withTopics: Boolean) {
+        if (withTopics) {
+            val adapter = ArrayAdapter(requireContext(), R.layout.topic_name_item, topicNames)
+            binding.topicName.setAdapter(adapter)
+        }
     }
 
     private fun setTextChangeListener() {

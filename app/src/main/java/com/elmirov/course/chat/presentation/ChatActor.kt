@@ -1,5 +1,7 @@
 package com.elmirov.course.chat.presentation
 
+import com.elmirov.course.channels.domain.usecase.GetCachedChannelTopicsUseCase
+import com.elmirov.course.channels.domain.usecase.GetChannelTopicsUseCase
 import com.elmirov.course.chat.domain.entity.ChatInfo
 import com.elmirov.course.chat.domain.entity.Message
 import com.elmirov.course.chat.domain.usecase.AddReactionToMessageUseCase
@@ -12,6 +14,7 @@ import com.elmirov.course.chat.domain.usecase.LoadPrevMessagesPageUseCase
 import com.elmirov.course.chat.domain.usecase.RemoveReactionUseCase
 import com.elmirov.course.chat.domain.usecase.SendMessageToChannelTopicUseCase
 import com.elmirov.course.core.result.domain.entity.Result
+import com.elmirov.course.util.toTopicNames
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import vivid.money.elmslie.core.store.Actor
@@ -28,6 +31,8 @@ class ChatActor @Inject constructor(
     private val loadPrevMessagesPageUseCase: LoadPrevMessagesPageUseCase,
     private val getUpdatedMessagesUseCase: GetUpdatedMessagesUseCase,
     private val getLastMessagesUseCase: GetLastMessagesUseCase,
+    private val getChannelTopicsUseCase: GetChannelTopicsUseCase,
+    private val getCachedChannelTopicsUseCase: GetCachedChannelTopicsUseCase,
 ) : Actor<ChatCommand, ChatEvent>() {
 
     private var firstMessageId = 0
@@ -54,6 +59,22 @@ class ChatActor @Inject constructor(
                 )
             )
 
+            is ChatCommand.LoadTopics -> emit(
+                when (val result = getChannelTopicsUseCase(chatInfo.channelId)) {
+                    is Result.Error -> ChatEvent.Internal.ChatLoadingError
+
+                    is Result.Success -> ChatEvent.Internal.TopicsLoadingSuccess(result.data.toTopicNames())
+                }
+            )
+
+            is ChatCommand.LoadCachedTopics -> emit(
+                when (val result = getCachedChannelTopicsUseCase(chatInfo.channelId)) {
+                    is Result.Error -> ChatEvent.Internal.ChatLoadingError
+
+                    is Result.Success -> ChatEvent.Internal.TopicsLoadingSuccess(result.data.toTopicNames())
+                }
+            )
+
             is ChatCommand.LoadMore -> {
                 val result =
                     if (command.next)
@@ -73,11 +94,13 @@ class ChatActor @Inject constructor(
             }
 
             is ChatCommand.Send -> {
+                val topicName = chatInfo.topicName.ifEmpty { command.topicName }
+
                 when (
                     sendMessageToChannelTopicUseCase(
-                        chatInfo.channelName,
-                        chatInfo.topicName,
-                        command.text
+                        channelName = chatInfo.channelName,
+                        topicName = topicName,
+                        text = command.text
                     )
                 ) {
                     is Result.Error -> emit(ChatEvent.Internal.ChatLoadingError)

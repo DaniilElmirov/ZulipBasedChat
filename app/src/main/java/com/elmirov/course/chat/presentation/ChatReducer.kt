@@ -29,25 +29,41 @@ class ChatReducer @Inject constructor(
             else
                 state { copy(loading = false, loadingMore = false, content = event.data) }
         }
+
+        is ChatEvent.Internal.TopicsLoadingSuccess -> {
+            if (event.data.isEmpty())
+                state { copy(loading = true) }
+            else
+                state { copy(loading = false, chatTopics = event.data) }
+        }
     }
 
     override fun Result.ui(event: ChatEvent.Ui): Any = when (event) {
         is ChatEvent.Ui.Init -> {
             commands { +ChatCommand.LoadCached }
+            commands { +ChatCommand.LoadCachedTopics }
             state {
                 copy(
                     loading = true,
                     chatInfo = ChatInfo(
+                        channelId = event.channelId,
                         channelName = event.channelName,
                         topicName = event.topicName
                     ),
                 )
             }
             commands { +ChatCommand.Load }
+            commands { +ChatCommand.LoadTopics }
         }
 
         is ChatEvent.Ui.OnTopicClick -> {
-            globalRouter.openChatTopic(event.channelName, event.topicName)
+            globalRouter.openChatTopic(
+                ChatInfo(
+                    channelId = event.channelId,
+                    channelName = event.channelName,
+                    topicName = event.topicName,
+                )
+            )
         }
 
         ChatEvent.Ui.OnBackClick -> globalRouter.back()
@@ -63,7 +79,11 @@ class ChatReducer @Inject constructor(
         }
 
         is ChatEvent.Ui.OnSendMessageClick -> {
-            commands { +ChatCommand.Send(event.text) }
+            if (event.topicName.isEmpty()) {
+                commands { +ChatCommand.Send(text = event.text, topicName = event.topicName) }
+                commands { +ChatCommand.LoadTopics }
+            } else
+                commands { +ChatCommand.Send(text = event.text, topicName = event.topicName) }
         }
 
         is ChatEvent.Ui.ScrollDown -> {

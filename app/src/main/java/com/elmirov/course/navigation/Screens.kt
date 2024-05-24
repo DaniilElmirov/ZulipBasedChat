@@ -1,6 +1,7 @@
 package com.elmirov.course.navigation
 
 import com.elmirov.course.channels.ui.ChannelsFragment
+import com.elmirov.course.chat.domain.entity.ChatInfo
 import com.elmirov.course.chat.ui.ChatFragment
 import com.elmirov.course.main.ui.MainFragment
 import com.elmirov.course.profile.ui.OtherProfileFragment
@@ -30,8 +31,8 @@ object Screens {
         OtherProfileFragment.newInstance(id)
     }
 
-    fun ChatScreen(topicChannelName: String, topicName: String): FragmentScreen =
+    fun ChatScreen(chatInfo: ChatInfo): FragmentScreen =
         FragmentScreen {
-            ChatFragment.newInstance(topicChannelName, topicName)
+            ChatFragment.newInstance(chatInfo)
         }
 }

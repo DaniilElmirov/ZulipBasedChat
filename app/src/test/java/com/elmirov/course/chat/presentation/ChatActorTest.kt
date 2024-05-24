@@ -1,6 +1,8 @@
 package com.elmirov.course.chat.presentation
 
 import app.cash.turbine.test
+import com.elmirov.course.channels.domain.usecase.GetCachedChannelTopicsUseCase
+import com.elmirov.course.channels.domain.usecase.GetChannelTopicsUseCase
 import com.elmirov.course.chat.domain.entity.ChatInfo
 import com.elmirov.course.chat.domain.usecase.AddReactionToMessageUseCase
 import com.elmirov.course.chat.domain.usecase.GetCachedChannelTopicMessagesUseCase
@@ -34,6 +36,8 @@ class ChatActorTest {
     private val loadPrevMessagesPageUseCase: LoadPrevMessagesPageUseCase = mock()
     private val getUpdatedMessagesUseCase: GetUpdatedMessagesUseCase = mock()
     private val getLastMessagesUseCase: GetLastMessagesUseCase = mock()
+    private val getChannelTopicsUseCase: GetChannelTopicsUseCase = mock()
+    private val getCachedChannelTopicsUseCase: GetCachedChannelTopicsUseCase = mock()
 
     private val actor = ChatActor(
         chatInfo,
@@ -46,6 +50,8 @@ class ChatActorTest {
         loadPrevMessagesPageUseCase,
         getUpdatedMessagesUseCase,
         getLastMessagesUseCase,
+        getChannelTopicsUseCase,
+        getCachedChannelTopicsUseCase
     )
 
     @Test
@@ -401,6 +407,62 @@ class ChatActorTest {
 
                 actor.execute(commandAddReactionNoSelected).test {
                     assertEquals(eventChatLoadingSuccess, awaitItem())
+                    awaitComplete()
+                }
+            }
+        }
+
+    @Test
+    fun `command LoadTopics success EXPECT event TopicsLoadingSuccess`() =
+        runTest {
+            ChatPresentationTestData.apply {
+
+                whenever(getChannelTopicsUseCase(CHANNEL_ID)) doReturn resultTopicsSuccess
+
+                actor.execute(commandLoadTopics).test {
+                    assertEquals(eventTopicLoadingSuccess, awaitItem())
+                    awaitComplete()
+                }
+            }
+        }
+
+    @Test
+    fun `command LoadTopics error EXPECT event ChatLoadingError`() =
+        runTest {
+            ChatPresentationTestData.apply {
+
+                whenever(getChannelTopicsUseCase(CHANNEL_ID)) doReturn resultError
+
+                actor.execute(commandLoadTopics).test {
+                    assertEquals(eventChatLoadingError, awaitItem())
+                    awaitComplete()
+                }
+            }
+        }
+
+    @Test
+    fun `command LoadCachedTopics success EXPECT event TopicsLoadingSuccess`() =
+        runTest {
+            ChatPresentationTestData.apply {
+
+                whenever(getCachedChannelTopicsUseCase(CHANNEL_ID)) doReturn resultTopicsSuccess
+
+                actor.execute(commandLoadCachedTopics).test {
+                    assertEquals(eventTopicLoadingSuccess, awaitItem())
+                    awaitComplete()
+                }
+            }
+        }
+
+    @Test
+    fun `command LoadCachedTopics error EXPECT event ChatLoadingError`() =
+        runTest {
+            ChatPresentationTestData.apply {
+
+                whenever(getCachedChannelTopicsUseCase(CHANNEL_ID)) doReturn resultTopicsSuccess
+
+                actor.execute(commandLoadCachedTopics).test {
+                    assertEquals(eventTopicLoadingSuccess, awaitItem())
                     awaitComplete()
                 }
             }

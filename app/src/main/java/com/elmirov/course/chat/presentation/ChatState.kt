@@ -8,4 +8,5 @@ data class ChatState(
     val loadingMore: Boolean = false,
     val content: List<Message>? = null,
     val chatInfo: ChatInfo? = null,
+    val chatTopics: List<String>? = null,
 )

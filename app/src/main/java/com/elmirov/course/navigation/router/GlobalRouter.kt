@@ -1,5 +1,6 @@
 package com.elmirov.course.navigation.router
 
+import com.elmirov.course.chat.domain.entity.ChatInfo
 import com.elmirov.course.navigation.Screens.ChatScreen
 import com.elmirov.course.navigation.Screens.OtherProfileScreen
 import com.elmirov.course.navigation.Screens.OwnProfileScreen
@@ -12,9 +13,9 @@ interface GlobalRouter {
 
     fun openOtherProfile(userId: Int)
 
-    fun openChat(topicChannelName: String, topicName: String)
+    fun openChat(chatInfo: ChatInfo)
 
-    fun openChatTopic(topicChannelName: String, topicName: String)
+    fun openChatTopic(chatInfo: ChatInfo)
 
     fun back()
 }
@@ -31,12 +32,12 @@ class GlobalRouterImpl @Inject constructor(
         router.navigateTo(OtherProfileScreen(userId))
     }
 
-    override fun openChat(topicChannelName: String, topicName: String) {
-        router.navigateTo(ChatScreen(topicChannelName, topicName))
+    override fun openChat(chatInfo: ChatInfo) {
+        router.navigateTo(ChatScreen(chatInfo))
     }
 
-    override fun openChatTopic(topicChannelName: String, topicName: String) {
-        router.newChain(ChatScreen(topicChannelName, topicName))
+    override fun openChatTopic(chatInfo: ChatInfo) {
+        router.newChain(ChatScreen(chatInfo))
     }
 
     override fun back() {

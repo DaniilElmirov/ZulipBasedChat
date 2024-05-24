@@ -7,11 +7,13 @@ sealed interface ChatEvent {
 
     sealed interface Ui : ChatEvent {
         data class Init(
+            val channelId: Int,
             val channelName: String,
             val topicName: String,
         ) : Ui
 
         data class OnTopicClick(
+            val channelId: Int,
             val channelName: String,
             val topicName: String,
         ) : Ui
@@ -23,7 +25,8 @@ sealed interface ChatEvent {
         ) : Ui
 
         data class OnSendMessageClick(
-            val text: String
+            val text: String,
+            val topicName: String,
         ) : Ui
 
         data object OnBackClick : Ui
@@ -40,5 +43,7 @@ sealed interface ChatEvent {
         data class ChatLoadingSuccess(val data: List<Message>) : Internal
 
         data object ChatLoadingError : Internal
+
+        data class TopicsLoadingSuccess(val data: List<String>) : Internal
     }
 }

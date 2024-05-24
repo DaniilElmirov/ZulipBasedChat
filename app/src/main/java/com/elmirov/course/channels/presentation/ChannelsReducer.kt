@@ -2,6 +2,7 @@ package com.elmirov.course.channels.presentation
 
 import com.elmirov.course.channels.domain.entity.Channel
 import com.elmirov.course.channels.domain.entity.Topic
+import com.elmirov.course.chat.domain.entity.ChatInfo
 import com.elmirov.course.navigation.router.GlobalRouter
 import vivid.money.elmslie.core.store.dsl.ScreenDslReducer
 import javax.inject.Inject
@@ -106,7 +107,13 @@ class ChannelsReducer @Inject constructor(
             val channel = state.content?.find { it.id == event.channelId }
             val channelName = channel?.name ?: EMPTY_NAME
 
-            globalRouter.openChat(channelName, EMPTY_NAME)
+            globalRouter.openChat(
+                ChatInfo(
+                    channelId = event.channelId,
+                    channelName = channelName,
+                    topicName = EMPTY_NAME
+                )
+            )
         }
 
         is ChannelsEvent.Ui.OnArrowClick -> {
@@ -127,7 +134,13 @@ class ChannelsReducer @Inject constructor(
             val channel = state.content?.find { it.id == event.channelId }
             val channelName = channel?.name ?: EMPTY_NAME
 
-            globalRouter.openChat(channelName, event.topicName)
+            globalRouter.openChat(
+                ChatInfo(
+                    channelId = event.channelId,
+                    channelName = channelName,
+                    topicName = event.topicName
+                )
+            )
         }
 
         is ChannelsEvent.Ui.Search -> commands { +ChannelsCommand.Search(event.query) }
