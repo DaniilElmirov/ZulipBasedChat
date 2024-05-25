@@ -18,8 +18,10 @@ import com.elmirov.course.channels.ui.communicator.AllChannelsCommunicator
 import com.elmirov.course.channels.ui.delegate.channel.ChannelDelegate
 import com.elmirov.course.channels.ui.delegate.topic.TopicDelegate
 import com.elmirov.course.core.adapter.MainAdapter
+import com.elmirov.course.databinding.DialogCreateChannelBinding
 import com.elmirov.course.databinding.FragmentPageChannelsBinding
 import com.elmirov.course.util.getErrorSnackBar
+import com.elmirov.course.util.showDialog
 import com.elmirov.course.util.toDelegateItems
 import com.google.android.material.snackbar.Snackbar
 import vivid.money.elmslie.android.renderer.elmStoreWithRenderer
@@ -96,6 +98,24 @@ class AllChannelsFragment : ElmBaseFragment<ChannelsEffect, ChannelsState, Chann
 
         binding.channels.adapter = allChannelsAdapter
         store.accept(ChannelsEvent.Ui.InitAll)
+        setupClickListeners()
+    }
+
+    private fun setupClickListeners() {
+        binding.create.setOnClickListener {
+            val createChannelDialogView = DialogCreateChannelBinding.inflate(layoutInflater)
+
+            showDialog(
+                title = getString(R.string.create_new_channel),
+                layout = createChannelDialogView.root,
+                positiveButtonText = getString(R.string.create_channel),
+                onPositiveButtonClick = {
+                    val name = createChannelDialogView.channelName.text.toString()
+                    val description = createChannelDialogView.channelDescription.text.toString()
+                    store.accept(ChannelsEvent.Ui.OnCreateChannelClick(name, description, false))
+                },
+            )
+        }
     }
 
     override fun render(state: ChannelsState) {

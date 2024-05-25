@@ -18,8 +18,10 @@ import com.elmirov.course.channels.ui.communicator.SubscribedChannelsCommunicato
 import com.elmirov.course.channels.ui.delegate.channel.ChannelDelegate
 import com.elmirov.course.channels.ui.delegate.topic.TopicDelegate
 import com.elmirov.course.core.adapter.MainAdapter
+import com.elmirov.course.databinding.DialogCreateChannelBinding
 import com.elmirov.course.databinding.FragmentPageChannelsBinding
 import com.elmirov.course.util.getErrorSnackBar
+import com.elmirov.course.util.showDialog
 import com.elmirov.course.util.toDelegateItems
 import com.google.android.material.snackbar.Snackbar
 import vivid.money.elmslie.android.renderer.elmStoreWithRenderer
@@ -97,6 +99,24 @@ class SubscribedChannelsFragment : ElmBaseFragment<ChannelsEffect, ChannelsState
 
         binding.channels.adapter = subscribedChannelsAdapter
         store.accept(ChannelsEvent.Ui.InitSubscribed)
+        setupClickListeners()
+    }
+
+    private fun setupClickListeners() {
+        binding.create.setOnClickListener {
+            val createChannelDialogView = DialogCreateChannelBinding.inflate(layoutInflater)
+
+            showDialog(
+                title = getString(R.string.create_new_channel),
+                layout = createChannelDialogView.root,
+                positiveButtonText = getString(R.string.create_channel),
+                onPositiveButtonClick = {
+                    val name = createChannelDialogView.channelName.text.toString()
+                    val description = createChannelDialogView.channelDescription.text.toString()
+                    store.accept(ChannelsEvent.Ui.OnCreateChannelClick(name, description, true))
+                },
+            )
+        }
     }
 
     override fun render(state: ChannelsState) {
@@ -147,7 +167,7 @@ class SubscribedChannelsFragment : ElmBaseFragment<ChannelsEffect, ChannelsState
         errorSnackBar = getErrorSnackBar(
             textResId = R.string.unknown_error,
             actionText = getString(R.string.try_again),
-            actionListener = {store.accept(ChannelsEvent.Ui.OnRefreshSubscribedClick)}
+            actionListener = { store.accept(ChannelsEvent.Ui.OnRefreshSubscribedClick) }
         )
         errorSnackBar?.anchorView = binding.snakbarAnchor
         errorSnackBar?.show()
