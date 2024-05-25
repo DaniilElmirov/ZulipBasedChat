@@ -8,4 +8,6 @@ interface SubscribedChannelsRepository {
     suspend fun get(): Result<List<Channel>>
 
     suspend fun getCached(): Result<List<Channel>>
+
+    suspend fun create(name: String, description: String): Result<String>
 }
