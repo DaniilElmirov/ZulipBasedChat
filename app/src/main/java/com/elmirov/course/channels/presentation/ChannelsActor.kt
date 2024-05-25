@@ -1,5 +1,6 @@
 package com.elmirov.course.channels.presentation
 
+import com.elmirov.course.channels.domain.usecase.CreateChannelUseCase
 import com.elmirov.course.channels.domain.usecase.GetAllChannelsUseCase
 import com.elmirov.course.channels.domain.usecase.GetCachedAllChannelsUseCase
 import com.elmirov.course.channels.domain.usecase.GetCachedChannelTopicsUseCase
@@ -19,6 +20,7 @@ class ChannelsActor @Inject constructor(
     private val getCachedSubscribedChannelsUseCase: GetCachedSubscribedChannelsUseCase,
     private val getChannelTopicsUseCase: GetChannelTopicsUseCase,
     private val getCachedChannelTopicsUseCase: GetCachedChannelTopicsUseCase,
+    private val createChannelUseCase: CreateChannelUseCase,
 ) : Actor<ChannelsCommand, ChannelsEvent>() {
 
     override fun execute(command: ChannelsCommand): Flow<ChannelsEvent> = flow {
@@ -48,6 +50,14 @@ class ChannelsActor @Inject constructor(
                 when (val result = getCachedSubscribedChannelsUseCase()) {
                     is Result.Error -> emit(ChannelsEvent.Internal.LoadingError)
                     is Result.Success -> emit(ChannelsEvent.Internal.ChannelsLoadingSuccess(result.data))
+                }
+            }
+
+            is ChannelsCommand.Create -> {
+                when (createChannelUseCase(command.name, command.description)) {
+                    is Result.Error -> emit(ChannelsEvent.Internal.CreateError)
+
+                    is Result.Success -> emit(ChannelsEvent.Internal.CreateSuccess(command.subscribed))
                 }
             }
 

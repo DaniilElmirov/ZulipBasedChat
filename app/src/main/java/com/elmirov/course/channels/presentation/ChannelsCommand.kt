@@ -9,6 +9,12 @@ sealed interface ChannelsCommand {
 
     data object LoadCachedSubscribed : ChannelsCommand
 
+    data class Create(
+        val name: String,
+        val description: String,
+        val subscribed: Boolean
+    ) : ChannelsCommand
+
     data class OpenTopics(val channelId: Int) : ChannelsCommand
 
     data class OpenCachedTopics(val channelId: Int) : ChannelsCommand

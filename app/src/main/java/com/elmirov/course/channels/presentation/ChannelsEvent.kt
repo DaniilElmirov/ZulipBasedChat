@@ -10,6 +10,12 @@ sealed interface ChannelsEvent {
 
         data object InitSubscribed : Ui
 
+        data class OnCreateChannelClick(
+            val name: String,
+            val description: String,
+            val subscribed: Boolean,
+        ) : Ui
+
         data class OnChannelClick(val channelId: Int) : Ui
 
         data class OnArrowClick(val channelId: Int) : Ui
@@ -31,6 +37,10 @@ sealed interface ChannelsEvent {
         data class TopicsClosed(val channelId: Int) : Internal
 
         data object LoadingError : Internal
+
+        data class CreateSuccess(val subscribed: Boolean) : Internal
+
+        data object CreateError : Internal
 
         data class SearchSuccess(val query: String) : Internal
     }

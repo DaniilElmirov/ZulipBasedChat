@@ -73,6 +73,19 @@ class ChannelsReducer @Inject constructor(
                 state { copy(loading = false, content = searchedData) }
             }
         }
+
+        is ChannelsEvent.Internal.CreateError -> {
+            state { copy(loading = false) }
+            effects { +ChannelsEffect.ShowError }
+        }
+
+        is ChannelsEvent.Internal.CreateSuccess -> {
+            state { copy(loading = true) }
+            if (event.subscribed)
+                commands { +ChannelsCommand.LoadSubscribed }
+            else
+                commands { +ChannelsCommand.LoadAll }
+        }
     }
 
     private fun updateCurrentData(topics: List<Topic>) {
@@ -101,6 +114,10 @@ class ChannelsReducer @Inject constructor(
             commands { +ChannelsCommand.LoadCachedSubscribed }
             state { copy(loading = true) }
             commands { +ChannelsCommand.LoadSubscribed }
+        }
+
+        is ChannelsEvent.Ui.OnCreateChannelClick -> {
+            commands { +ChannelsCommand.Create(event.name, event.description, event.subscribed) }
         }
 
         is ChannelsEvent.Ui.OnChannelClick -> {
