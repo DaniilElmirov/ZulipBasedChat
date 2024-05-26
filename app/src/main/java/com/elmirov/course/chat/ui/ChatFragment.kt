@@ -121,6 +121,8 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
 
     private var errorSnackBar: Snackbar? = null
 
+    private lateinit var defaultTopicName: String
+
     override fun onAttach(context: Context) {
         applyArguments()
         component.inject(this)
@@ -176,6 +178,7 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
             applyContent(messages, withTopics)
 
             state.chatTopics?.let { names ->
+                defaultTopicName = names[0]
                 addTopicNames(names, withTopics)
             }
 
@@ -209,14 +212,14 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
 
             if (messageText.isNotEmpty()) {
                 if (withTopics) {
-                    val selectedTopicName = binding.topicName.text.toString()
-                    if (selectedTopicName.isNotEmpty())
-                        store.accept(
-                            ChatEvent.Ui.OnSendMessageClick(
-                                messageText,
-                                selectedTopicName
-                            )
+                    val selectedTopicName =
+                        binding.topicName.text.trim().toString().ifEmpty { defaultTopicName }
+                    store.accept(
+                        ChatEvent.Ui.OnSendMessageClick(
+                            messageText,
+                            selectedTopicName
                         )
+                    )
                 } else
                     store.accept(ChatEvent.Ui.OnSendMessageClick(messageText, EMPTY_NAME))
             }
@@ -300,7 +303,7 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
         if (withTopics) {
             val adapter = ArrayAdapter(requireContext(), R.layout.topic_name_item, topicNames)
             binding.topicName.setAdapter(adapter)
-            binding.topicName.hint = topicNames[0]
+            binding.topicName.hint = defaultTopicName
         }
     }
 
