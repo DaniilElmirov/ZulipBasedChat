@@ -1,7 +1,6 @@
 package com.elmirov.course.chat.ui
 
 import android.content.Context
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -57,9 +56,11 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
     private val binding
         get() = _binding!!
 
+    private lateinit var chatInfo: ChatInfo
+
     private val component by lazy {
         (requireActivity().application as CourseApplication).component.chatComponentFactory()
-            .create(ChatInfo(getChannelId(), getChannelName(), getTopicName()))
+            .create(chatInfo)
     }
 
     @Inject
@@ -79,9 +80,9 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
                     onReactionClick = { messageId, reaction, selected ->
                         store.accept(
                             ChatEvent.Ui.OnReactionClick(
-                                messageId,
-                                reaction,
-                                selected
+                                messageId = messageId,
+                                reaction = reaction,
+                                selected = selected,
                             )
                         )
                     }
@@ -93,9 +94,9 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
                     onReactionClick = { messageId, reaction, selected ->
                         store.accept(
                             ChatEvent.Ui.OnReactionClick(
-                                messageId,
-                                reaction,
-                                selected
+                                messageId = messageId,
+                                reaction = reaction,
+                                selected = selected,
                             )
                         )
                     }
@@ -107,9 +108,9 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
                     onTopicClick = {
                         store.accept(
                             ChatEvent.Ui.OnTopicClick(
-                                getChannelId(),
-                                getChannelName(),
-                                it
+                                channelId = chatInfo.channelId,
+                                channelName = chatInfo.channelName,
+                                topicName = it,
                             )
                         )
                     }
@@ -121,6 +122,7 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
     private var errorSnackBar: Snackbar? = null
 
     override fun onAttach(context: Context) {
+        applyArguments()
         component.inject(this)
         super.onAttach(context)
     }
@@ -138,39 +140,28 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.chat.adapter = messagesAdapter
-
-        store.accept(ChatEvent.Ui.Init(getChannelId(), getChannelName(), getTopicName()))
+        store.accept(
+            ChatEvent.Ui.Init(
+                channelId = chatInfo.channelId,
+                channelName = chatInfo.channelName,
+                topicName = chatInfo.topicName,
+            )
+        )
         setupScrollListener()
         setTextChangeListener()
         setNavigationIconClickListener()
     }
 
     @Suppress("DEPRECATION")
-    private fun getChannelId(): Int =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            requireArguments().getParcelable(KEY_CHAT_INFO, ChatInfo::class.java)?.channelId ?: 0
-
-        } else {
-            requireArguments().getParcelable<ChatInfo>(KEY_CHAT_INFO)?.channelId ?: 0
-        }
-
-    @Suppress("DEPRECATION")
-    private fun getChannelName(): String =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            requireArguments().getParcelable(KEY_CHAT_INFO, ChatInfo::class.java)?.channelName
-                ?: EMPTY_NAME
-        } else {
+    private fun applyArguments() {
+        val channelId = requireArguments().getParcelable<ChatInfo>(KEY_CHAT_INFO)?.channelId ?: 0
+        val channelName =
             requireArguments().getParcelable<ChatInfo>(KEY_CHAT_INFO)?.channelName ?: EMPTY_NAME
-        }
-
-    @Suppress("DEPRECATION")
-    private fun getTopicName(): String =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            requireArguments().getParcelable(KEY_CHAT_INFO, ChatInfo::class.java)?.topicName
-                ?: EMPTY_NAME
-        } else {
+        val topicName =
             requireArguments().getParcelable<ChatInfo>(KEY_CHAT_INFO)?.topicName ?: EMPTY_NAME
-        }
+
+        chatInfo = ChatInfo(channelId, channelName, topicName)
+    }
 
     override fun render(state: ChatState) {
         state.chatInfo?.let {
@@ -309,6 +300,7 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
         if (withTopics) {
             val adapter = ArrayAdapter(requireContext(), R.layout.topic_name_item, topicNames)
             binding.topicName.setAdapter(adapter)
+            binding.topicName.hint = topicNames[0]
         }
     }
 
@@ -342,9 +334,9 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
         dialog.click = { _, reaction, selected ->
             store.accept(
                 ChatEvent.Ui.OnReactionClick(
-                    messageId,
-                    reaction,
-                    selected
+                    messageId = messageId,
+                    reaction = reaction,
+                    selected = selected,
                 )
             )
         }
