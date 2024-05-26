@@ -109,7 +109,7 @@ class ChatActor @Inject constructor(
                         applyLoadMessages(
                             getLastMessagesUseCase(
                                 chatInfo.channelName,
-                                chatInfo.topicName,
+                                topicName,
                             )
                         )
                     )
