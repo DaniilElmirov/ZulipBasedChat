@@ -4,6 +4,8 @@ import com.elmirov.course.chat.data.local.dao.ChatDao
 import com.elmirov.course.chat.data.mapper.toDb
 import com.elmirov.course.chat.data.mapper.toEntities
 import com.elmirov.course.chat.data.remote.network.MessagesApi
+import com.elmirov.course.chat.data.remote.network.MessagesApi.Companion.UPDATED_NUM_AFTER
+import com.elmirov.course.chat.data.remote.network.MessagesApi.Companion.UPDATED_NUM_BEFORE
 import com.elmirov.course.chat.domain.entity.Message
 import com.elmirov.course.chat.domain.repository.MessagesRepository
 import com.elmirov.course.core.result.domain.entity.Result
@@ -53,12 +55,21 @@ class MessagesRepositoryImpl @Inject constructor(
         val remoteData = api.getChannelTopicMessages(
             narrow = narrow,
             anchor = id.toString(),
+            numBefore = UPDATED_NUM_BEFORE,
+            numAfter = UPDATED_NUM_AFTER,
         )
 
-        optimizeMessagesTable(channelName, topicName, remoteData.messageModels.size, true)
-        dao.insertMessages(remoteData.toDb(channelName))
+        if (topicName.isEmpty()) {
+            optimizeMessagesTable(channelName, remoteData.messageModels.size, true)
+            dao.insertMessages(remoteData.toDb(channelName))
 
-        dao.getMessages(channelName, topicName).toEntities()
+            dao.getMessages(channelName).toEntities()
+        } else {
+            optimizeMessagesTable(channelName, topicName, remoteData.messageModels.size, true)
+            dao.insertMessages(remoteData.toDb(channelName))
+
+            dao.getMessages(channelName, topicName).toEntities()
+        }
     }
 
     override suspend fun getChannelTopicMessages(

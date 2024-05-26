@@ -18,6 +18,9 @@ interface MessagesApi {
         private const val PREV_NUM_BEFORE = 20
         private const val PREV_NUM_AFTER = 0
 
+        const val UPDATED_NUM_BEFORE = 0
+        const val UPDATED_NUM_AFTER = 0
+
         private const val ANCHOR_FIRST_UNREAD = "first_unread"
         const val ANCHOR_NEWEST = "newest"
 
