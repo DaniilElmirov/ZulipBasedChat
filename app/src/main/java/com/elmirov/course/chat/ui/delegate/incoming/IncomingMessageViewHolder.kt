@@ -10,8 +10,8 @@ import com.elmirov.course.databinding.IncomingMessageItemBinding
 
 class IncomingMessageViewHolder(
     parent: ViewGroup,
-    private val openReactions: (Int) -> Unit,
-    private val onReactionClick: (Int, Reaction, Boolean) -> Unit,
+    private val openReactions: (messageId: Int) -> Unit,
+    private val onReactionClick: (messageId: Int, reaction: Reaction, selected: Boolean) -> Unit,
 ) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.incoming_message_item, parent, false)
 ) {

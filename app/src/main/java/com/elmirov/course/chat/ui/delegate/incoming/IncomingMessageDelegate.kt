@@ -8,8 +8,8 @@ import com.elmirov.course.core.adapter.delegate.AdapterDelegate
 import com.elmirov.course.core.adapter.delegate.DelegateItem
 
 class IncomingMessageDelegate(
-    private val openReactions: (Int) -> Unit,
-    private val onReactionClick: (Int, Reaction, Boolean) -> Unit,
+    private val openReactions: (messageId: Int) -> Unit,
+    private val onReactionClick: (messageId: Int, reaction: Reaction, selected: Boolean) -> Unit,
 ) : AdapterDelegate {
     override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder =
         IncomingMessageViewHolder(
