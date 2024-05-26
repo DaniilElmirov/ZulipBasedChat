@@ -61,7 +61,7 @@ class ChatActor @Inject constructor(
 
             is ChatCommand.LoadTopics -> emit(
                 when (val result = getChannelTopicsUseCase(chatInfo.channelId)) {
-                    is Result.Error -> ChatEvent.Internal.ChatLoadingError
+                    is Result.Error -> ChatEvent.Internal.TopicsLoadingError
 
                     is Result.Success -> ChatEvent.Internal.TopicsLoadingSuccess(result.data.toTopicNames())
                 }
@@ -69,7 +69,7 @@ class ChatActor @Inject constructor(
 
             is ChatCommand.LoadCachedTopics -> emit(
                 when (val result = getCachedChannelTopicsUseCase(chatInfo.channelId)) {
-                    is Result.Error -> ChatEvent.Internal.ChatLoadingError
+                    is Result.Error -> ChatEvent.Internal.TopicsLoadingError
 
                     is Result.Success -> ChatEvent.Internal.TopicsLoadingSuccess(result.data.toTopicNames())
                 }
@@ -103,7 +103,7 @@ class ChatActor @Inject constructor(
                         text = command.text
                     )
                 ) {
-                    is Result.Error -> emit(ChatEvent.Internal.ChatLoadingError)
+                    is Result.Error -> emit(ChatEvent.Internal.SendError)
 
                     is Result.Success -> emit(
                         applyLoadMessages(
@@ -131,7 +131,7 @@ class ChatActor @Inject constructor(
                     )
 
                 when (result) {
-                    is Result.Error -> emit(ChatEvent.Internal.ChatLoadingError)
+                    is Result.Error -> emit(ChatEvent.Internal.AddReactionError)
 
                     is Result.Success -> emit(
                         applyLoadMessages(

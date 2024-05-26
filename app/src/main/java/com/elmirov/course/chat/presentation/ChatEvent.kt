@@ -44,6 +44,12 @@ sealed interface ChatEvent {
 
         data object ChatLoadingError : Internal
 
+        data object TopicsLoadingError : Internal
+
         data class TopicsLoadingSuccess(val data: List<String>) : Internal
+
+        data object AddReactionError : Internal
+
+        data object SendError : Internal
     }
 }

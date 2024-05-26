@@ -36,6 +36,21 @@ class ChatReducer @Inject constructor(
             else
                 state { copy(loading = false, chatTopics = event.data) }
         }
+
+        is ChatEvent.Internal.TopicsLoadingError -> {
+            state { copy(loading = false) }
+            effects { +ChatEffect.ShowError }
+        }
+
+        is ChatEvent.Internal.AddReactionError -> {
+            state { copy(loading = false) }
+            effects { +ChatEffect.ShowError }
+        }
+
+        ChatEvent.Internal.SendError -> {
+            state { copy(loading = false) }
+            effects { +ChatEffect.ShowError }
+        }
     }
 
     override fun Result.ui(event: ChatEvent.Ui): Any = when (event) {
