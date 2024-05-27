@@ -1,6 +1,6 @@
 package com.elmirov.course.chat.data.remote.network
 
-import com.elmirov.course.chat.data.remote.model.BaseResponseModel
+import com.elmirov.course.core.network.BaseResponseModel
 import retrofit2.http.DELETE
 import retrofit2.http.POST
 import retrofit2.http.Path

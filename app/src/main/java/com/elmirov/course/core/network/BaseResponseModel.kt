@@ -1,4 +1,4 @@
-package com.elmirov.course.chat.data.remote.model
+package com.elmirov.course.core.network
 
 data class BaseResponseModel(
     val result: String

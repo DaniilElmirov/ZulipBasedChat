@@ -1,7 +1,7 @@
 package com.elmirov.course.channels.data.remote.network
 
 import com.elmirov.course.channels.data.remote.model.SubscribedChannelsResponseModel
-import com.elmirov.course.chat.data.remote.model.BaseResponseModel
+import com.elmirov.course.core.network.BaseResponseModel
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query

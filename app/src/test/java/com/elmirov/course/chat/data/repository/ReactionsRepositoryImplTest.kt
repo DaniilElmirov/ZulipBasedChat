@@ -1,6 +1,6 @@
 package com.elmirov.course.chat.data.repository
 
-import com.elmirov.course.chat.data.remote.model.BaseResponseModel
+import com.elmirov.course.core.network.BaseResponseModel
 import com.elmirov.course.chat.data.remote.network.ReactionsApi
 import com.elmirov.course.core.result.domain.entity.ErrorType
 import com.elmirov.course.core.result.domain.entity.Result
