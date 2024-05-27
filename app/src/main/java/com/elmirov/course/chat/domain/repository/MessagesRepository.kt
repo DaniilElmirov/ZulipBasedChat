@@ -47,4 +47,6 @@ interface MessagesRepository {
     suspend fun delete(messageId: Int): Result<String>
 
     suspend fun edit(messageId: Int, text: String): Result<String>
+
+    suspend fun changeTopic(messageId: Int, topicName: String): Result<String>
 }
