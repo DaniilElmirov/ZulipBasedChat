@@ -37,9 +37,17 @@ sealed interface ChatEvent {
 
         data object ScrollUp : Ui
 
-        data class OnOutgoingMessageLongClick(val messageId: Int, val timestamp: Int) : Ui
+        data class OnOutgoingMessageLongClick(
+            val messageId: Int,
+            val timestamp: Int,
+            val messageText: String,
+        ) : Ui
 
-        data class OnIncomingMessageLongClick(val messageId: Int, val timestamp: Int) : Ui
+        data class OnIncomingMessageLongClick(
+            val messageId: Int,
+            val timestamp: Int,
+            val messageText: String,
+        ) : Ui
 
         data class OnDeleteClick(val messageId: Int) : Ui
 

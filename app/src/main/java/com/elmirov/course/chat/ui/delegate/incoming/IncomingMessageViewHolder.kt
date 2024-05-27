@@ -10,7 +10,7 @@ import com.elmirov.course.databinding.IncomingMessageItemBinding
 
 class IncomingMessageViewHolder(
     parent: ViewGroup,
-    private val onMessageLongClick: (messageId: Int, timestamp: Int) -> Unit,
+    private val onMessageLongClick: (messageId: Int, timestamp: Int, messageText: String) -> Unit,
     private val onIconAddClick: (messageId: Int) -> Unit,
     private val onReactionClick: (messageId: Int, reaction: Reaction, selected: Boolean) -> Unit,
 ) : RecyclerView.ViewHolder(
@@ -26,7 +26,7 @@ class IncomingMessageViewHolder(
             incomingMessage.setAvatar(message.avatarUrl)
 
             incomingMessage.setLongClickListener {
-                onMessageLongClick(message.id, message.timestamp)
+                onMessageLongClick(message.id, message.timestamp, message.text)
             }
 
             if (message.reactions.isEmpty()) {

@@ -144,6 +144,7 @@ class ChatReducer @Inject constructor(
             effects {
                 +ChatEffect.ShowMessageActionDialog(
                     messageId = event.messageId,
+                    messageText = event.messageText,
                     deletable = false,
                     editable = false,
                     transferable = false,
@@ -158,6 +159,7 @@ class ChatReducer @Inject constructor(
             effects {
                 +ChatEffect.ShowMessageActionDialog(
                     messageId = event.messageId,
+                    messageText = event.messageText,
                     deletable = timeDifference < DELETE_ALLOWED_IN_SECONDS,
                     editable = timeDifference < EDIT_ALLOWED_IN_SECONDS,
                     transferable = timeDifference < TRANSFER_ALLOWED_IN_SECONDS,

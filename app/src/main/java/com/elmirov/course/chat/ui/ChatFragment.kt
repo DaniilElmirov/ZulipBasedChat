@@ -81,8 +81,14 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
         MainAdapter().apply {
             addDelegate(
                 OutgoingMessageDelegate(
-                    onMessageLongClick = { messageId, timestamp ->
-                        store.accept(ChatEvent.Ui.OnOutgoingMessageLongClick(messageId, timestamp))
+                    onMessageLongClick = { messageId, timestamp, messageText ->
+                        store.accept(
+                            ChatEvent.Ui.OnOutgoingMessageLongClick(
+                                messageId,
+                                timestamp,
+                                messageText
+                            )
+                        )
                     },
                     onIconAddClick = ::showReactions,
                     onReactionClick = { messageId, reaction, selected ->
@@ -98,8 +104,14 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
             )
             addDelegate(
                 IncomingMessageDelegate(
-                    onMessageLongClick = { messageId, timestamp ->
-                        store.accept(ChatEvent.Ui.OnIncomingMessageLongClick(messageId, timestamp))
+                    onMessageLongClick = { messageId, timestamp, messageText ->
+                        store.accept(
+                            ChatEvent.Ui.OnIncomingMessageLongClick(
+                                messageId,
+                                timestamp,
+                                messageText
+                            )
+                        )
                     },
                     onIconAddClick = ::showReactions,
                     onReactionClick = { messageId, reaction, selected ->
@@ -235,6 +247,8 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
 
             edit.setOnClickListener {
                 val dialogEditView = DialogEditMessageBinding.inflate(layoutInflater)
+                dialogEditView.messageText.setText(effect.messageText)
+
                 showDialog(
                     title = getString(R.string.edit_message_text),
                     layout = dialogEditView.root,

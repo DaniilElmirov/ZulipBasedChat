@@ -6,6 +6,7 @@ sealed interface ChatEffect {
 
     data class ShowMessageActionDialog(
         val messageId: Int,
+        val messageText: String,
         val deletable: Boolean,
         val editable: Boolean,
         val transferable: Boolean,

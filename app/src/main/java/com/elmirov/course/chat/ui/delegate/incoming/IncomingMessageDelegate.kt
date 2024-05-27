@@ -8,7 +8,7 @@ import com.elmirov.course.core.adapter.delegate.AdapterDelegate
 import com.elmirov.course.core.adapter.delegate.DelegateItem
 
 class IncomingMessageDelegate(
-    private val onMessageLongClick: (messageId: Int, timestamp: Int) -> Unit,
+    private val onMessageLongClick: (messageId: Int, timestamp: Int, messageText: String) -> Unit,
     private val onIconAddClick: (messageId: Int) -> Unit,
     private val onReactionClick: (messageId: Int, reaction: Reaction, selected: Boolean) -> Unit,
 ) : AdapterDelegate {
