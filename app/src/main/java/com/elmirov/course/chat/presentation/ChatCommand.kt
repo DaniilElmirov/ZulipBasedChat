@@ -20,4 +20,6 @@ sealed interface ChatCommand {
         val reaction: Reaction,
         val selected: Boolean,
     ) : ChatCommand
+
+    data class Delete(val messageId: Int) : ChatCommand
 }

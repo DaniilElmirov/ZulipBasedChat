@@ -36,6 +36,8 @@ sealed interface ChatEvent {
         data object ScrollDown : Ui
 
         data object ScrollUp : Ui
+
+        data class OnDeleteClick(val messageId: Int) : Ui
     }
 
     sealed interface Internal : ChatEvent {
@@ -51,5 +53,7 @@ sealed interface ChatEvent {
         data object AddReactionError : Internal
 
         data object SendError : Internal
+
+        data object DeleteSuccess : Internal
     }
 }

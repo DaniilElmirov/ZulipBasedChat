@@ -51,6 +51,10 @@ class ChatReducer @Inject constructor(
             state { copy(loading = false) }
             effects { +ChatEffect.ShowError }
         }
+
+        ChatEvent.Internal.DeleteSuccess -> {
+            commands { +ChatCommand.Load }
+        }
     }
 
     override fun Result.ui(event: ChatEvent.Ui): Any = when (event) {
@@ -121,6 +125,10 @@ class ChatReducer @Inject constructor(
 
         ChatEvent.Ui.OnRefreshClick -> {
             commands { +ChatCommand.Load }
+        }
+
+        is ChatEvent.Ui.OnDeleteClick -> {
+            commands { +ChatCommand.Delete(event.messageId) }
         }
     }
 }

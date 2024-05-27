@@ -5,6 +5,7 @@ import com.elmirov.course.channels.domain.usecase.GetChannelTopicsUseCase
 import com.elmirov.course.chat.domain.entity.ChatInfo
 import com.elmirov.course.chat.domain.entity.Message
 import com.elmirov.course.chat.domain.usecase.AddReactionToMessageUseCase
+import com.elmirov.course.chat.domain.usecase.DeleteMessageUseCase
 import com.elmirov.course.chat.domain.usecase.GetCachedChannelTopicMessagesUseCase
 import com.elmirov.course.chat.domain.usecase.GetChannelTopicMessagesUseCase
 import com.elmirov.course.chat.domain.usecase.GetLastMessagesUseCase
@@ -33,6 +34,7 @@ class ChatActor @Inject constructor(
     private val getLastMessagesUseCase: GetLastMessagesUseCase,
     private val getChannelTopicsUseCase: GetChannelTopicsUseCase,
     private val getCachedChannelTopicsUseCase: GetCachedChannelTopicsUseCase,
+    private val deleteMessageUseCase: DeleteMessageUseCase,
 ) : Actor<ChatCommand, ChatEvent>() {
 
     private var firstMessageId = 0
@@ -41,39 +43,47 @@ class ChatActor @Inject constructor(
     override fun execute(command: ChatCommand): Flow<ChatEvent> = flow {
         when (command) {
 
-            is ChatCommand.Load -> emit(
-                applyLoadMessages(
-                    getChannelTopicMessagesUseCase(
-                        chatInfo.channelName,
-                        chatInfo.topicName
+            is ChatCommand.Load -> {
+                emit(
+                    applyLoadMessages(
+                        getChannelTopicMessagesUseCase(
+                            chatInfo.channelName,
+                            chatInfo.topicName
+                        )
                     )
                 )
-            )
+            }
 
-            is ChatCommand.LoadCached -> emit(
-                applyLoadMessages(
-                    getCachedChannelTopicMessagesUseCase(
-                        chatInfo.channelName,
-                        chatInfo.topicName
+            is ChatCommand.LoadCached -> {
+                emit(
+                    applyLoadMessages(
+                        getCachedChannelTopicMessagesUseCase(
+                            chatInfo.channelName,
+                            chatInfo.topicName
+                        )
                     )
                 )
-            )
+            }
 
-            is ChatCommand.LoadTopics -> emit(
-                when (val result = getChannelTopicsUseCase(chatInfo.channelId)) {
-                    is Result.Error -> ChatEvent.Internal.TopicsLoadingError
+            is ChatCommand.LoadTopics -> {
+                emit(
+                    when (val result = getChannelTopicsUseCase(chatInfo.channelId)) {
+                        is Result.Error -> ChatEvent.Internal.TopicsLoadingError
 
-                    is Result.Success -> ChatEvent.Internal.TopicsLoadingSuccess(result.data.toTopicNames())
-                }
-            )
+                        is Result.Success -> ChatEvent.Internal.TopicsLoadingSuccess(result.data.toTopicNames())
+                    }
+                )
+            }
 
-            is ChatCommand.LoadCachedTopics -> emit(
-                when (val result = getCachedChannelTopicsUseCase(chatInfo.channelId)) {
-                    is Result.Error -> ChatEvent.Internal.TopicsLoadingError
+            is ChatCommand.LoadCachedTopics -> {
+                emit(
+                    when (val result = getCachedChannelTopicsUseCase(chatInfo.channelId)) {
+                        is Result.Error -> ChatEvent.Internal.TopicsLoadingError
 
-                    is Result.Success -> ChatEvent.Internal.TopicsLoadingSuccess(result.data.toTopicNames())
-                }
-            )
+                        is Result.Success -> ChatEvent.Internal.TopicsLoadingSuccess(result.data.toTopicNames())
+                    }
+                )
+            }
 
             is ChatCommand.LoadMore -> {
                 val result =
@@ -142,6 +152,13 @@ class ChatActor @Inject constructor(
                             )
                         )
                     )
+                }
+            }
+
+            is ChatCommand.Delete -> {
+                when (deleteMessageUseCase(command.messageId)) {
+                    is Result.Error -> emit(ChatEvent.Internal.ChatLoadingError)
+                    is Result.Success -> emit(ChatEvent.Internal.DeleteSuccess)
                 }
             }
         }
