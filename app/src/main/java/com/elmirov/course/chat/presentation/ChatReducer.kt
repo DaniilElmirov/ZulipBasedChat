@@ -59,11 +59,9 @@ class ChatReducer @Inject constructor(
             effects { +ChatEffect.ShowError }
         }
 
-        ChatEvent.Internal.DeleteSuccess -> {
-            commands { +ChatCommand.Load }
-        }
-
-        ChatEvent.Internal.EditSuccess -> {
+        ChatEvent.Internal.DeleteSuccess,
+        ChatEvent.Internal.EditSuccess,
+        ChatEvent.Internal.ChangeTopicSuccess -> {
             commands { +ChatCommand.Load }
         }
     }
@@ -169,6 +167,10 @@ class ChatReducer @Inject constructor(
 
         is ChatEvent.Ui.OnEditClick -> {
             commands { +ChatCommand.Edit(event.messageId, event.text) }
+        }
+
+        is ChatEvent.Ui.OnChangeTopicClick -> {
+            commands { +ChatCommand.ChangeTopic(event.messageId, event.topicName) }
         }
     }
 

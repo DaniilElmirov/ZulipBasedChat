@@ -5,6 +5,7 @@ import com.elmirov.course.channels.domain.usecase.GetChannelTopicsUseCase
 import com.elmirov.course.chat.domain.entity.ChatInfo
 import com.elmirov.course.chat.domain.entity.Message
 import com.elmirov.course.chat.domain.usecase.AddReactionToMessageUseCase
+import com.elmirov.course.chat.domain.usecase.ChangeTopicUseCase
 import com.elmirov.course.chat.domain.usecase.DeleteMessageUseCase
 import com.elmirov.course.chat.domain.usecase.EditMessageUseCase
 import com.elmirov.course.chat.domain.usecase.GetCachedChannelTopicMessagesUseCase
@@ -37,6 +38,7 @@ class ChatActor @Inject constructor(
     private val getCachedChannelTopicsUseCase: GetCachedChannelTopicsUseCase,
     private val deleteMessageUseCase: DeleteMessageUseCase,
     private val editMessageUseCase: EditMessageUseCase,
+    private val changeTopicUseCase: ChangeTopicUseCase,
 ) : Actor<ChatCommand, ChatEvent>() {
 
     private var firstMessageId = 0
@@ -168,6 +170,13 @@ class ChatActor @Inject constructor(
                 when (editMessageUseCase(command.messageId, command.text)) {
                     is Result.Error -> emit(ChatEvent.Internal.ChatLoadingError)
                     is Result.Success -> emit(ChatEvent.Internal.EditSuccess)
+                }
+            }
+
+            is ChatCommand.ChangeTopic -> {
+                when (changeTopicUseCase(command.messageId, command.topicName)) {
+                    is Result.Error -> emit(ChatEvent.Internal.ChatLoadingError)
+                    is Result.Success -> emit(ChatEvent.Internal.ChangeTopicSuccess)
                 }
             }
         }
