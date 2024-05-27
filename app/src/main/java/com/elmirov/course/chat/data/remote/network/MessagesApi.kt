@@ -73,4 +73,10 @@ interface MessagesApi {
         @Path("message_id") messageId: Int,
         @Query("content") text: String,
     ): BaseResponseModel
+
+    @PATCH("messages/{message_id}")
+    suspend fun changeTopic(
+        @Path("message_id") messageId: Int,
+        @Query("topic") topicName: String,
+    ): BaseResponseModel
 }
