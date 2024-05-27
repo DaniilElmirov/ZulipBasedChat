@@ -24,6 +24,7 @@ import com.elmirov.course.chat.ui.delegate.incoming.IncomingMessageDelegate
 import com.elmirov.course.chat.ui.delegate.outgoing.OutgoingMessageDelegate
 import com.elmirov.course.chat.ui.delegate.topic.ChatTopicDelegate
 import com.elmirov.course.core.adapter.MainAdapter
+import com.elmirov.course.databinding.DialogChangeTopicBinding
 import com.elmirov.course.databinding.DialogEditMessageBinding
 import com.elmirov.course.databinding.DialogMessageActionBinding
 import com.elmirov.course.databinding.FragmentChatBinding
@@ -241,6 +242,26 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
                     onPositiveButtonClick = {
                         val newText = dialogEditView.messageText.text.toString()
                         store.accept(ChatEvent.Ui.OnEditClick(effect.messageId, newText))
+                    }
+                )
+                dialog.dismiss()
+            }
+
+            changeTopic.setOnClickListener {
+                val dialogChangeTopicView = DialogChangeTopicBinding.inflate(layoutInflater)
+                showDialog(
+                    title = getString(R.string.change_topic),
+                    layout = dialogChangeTopicView.root,
+                    positiveButtonText = getString(R.string.change),
+                    onPositiveButtonClick = {
+                        val newTopicName = dialogChangeTopicView.topicName.text?.trim().toString()
+                            .ifEmpty { defaultTopicName }
+                        store.accept(
+                            ChatEvent.Ui.OnChangeTopicClick(
+                                effect.messageId,
+                                newTopicName
+                            )
+                        )
                     }
                 )
                 dialog.dismiss()
