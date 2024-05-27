@@ -18,4 +18,9 @@
     <string name="enter_name">Enter name</string>
     <string name="enter_description">Enter description</string>
 	<string name="create_new_channel">Create new channel</string>
+    <string name="delete">Delete</string>
+    <string name="add_reaction">Add reaction</string>
+	<string name="edit_message">Edit message</string>
+	<string name="change_topic">Change topic</string>
+    <string name="copy">Copy</string>
 </resources>
