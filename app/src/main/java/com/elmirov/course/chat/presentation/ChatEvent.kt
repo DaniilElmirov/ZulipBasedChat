@@ -42,6 +42,8 @@ sealed interface ChatEvent {
         data class OnIncomingMessageLongClick(val messageId: Int, val timestamp: Int) : Ui
 
         data class OnDeleteClick(val messageId: Int) : Ui
+
+        data class OnEditClick(val messageId: Int, val text: String) : Ui
     }
 
     sealed interface Internal : ChatEvent {
@@ -59,5 +61,7 @@ sealed interface ChatEvent {
         data object SendError : Internal
 
         data object DeleteSuccess : Internal
+
+        data object EditSuccess : Internal
     }
 }

@@ -62,6 +62,10 @@ class ChatReducer @Inject constructor(
         ChatEvent.Internal.DeleteSuccess -> {
             commands { +ChatCommand.Load }
         }
+
+        ChatEvent.Internal.EditSuccess -> {
+            commands { +ChatCommand.Load }
+        }
     }
 
     override fun Result.ui(event: ChatEvent.Ui): Any = when (event) {
@@ -161,6 +165,10 @@ class ChatReducer @Inject constructor(
                     transferable = timeDifference < TRANSFER_ALLOWED_IN_SECONDS,
                 )
             }
+        }
+
+        is ChatEvent.Ui.OnEditClick -> {
+            commands { +ChatCommand.Edit(event.messageId, event.text) }
         }
     }
 
