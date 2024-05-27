@@ -9,6 +9,6 @@ class DelegateAdapterItemCallback : DiffUtil.ItemCallback<DelegateItem>() {
     }
 
     override fun areContentsTheSame(oldItem: DelegateItem, newItem: DelegateItem): Boolean {
-        return oldItem.compareToOther(newItem)
+        return oldItem::class == newItem::class && oldItem.compareToOther(newItem)
     }
 }
