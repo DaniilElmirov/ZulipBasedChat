@@ -43,4 +43,6 @@ interface MessagesRepository {
         topicName: String,
         id: Int,
     ): Result<List<Message>>
+
+    suspend fun delete(messageId: Int): Result<String>
 }

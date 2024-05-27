@@ -167,6 +167,12 @@ class MessagesRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun delete(messageId: Int): Result<String> = getResultWithHandleError(
+        dispatcher = dispatcherIo
+    ) {
+        api.delete(messageId).result
+    }
+
     private fun getNarrowJson(channelName: String, topicName: String): String {
         val narrow = mutableListOf<Narrow>()
 
