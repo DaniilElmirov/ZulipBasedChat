@@ -173,6 +173,12 @@ class MessagesRepositoryImpl @Inject constructor(
         api.delete(messageId).result
     }
 
+    override suspend fun edit(messageId: Int, text: String): Result<String> = getResultWithHandleError(
+        dispatcher = dispatcherIo
+    ) {
+        api.edit(messageId, text).result
+    }
+
     private fun getNarrowJson(channelName: String, topicName: String): String {
         val narrow = mutableListOf<Narrow>()
 
