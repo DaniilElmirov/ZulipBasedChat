@@ -24,4 +24,6 @@
 	<string name="change_topic">Change topic</string>
     <string name="copy">Copy</string>
     <string name="enter_new_text">Enter new text</string>
+    <string name="edit_message_text">Edit message text</string>
+	<string name="edit">Edit</string>
 </resources>

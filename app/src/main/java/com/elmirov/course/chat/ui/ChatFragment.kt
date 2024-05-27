@@ -24,9 +24,11 @@ import com.elmirov.course.chat.ui.delegate.incoming.IncomingMessageDelegate
 import com.elmirov.course.chat.ui.delegate.outgoing.OutgoingMessageDelegate
 import com.elmirov.course.chat.ui.delegate.topic.ChatTopicDelegate
 import com.elmirov.course.core.adapter.MainAdapter
+import com.elmirov.course.databinding.DialogEditMessageBinding
 import com.elmirov.course.databinding.DialogMessageActionBinding
 import com.elmirov.course.databinding.FragmentChatBinding
 import com.elmirov.course.util.getErrorSnackBar
+import com.elmirov.course.util.showDialog
 import com.elmirov.course.util.toDelegateItems
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
@@ -227,6 +229,20 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
 
             delete.setOnClickListener {
                 store.accept(ChatEvent.Ui.OnDeleteClick(effect.messageId))
+                dialog.dismiss()
+            }
+
+            edit.setOnClickListener {
+                val dialogEditView = DialogEditMessageBinding.inflate(layoutInflater)
+                showDialog(
+                    title = getString(R.string.edit_message_text),
+                    layout = dialogEditView.root,
+                    positiveButtonText = getString(R.string.edit),
+                    onPositiveButtonClick = {
+                        val newText = dialogEditView.messageText.text.toString()
+                        store.accept(ChatEvent.Ui.OnEditClick(effect.messageId, newText))
+                    }
+                )
                 dialog.dismiss()
             }
         }
