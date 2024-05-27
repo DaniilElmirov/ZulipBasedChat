@@ -4,6 +4,7 @@ import com.elmirov.course.chat.data.remote.model.MessagesResponseModel
 import com.elmirov.course.core.network.BaseResponseModel
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -66,4 +67,10 @@ interface MessagesApi {
 
     @DELETE("messages/{message_id}")
     suspend fun delete(@Path("message_id") messageId: Int): BaseResponseModel
+
+    @PATCH("messages/{message_id}")
+    suspend fun edit(
+        @Path("message_id") messageId: Int,
+        @Query("content") text: String,
+    ): BaseResponseModel
 }
