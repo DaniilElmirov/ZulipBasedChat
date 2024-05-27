@@ -1,5 +1,7 @@
 package com.elmirov.course.chat.ui
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -48,6 +50,8 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
         private const val KEY_CHAT_INFO = "KEY_CHAT_INFO"
 
         private const val EMPTY_NAME = ""
+
+        private const val LABEL = "LABEL"
 
         fun newInstance(chatInfo: ChatInfo): ChatFragment =
             ChatFragment().apply {
@@ -278,6 +282,15 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
                         )
                     }
                 )
+                dialog.dismiss()
+            }
+
+            copy.setOnClickListener {
+                val manager =
+                    requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clipData = ClipData.newPlainText(LABEL, effect.messageText)
+                manager.setPrimaryClip(clipData)
+
                 dialog.dismiss()
             }
         }
