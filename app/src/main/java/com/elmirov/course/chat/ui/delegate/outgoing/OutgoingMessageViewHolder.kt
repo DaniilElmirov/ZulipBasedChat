@@ -10,7 +10,8 @@ import com.elmirov.course.databinding.OutgoingMessageItemBinding
 
 class OutgoingMessageViewHolder(
     parent: ViewGroup,
-    private val openReactions: (messageId: Int) -> Unit,
+    private val onMessageLongClick: (messageId: Int, timestamp: Int) -> Unit,
+    private val onIconAddClick: (messageId: Int) -> Unit,
     private val onReactionClick: (messageId: Int, reaction: Reaction, selected: Boolean) -> Unit,
 ) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.outgoing_message_item, parent, false)
@@ -23,7 +24,7 @@ class OutgoingMessageViewHolder(
             messageText.text = message.text
 
             outgoingMessage.setOnLongClickListener {
-                openReactions(message.id)
+                onMessageLongClick(message.id, message.timestamp)
                 true
             }
 
@@ -33,7 +34,7 @@ class OutgoingMessageViewHolder(
                 reactions.addReactions(message.reactions)
 
                 reactions.onIconAddClick {
-                    openReactions(message.id)
+                    onIconAddClick(message.id)
                 }
 
                 reactions.setOnReactionClick {

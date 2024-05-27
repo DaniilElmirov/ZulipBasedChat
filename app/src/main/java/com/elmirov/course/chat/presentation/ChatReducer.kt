@@ -16,6 +16,13 @@ class ChatReducer @Inject constructor(
         ChatCommand>(
     ChatEvent.Ui::class, ChatEvent.Internal::class
 ) {
+
+    private companion object {
+        const val DELETE_ALLOWED_IN_SECONDS = 9 * 60
+        const val EDIT_ALLOWED_IN_SECONDS = 1440 * 60
+        const val TRANSFER_ALLOWED_IN_SECONDS = 7 * 24 * 60 * 60
+    }
+
     override fun Result.internal(event: ChatEvent.Internal): Any = when (event) {
 
         is ChatEvent.Internal.ChatLoadingError -> {
@@ -130,5 +137,32 @@ class ChatReducer @Inject constructor(
         is ChatEvent.Ui.OnDeleteClick -> {
             commands { +ChatCommand.Delete(event.messageId) }
         }
+
+        is ChatEvent.Ui.OnIncomingMessageLongClick -> {
+            effects {
+                +ChatEffect.ShowMessageActionDialog(
+                    messageId = event.messageId,
+                    deletable = false,
+                    editable = false,
+                    transferable = false,
+                )
+            }
+        }
+
+        is ChatEvent.Ui.OnOutgoingMessageLongClick -> {
+            val currentTimestamp = System.currentTimeMillis().toIntSeconds()
+            val timeDifference = currentTimestamp - event.timestamp
+
+            effects {
+                +ChatEffect.ShowMessageActionDialog(
+                    messageId = event.messageId,
+                    deletable = timeDifference < DELETE_ALLOWED_IN_SECONDS,
+                    editable = timeDifference < EDIT_ALLOWED_IN_SECONDS,
+                    transferable = timeDifference < TRANSFER_ALLOWED_IN_SECONDS,
+                )
+            }
+        }
     }
+
+    private fun Long.toIntSeconds(): Int = (this / 1000).toInt()
 }

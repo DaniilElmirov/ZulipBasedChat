@@ -24,9 +24,11 @@ import com.elmirov.course.chat.ui.delegate.incoming.IncomingMessageDelegate
 import com.elmirov.course.chat.ui.delegate.outgoing.OutgoingMessageDelegate
 import com.elmirov.course.chat.ui.delegate.topic.ChatTopicDelegate
 import com.elmirov.course.core.adapter.MainAdapter
+import com.elmirov.course.databinding.DialogMessageActionBinding
 import com.elmirov.course.databinding.FragmentChatBinding
 import com.elmirov.course.util.getErrorSnackBar
 import com.elmirov.course.util.toDelegateItems
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import vivid.money.elmslie.android.renderer.elmStoreWithRenderer
 import vivid.money.elmslie.core.store.ElmStore
@@ -76,7 +78,10 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
         MainAdapter().apply {
             addDelegate(
                 OutgoingMessageDelegate(
-                    openReactions = ::showDialog,
+                    onMessageLongClick = { messageId, timestamp ->
+                        store.accept(ChatEvent.Ui.OnOutgoingMessageLongClick(messageId, timestamp))
+                    },
+                    onIconAddClick = ::showReactions,
                     onReactionClick = { messageId, reaction, selected ->
                         store.accept(
                             ChatEvent.Ui.OnReactionClick(
@@ -90,7 +95,10 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
             )
             addDelegate(
                 IncomingMessageDelegate(
-                    openReactions = ::showDialog,
+                    onMessageLongClick = { messageId, timestamp ->
+                        store.accept(ChatEvent.Ui.OnIncomingMessageLongClick(messageId, timestamp))
+                    },
+                    onIconAddClick = ::showReactions,
                     onReactionClick = { messageId, reaction, selected ->
                         store.accept(
                             ChatEvent.Ui.OnReactionClick(
@@ -188,6 +196,59 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
 
     override fun handleEffect(effect: ChatEffect): Unit = when (effect) {
         ChatEffect.ShowError -> showErrorSnack()
+
+        is ChatEffect.ShowMessageActionDialog -> showActionDialog(effect)
+    }
+
+    private fun showErrorSnack() {
+        errorSnackBar = getErrorSnackBar(
+            textResId = R.string.unknown_error,
+            actionText = getString(R.string.try_again),
+            actionListener = { store.accept(ChatEvent.Ui.OnRefreshClick) }
+        )
+        errorSnackBar?.anchorView = binding.snackAnchor
+        errorSnackBar?.show()
+    }
+
+    private fun showActionDialog(effect: ChatEffect.ShowMessageActionDialog) {
+        val actionView = DialogMessageActionBinding.inflate(layoutInflater)
+        val dialog = BottomSheetDialog(requireContext())
+        dialog.setContentView(actionView.root)
+
+        actionView.apply {
+            delete.isVisible = effect.deletable
+            edit.isVisible = effect.editable
+            changeTopic.isVisible = effect.transferable
+
+            addReaction.setOnClickListener {
+                showReactions(effect.messageId)
+                dialog.dismiss()
+            }
+
+            delete.setOnClickListener {
+                store.accept(ChatEvent.Ui.OnDeleteClick(effect.messageId))
+                dialog.dismiss()
+            }
+        }
+        dialog.show()
+    }
+
+    private fun showReactions(messageId: Int) {
+        val dialog = ChooseReactionFragment.newInstance(messageId)
+        dialog.show(
+            requireActivity().supportFragmentManager,
+            ChooseReactionFragment.TAG
+        )
+
+        dialog.click = { _, reaction, selected ->
+            store.accept(
+                ChatEvent.Ui.OnReactionClick(
+                    messageId = messageId,
+                    reaction = reaction,
+                    selected = selected,
+                )
+            )
+        }
     }
 
     private fun setupToolbar(channelName: String, topicName: String) {
@@ -289,16 +350,6 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
         }
     }
 
-    private fun showErrorSnack() {
-        errorSnackBar = getErrorSnackBar(
-            textResId = R.string.unknown_error,
-            actionText = getString(R.string.try_again),
-            actionListener = { store.accept(ChatEvent.Ui.OnRefreshClick) }
-        )
-        errorSnackBar?.anchorView = binding.snackAnchor
-        errorSnackBar?.show()
-    }
-
     private fun addTopicNames(topicNames: List<String>, withTopics: Boolean) {
         if (withTopics) {
             val adapter = ArrayAdapter(requireContext(), R.layout.topic_name_item, topicNames)
@@ -324,24 +375,6 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
     private fun setNavigationIconClickListener() {
         binding.toolbar.setNavigationOnClickListener {
             store.accept(ChatEvent.Ui.OnBackClick)
-        }
-    }
-
-    private fun showDialog(messageId: Int) {
-        val dialog = ChooseReactionFragment.newInstance(messageId)
-        dialog.show(
-            requireActivity().supportFragmentManager,
-            ChooseReactionFragment.TAG
-        )
-
-        dialog.click = { _, reaction, selected ->
-            store.accept(
-                ChatEvent.Ui.OnReactionClick(
-                    messageId = messageId,
-                    reaction = reaction,
-                    selected = selected,
-                )
-            )
         }
     }
 
