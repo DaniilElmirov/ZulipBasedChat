@@ -10,7 +10,7 @@
         android:id="@+id/search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/top_bar_color"
+        android:background="@color/background_100"
         android:drawableEnd="@drawable/ic_search"
         android:drawablePadding="@dimen/padding_8"
         android:hint="@string/search"
@@ -25,11 +25,11 @@
         android:id="@+id/tab"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/top_bar_color"
+        android:background="@color/background_100"
         android:paddingBottom="@dimen/padding_24"
         app:tabGravity="fill"
         app:tabIndicator="@drawable/tab_indicator"
-        app:tabIndicatorColor="@color/tab_indicator_color"
+        app:tabIndicatorColor="@color/tab_indicator"
         app:tabMode="fixed"
         app:tabTextColor="@color/white" />
 

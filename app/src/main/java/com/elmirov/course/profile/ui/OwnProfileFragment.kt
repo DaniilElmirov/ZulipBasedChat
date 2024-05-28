@@ -135,17 +135,17 @@ class OwnProfileFragment : ElmBaseFragment<ProfileEffect, ProfileState, ProfileE
             when (status) {
                 User.OnlineStatus.ACTIVE -> {
                     text = getString(R.string.active)
-                    setTextColor(resources.getColor(R.color.active_status_color, null))
+                    setTextColor(resources.getColor(R.color.active, null))
                 }
 
                 User.OnlineStatus.IDLE -> {
                     text = getString(R.string.idle)
-                    setTextColor(resources.getColor(R.color.idle_status_color, null))
+                    setTextColor(resources.getColor(R.color.idle, null))
                 }
 
                 User.OnlineStatus.OFFLINE -> {
                     text = getString(R.string.offline)
-                    setTextColor(resources.getColor(R.color.offline_status_color, null))
+                    setTextColor(resources.getColor(R.color.offline, null))
                 }
             }
         }

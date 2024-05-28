@@ -13,7 +13,7 @@
         android:gravity="center"
         android:padding="@dimen/padding_20"
         android:text="@string/create_channel"
-        android:background="@color/tab_indicator_color"/>
+        android:background="@color/tab_indicator"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/channels"

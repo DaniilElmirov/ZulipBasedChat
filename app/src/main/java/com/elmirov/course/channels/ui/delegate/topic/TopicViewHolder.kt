@@ -18,9 +18,9 @@ class TopicViewHolder(
 
     fun bind(topic: Topic, position: Int) {
         if (position % 2 == 0)
-            binding.root.setBackgroundResource(R.color.even_topic_color)
+            binding.root.setBackgroundResource(R.color.even_topic)
         else
-            binding.root.setBackgroundResource(R.color.odd_topic_color)
+            binding.root.setBackgroundResource(R.color.odd_topic)
 
         binding.name.text = topic.name
 
