@@ -1,36 +1,42 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-	<style name="Base.Theme.Homework_1"
-		parent="Theme.Material3.DayNight.NoActionBar">
-		
-		<item name="background_100">@color/background_100</item>
-		<item name="background_200">@color/background_200</item>
-		<item name="background_300">@color/background_300</item>
-		<item name="background_400">@color/background_400</item>
-		<item name="background_500">@color/background_500</item>
-		<item name="background_600">@color/background_600</item>
-		<item name="background_700">@color/background_700</item>
-		<item name="background_800">@color/background_800</item>
-		<item name="background_900">@color/background_900</item>
+<resources>
 
-		<item name="text_100">@color/text_100</item>
-		<item name="text_200">@color/text_200</item>
-		<item name="text_300">@color/text_300</item>
-		<item name="text_400">@color/text_400</item>
-		<item name="text_user_name">@color/text_user_name</item>
+    <style name="Base.Theme.Homework_1" parent="Theme.Material3.DayNight.NoActionBar">
 
-		<item name="tab_indicator">@color/tab_indicator</item>
-		<item name="odd_topic">@color/odd_topic</item>
-		<item name="even_topic">@color/even_topic</item>
+        <item name="android:navigationBarColor">@color/background_100</item>
 
-		<item name="outgoing_start">@color/outgoing_start</item>
-		<item name="outgoing_end">@color/outgoing_end</item>
-		<item name="reaction_top_line">@color/reaction_top_line</item>
+        <item name="background_100">@color/background_100</item>
+        <item name="background_200">@color/background_200</item>
+        <item name="background_300">@color/background_300</item>
+        <item name="background_400">@color/background_400</item>
+        <item name="background_500">@color/background_500</item>
+        <item name="background_600">@color/background_600</item>
+        <item name="background_700">@color/background_700</item>
+        <item name="background_800">@color/background_800</item>
+        <item name="background_900">@color/background_900</item>
 
-		<item name="active">@color/active</item>
-		<item name="idle">@color/idle</item>
-		<item name="offline">@color/offline</item>
-	</style>
+        <item name="text_100">@color/text_100</item>
+        <item name="text_200">@color/text_200</item>
+        <item name="text_300">@color/text_300</item>
+        <item name="text_400">@color/text_400</item>
+        <item name="text_user_name">@color/text_user_name</item>
 
-	<style name="Theme.Homework_1"
-		parent="Base.Theme.Homework_1"/>
+        <item name="tab_indicator">@color/tab_indicator</item>
+        <item name="odd_topic">@color/odd_topic</item>
+        <item name="even_topic">@color/even_topic</item>
+
+        <item name="outgoing_start">@color/outgoing_start</item>
+        <item name="outgoing_end">@color/outgoing_end</item>
+        <item name="reaction_top_line">@color/reaction_top_line</item>
+
+        <item name="active">@color/active</item>
+        <item name="idle">@color/idle</item>
+        <item name="offline">@color/offline</item>
+    </style>
+
+    <style name="Theme.Homework_1" parent="Base.Theme.Homework_1" />
+
+    <style name="AlertDialog" parent="Theme.Material3.Dark.Dialog">
+        <item name="android:background">@color/background_100</item>
+        <item name="colorPrimary">@color/tab_indicator</item>
+    </style>
 </resources>
