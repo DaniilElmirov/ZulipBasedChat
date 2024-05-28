@@ -4,28 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/input_background_color">
+    android:background="?attr/background_100">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/odd_topic"
+        android:background="?attr/odd_topic"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_arrow_left"
         app:titleMarginStart="@dimen/margin_40"
-        app:titleTextColor="@color/white"
+        app:titleTextAppearance="@style/TabText"
+        app:titleTextColor="?attr/text_300"
         tools:title="#general" />
 
     <TextView
         android:id="@+id/topic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/in_chat_topic_color"
+        android:background="?attr/background_200"
         android:gravity="center"
         android:paddingVertical="@dimen/padding_12"
-        android:textColor="@color/reaction_text_color"
+        android:textColor="?attr/text_100"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         tools:text="Topic: #testing" />
@@ -35,7 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="@dimen/margin_4"
-        android:background="@color/figma_background_color"
+        android:background="?attr/background_400"
         android:orientation="vertical"
         android:visibility="visible"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -85,17 +87,15 @@
 
     <AutoCompleteTextView
         android:id="@+id/topic_name"
+        style="@style/ChatText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin_12"
         android:layout_marginEnd="@dimen/margin_16"
         android:layout_marginBottom="@dimen/margin_8"
-        android:background="@drawable/new_message_shape"
         android:hint="@string/enter_topic_name"
         android:paddingHorizontal="@dimen/padding_20"
         android:paddingVertical="@dimen/padding_12"
-        android:textColor="@color/message_hint_text_color"
-        android:textColorHint="@color/message_hint_text_color"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/new_message"
         app:layout_constraintEnd_toEndOf="parent"
@@ -103,17 +103,15 @@
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/new_message"
+        style="@style/ChatText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin_12"
         android:layout_marginBottom="@dimen/margin_4"
-        android:background="@drawable/new_message_shape"
         android:hint="@string/write"
         android:maxLines="3"
         android:paddingHorizontal="@dimen/padding_20"
         android:paddingVertical="@dimen/padding_16"
-        android:textColor="@color/user_message_color"
-        android:textColorHint="@color/message_hint_text_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/send_or_attach"
         app:layout_constraintStart_toStartOf="parent" />

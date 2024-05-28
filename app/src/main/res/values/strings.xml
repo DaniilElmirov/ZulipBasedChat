@@ -28,4 +28,7 @@
 	<string name="edit">Edit</string>
     <string name="enter_new_topic">Enter new topic</string>
 	<string name="change">Change</string>
+    <string name="channels">Channels</string>
+	<string name="people">People</string>
+	<string name="profile">Profile</string>
 </resources>

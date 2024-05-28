@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:background="@color/figma_background_color">
+    tools:background="?attr/background_400">
 
     <!--    TODO добавить стили текста-->
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/search"
+        style="@style/TopBarText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background_100"
         android:drawableEnd="@drawable/ic_search"
         android:drawablePadding="@dimen/padding_8"
         android:hint="@string/users"
@@ -19,7 +19,6 @@
         android:paddingVertical="24dp"
         android:paddingLeft="@dimen/padding_64"
         android:paddingRight="@dimen/padding_24"
-        android:textColorHint="@color/white"
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -28,6 +27,7 @@
         android:id="@+id/users"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="?attr/background_400"
         android:visibility="visible"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -74,6 +74,7 @@
 
         <TextView
             android:id="@+id/error_text"
+            style="@style/ErrorText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -81,6 +82,7 @@
 
         <TextView
             android:id="@+id/refresh"
+            style="@style/ErrorText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_24"

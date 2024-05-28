@@ -2,55 +2,61 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/background_200"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/add_reaction"
+        style="@style/DialogMessageField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/add_reaction"
         android:layout_marginHorizontal="@dimen/margin_16"
         android:layout_marginVertical="@dimen/margin_8"
-        android:padding="@dimen/padding_8"/>
+        android:gravity="center"
+        android:padding="@dimen/padding_8"
+        android:text="@string/add_reaction" />
 
     <TextView
         android:id="@+id/delete"
+        style="@style/DialogMessageField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/delete"
         android:layout_marginHorizontal="@dimen/margin_16"
         android:layout_marginVertical="@dimen/margin_8"
-        android:padding="@dimen/padding_8"/>
+        android:gravity="center"
+        android:padding="@dimen/padding_8"
+        android:text="@string/delete" />
 
     <TextView
         android:id="@+id/edit"
+        style="@style/DialogMessageField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/edit_message"
         android:layout_marginHorizontal="@dimen/margin_16"
         android:layout_marginVertical="@dimen/margin_8"
-        android:padding="@dimen/padding_8"/>
+        android:gravity="center"
+        android:padding="@dimen/padding_8"
+        android:text="@string/edit_message" />
 
     <TextView
         android:id="@+id/change_topic"
+        style="@style/DialogMessageField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/change_topic"
         android:layout_marginHorizontal="@dimen/margin_16"
         android:layout_marginVertical="@dimen/margin_8"
-        android:padding="@dimen/padding_8"/>
+        android:gravity="center"
+        android:padding="@dimen/padding_8"
+        android:text="@string/change_topic" />
 
     <TextView
         android:id="@+id/copy"
+        style="@style/DialogMessageField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/copy"
         android:layout_marginHorizontal="@dimen/margin_16"
         android:layout_marginVertical="@dimen/margin_8"
-        android:padding="@dimen/padding_8"/>
+        android:gravity="center"
+        android:padding="@dimen/padding_8"
+        android:text="@string/copy" />
 </LinearLayout>

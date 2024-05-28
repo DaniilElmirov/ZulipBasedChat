@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/in_chat_topic_color">
+    android:background="?attr/background_200">
 
     <TextView
         android:id="@+id/name"
@@ -12,5 +12,6 @@
         android:layout_marginHorizontal="@dimen/margin_12"
         android:layout_marginVertical="@dimen/margin_4"
         android:gravity="center"
+        android:textColor="?attr/text_400"
         tools:text="Topic" />
 </FrameLayout>

@@ -3,21 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?attr/background_400">
 
     <!--    TODO добавить стили текста-->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background_100"
+        android:background="?attr/background_100"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_arrow_left"
         app:title="Profile"
         app:titleCentered="true"
-        app:titleTextColor="@color/white" />
+        app:titleTextAppearance="@style/TabText"
+        app:titleTextColor="?attr/text_300" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gl_avatar_top"
@@ -42,6 +44,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_16"
         android:gravity="center"
+        android:textColor="?attr/text_300"
+        android:textSize="32sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/avatar"
@@ -51,6 +55,7 @@
         android:id="@+id/online_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/name"
@@ -86,6 +91,7 @@
 
         <TextView
             android:id="@+id/error_text"
+            style="@style/ErrorText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -94,6 +100,7 @@
 
         <TextView
             android:id="@+id/refresh"
+            style="@style/ErrorText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_24"

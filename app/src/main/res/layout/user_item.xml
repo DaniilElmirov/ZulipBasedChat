@@ -12,9 +12,10 @@
         android:layout_width="@dimen/user_avatar_width"
         android:layout_height="@dimen/user_avatar_height"
         android:contentDescription="@null"
-        tools:src="@drawable/ic_launcher_foreground"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/ic_launcher_foreground" />
 
     <View
         android:id="@+id/background_online_status"
@@ -28,11 +29,11 @@
         android:id="@+id/online_status"
         android:layout_width="17dp"
         android:layout_height="17dp"
-        tools:background="@drawable/active_status_shape"
         app:layout_constraintBottom_toBottomOf="@id/background_online_status"
         app:layout_constraintEnd_toEndOf="@id/background_online_status"
         app:layout_constraintStart_toStartOf="@id/background_online_status"
-        app:layout_constraintTop_toTopOf="@id/background_online_status" />
+        app:layout_constraintTop_toTopOf="@id/background_online_status"
+        tools:background="@drawable/active_status_shape" />
 
     <TextView
         android:id="@+id/name"
@@ -40,6 +41,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin_12"
         android:layout_marginTop="@dimen/margin_8"
+        android:textColor="?attr/text_200"
+        android:textSize="22sp"
         app:layout_constraintStart_toEndOf="@id/avatar"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Имя Фамилия" />
@@ -49,6 +52,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_4"
+        android:layout_marginBottom="@dimen/margin_8"
+        android:textColor="?attr/text_100"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/name"
         app:layout_constraintTop_toBottomOf="@id/name"

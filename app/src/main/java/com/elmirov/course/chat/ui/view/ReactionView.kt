@@ -74,7 +74,7 @@ class ReactionView @JvmOverloads constructor(
         get() = if (countVisible) "$reaction $count" else reaction.toString()
 
     private val textPaint = TextPaint().apply {
-        color = context.getColor(R.color.reaction_text_color)
+        color = context.getColor(R.color.text_100)
     }
 
     private val textRect = Rect()

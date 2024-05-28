@@ -4,16 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/background_400"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/create"
+        style="@style/ChannelItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?attr/odd_topic"
         android:gravity="center"
         android:padding="@dimen/padding_20"
-        android:text="@string/create_channel"
-        android:background="@color/tab_indicator"/>
+        android:text="@string/create_channel" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/channels"

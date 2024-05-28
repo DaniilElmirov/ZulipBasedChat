@@ -5,33 +5,45 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--    TODO сделать разделитель как на фигме-->
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/search"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/background_100"
-        android:drawableEnd="@drawable/ic_search"
-        android:drawablePadding="@dimen/padding_8"
-        android:hint="@string/search"
-        android:maxLines="1"
-        android:paddingVertical="@dimen/padding_24"
-        android:paddingLeft="@dimen/padding_64"
-        android:paddingRight="@dimen/padding_24"
-        android:textColorHint="@color/white"
-        android:visibility="visible" />
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/search"
+            style="@style/TopBarText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_search"
+            android:drawablePadding="@dimen/padding_8"
+            android:hint="@string/search"
+            android:maxLines="1"
+            android:paddingVertical="@dimen/padding_24"
+            android:paddingLeft="@dimen/padding_64"
+            android:paddingRight="@dimen/padding_24"
+            android:visibility="visible" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="@dimen/margin_20"
+            android:layout_marginEnd="@dimen/margin_90"
+            android:background="?attr/background_700" />
+    </FrameLayout>
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background_100"
+        android:background="?attr/background_100"
         android:paddingBottom="@dimen/padding_24"
         app:tabGravity="fill"
         app:tabIndicator="@drawable/tab_indicator"
-        app:tabIndicatorColor="@color/tab_indicator"
+        app:tabIndicatorColor="?attr/tab_indicator"
         app:tabMode="fixed"
-        app:tabTextColor="@color/white" />
+        app:tabTextAppearance="@style/TabText"
+        app:tabTextColor="?attr/text_300" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/pager"

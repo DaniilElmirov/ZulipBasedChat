@@ -54,7 +54,7 @@ class MessageLayout @JvmOverloads constructor(
 
     private val backgroundRect = RectF()
     private val backgroundPaint = Paint().apply {
-        color = context.getColor(R.color.name_message_background_color)
+        color = context.getColor(R.color.background_200)
     }
 
     init {
