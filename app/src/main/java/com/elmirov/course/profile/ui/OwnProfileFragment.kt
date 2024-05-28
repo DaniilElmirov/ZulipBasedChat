@@ -65,8 +65,14 @@ class OwnProfileFragment : ElmBaseFragment<ProfileEffect, ProfileState, ProfileE
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initStatusBar()
         store.accept(ProfileEvent.Ui.InitOwn)
         setClickListeners()
+    }
+
+    private fun initStatusBar() {
+        requireActivity().window.statusBarColor = requireContext()
+            .getColor(R.color.background_400)
     }
 
     private fun setClickListeners() {

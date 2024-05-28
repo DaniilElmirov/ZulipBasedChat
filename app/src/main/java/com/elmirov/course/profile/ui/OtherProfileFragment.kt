@@ -74,8 +74,14 @@ class OtherProfileFragment : ElmBaseFragment<ProfileEffect, ProfileState, Profil
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initStatusBar()
         applyArguments()
         setClickListeners()
+    }
+
+    private fun initStatusBar() {
+        requireActivity().window.statusBarColor = requireContext()
+            .getColor(R.color.background_100)
     }
 
     private fun applyArguments() {

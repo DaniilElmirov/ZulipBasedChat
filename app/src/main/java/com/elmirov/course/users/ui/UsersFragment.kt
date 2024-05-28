@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import com.elmirov.course.CourseApplication
+import com.elmirov.course.R
 import com.elmirov.course.base.ElmBaseFragment
 import com.elmirov.course.core.user.domain.entity.User
 import com.elmirov.course.databinding.FragmentUsersBinding
@@ -70,10 +71,17 @@ class UsersFragment : ElmBaseFragment<UsersEffect, UsersState, UsersEvent>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initStatusBar()
+
         binding.users.adapter = usersAdapter
 
         store.accept(UsersEvent.Ui.Init)
         setListeners()
+    }
+
+    private fun initStatusBar() {
+        requireActivity().window.statusBarColor = requireContext()
+            .getColor(R.color.background_100)
     }
 
     override fun render(state: UsersState) {

@@ -46,9 +46,15 @@ class ChannelsFragment : Fragment(), SubscribedChannelsCommunicator, AllChannels
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initStatusBar()
         setupViewPager()
         setupTabLayout()
         setupOnPageChangeCallback()
+    }
+
+    private fun initStatusBar() {
+        requireActivity().window.statusBarColor = requireContext()
+            .getColor(R.color.background_100)
     }
 
     private fun setupViewPager() {

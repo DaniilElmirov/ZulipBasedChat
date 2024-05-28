@@ -168,6 +168,8 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initStatusBar()
+
         binding.chat.adapter = messagesAdapter
         store.accept(
             ChatEvent.Ui.Init(
@@ -179,6 +181,11 @@ class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
         setupScrollListener()
         setTextChangeListener()
         setNavigationIconClickListener()
+    }
+
+    private fun initStatusBar() {
+        requireActivity().window.statusBarColor = requireContext()
+            .getColor(R.color.odd_topic)
     }
 
     @Suppress("DEPRECATION")
