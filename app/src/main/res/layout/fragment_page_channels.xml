@@ -12,9 +12,9 @@
         style="@style/ChannelItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/odd_topic"
+        android:background="?attr/tab_indicator"
         android:gravity="center"
-        android:padding="@dimen/padding_20"
+        android:padding="@dimen/padding_4"
         android:text="@string/create_channel" />
 
     <androidx.recyclerview.widget.RecyclerView
