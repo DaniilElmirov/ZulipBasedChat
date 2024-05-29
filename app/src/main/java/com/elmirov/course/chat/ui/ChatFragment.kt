@@ -43,8 +43,6 @@ import javax.inject.Inject
 class ChatFragment : ElmBaseFragment<ChatEffect, ChatState, ChatEvent>() {
 
     companion object {
-
-        //TODO временное решение, лучше личный id хранить в локальном хранилище
         private const val OWN_ID = 709286
 
         private const val KEY_CHAT_INFO = "KEY_CHAT_INFO"

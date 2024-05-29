@@ -58,7 +58,7 @@ class ChannelsFragment : Fragment(), SubscribedChannelsCommunicator, AllChannels
     }
 
     private fun setupViewPager() {
-        val fragments = listOf( //TODO порядок важен, можно ли как-то переделать?
+        val fragments = listOf(
             SubscribedChannelsFragment.newInstance(),
             AllChannelsFragment.newInstance()
         )

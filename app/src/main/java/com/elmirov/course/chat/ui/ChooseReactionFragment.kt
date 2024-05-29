@@ -101,7 +101,7 @@ class ChooseReactionFragment : BottomSheetDialogFragment() {
     private val binding
         get() = _binding!!
 
-    var click: ((Int, Reaction, Boolean) -> Unit)? = null //TODO переделать
+    var click: ((Int, Reaction, Boolean) -> Unit)? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,

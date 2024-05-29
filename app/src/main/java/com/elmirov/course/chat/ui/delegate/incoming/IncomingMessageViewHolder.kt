@@ -20,7 +20,7 @@ class IncomingMessageViewHolder(
     private val binding = IncomingMessageItemBinding.bind(itemView)
 
     fun bind(message: Message) {
-        binding.apply { //TODO вынести в MessageLayout
+        binding.apply {
             incomingMessage.userName = message.authorName
             incomingMessage.messageText = message.text
             incomingMessage.setAvatar(message.avatarUrl)

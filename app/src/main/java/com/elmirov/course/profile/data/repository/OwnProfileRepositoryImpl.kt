@@ -18,7 +18,7 @@ class OwnProfileRepositoryImpl @Inject constructor(
 ) : OwnProfileRepository {
 
     private companion object {
-        const val OWN_ID = 709286 //TODO временно
+        const val OWN_ID = 709286
     }
 
     override suspend fun get(): Result<User> = getResultWithHandleError(

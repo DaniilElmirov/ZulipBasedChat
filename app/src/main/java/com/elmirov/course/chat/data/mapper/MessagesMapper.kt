@@ -56,11 +56,11 @@ private fun ReactionModel.toDb(messageId: Int): ReactionDbModel =
 private fun List<ReactionDbModel>.toEntity(): Map<Reaction, ReactionParams> {
     val result = mutableMapOf<Reaction, ReactionParams>()
 
-    val ownId = 709286 //TODO убрать в локальное хранилище
+    val ownId = 709286
 
     forEach { reactionDbModel ->
         val code =
-            if (//TODO переделать
+            if (
                 reactionDbModel.emojiCode.contains("-") ||
                 reactionDbModel.reactionType != ReactionModel.REACTION_TYPE_UNICODE_EMOJI
             )

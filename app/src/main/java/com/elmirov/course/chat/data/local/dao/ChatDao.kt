@@ -45,7 +45,6 @@ interface ChatDao {
     @Query("DELETE FROM MessageDbModel WHERE (channelName = :channelName)")
     suspend fun clear(channelName: String)
 
-    //TODO подумать над неймингом
     @Query("SELECT COUNT(*) FROM MessageDbModel")
     fun getTableSize(): Int
 
