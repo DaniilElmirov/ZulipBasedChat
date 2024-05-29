@@ -76,6 +76,9 @@ object ChatPresentationTestData {
     val commandLoadCachedTopics = ChatCommand.LoadCachedTopics
 
     val eventChatLoadingError = ChatEvent.Internal.ChatLoadingError
+    val eventSendError = ChatEvent.Internal.SendError
+    val eventAddReactionError = ChatEvent.Internal.AddReactionError
+    val eventTopicsLoadingError = ChatEvent.Internal.TopicsLoadingError
     val eventChatLoadingSuccessEmpty = ChatEvent.Internal.ChatLoadingSuccess(emptyMessages)
     val eventChatLoadingSuccess = ChatEvent.Internal.ChatLoadingSuccess(messages)
     val eventTopicLoadingSuccess = ChatEvent.Internal.TopicsLoadingSuccess(topics.toTopicNames())

@@ -5,6 +5,7 @@ import androidx.test.core.app.ApplicationProvider
 import com.elmirov.course.activity.ui.MainActivity
 import com.elmirov.course.channels.mock.MockChannels.Companion.channels
 import com.elmirov.course.channels.screen.SubscribedScreen
+import com.elmirov.course.chat.domain.entity.ChatInfo
 import com.elmirov.course.chat.mock.MockChat.Companion.messages
 import com.elmirov.course.util.rule.AppTestRule
 import com.kaspersky.kaspresso.testcases.api.testcase.TestCase
@@ -17,11 +18,9 @@ import org.junit.Test
 class SubscribedChannelsFragmentTest : TestCase() {
 
     private companion object {
-        private const val KEY_TOPIC_CHANNEL_NAME = "KEY_TOPIC_CHANNEL_NAME"
-        private const val KEY_TOPIC_NAME = "KEY_TOPIC_NAME"
+        private const val KEY_CHAT_INFO = "KEY_CHAT_INFO"
 
         private const val FIRST_CHANNEL = 0
-        private const val FIRST_TOPIC = 1
     }
 
     @get:Rule
@@ -53,19 +52,17 @@ class SubscribedChannelsFragmentTest : TestCase() {
                     channel.click()
                 }
             }
-            step("On first topic click") {
-                channels.childAt<SubscribedScreen.TopicScreenItem>(FIRST_TOPIC) {
-                    topic.click()
-                }
-            }
+
             step("Check arguments") {
-                val expectedChannelName = "MOCK: first subscribed channel"
-                val expectedTopicName = "MOCK: first topic"
+                val expectedChatInfo = ChatInfo(
+                    channelId = 1,
+                    channelName = "MOCK: first subscribed channel",
+                    topicName = ""
+                )
 
                 rule.activityScenarioRule.scenario.onActivity {
                     it.supportFragmentManager.fragments[0]?.arguments?.apply {
-                        assertEquals(expectedChannelName, getString(KEY_TOPIC_CHANNEL_NAME))
-                        assertEquals(expectedTopicName, getString(KEY_TOPIC_NAME))
+                        assertEquals(expectedChatInfo, getParcelable(KEY_CHAT_INFO))
                     }
                 }
             }

@@ -2,10 +2,10 @@ package com.elmirov.course.chat
 
 import androidx.core.os.bundleOf
 import com.elmirov.course.R
+import com.elmirov.course.chat.domain.entity.ChatInfo
 import com.elmirov.course.chat.mock.MockChat.Companion.messages
 import com.elmirov.course.chat.mock.MockChat.Companion.messagesUrlPattern
 import com.elmirov.course.chat.screen.ChatScreen
-import com.elmirov.course.chat.screen.ChooseReactionsScreen
 import com.elmirov.course.chat.ui.ChatFragment
 import com.elmirov.course.util.rule.FragmentTestRule
 import com.github.tomakehurst.wiremock.client.WireMock
@@ -21,8 +21,7 @@ import org.junit.Test
 class ChatFragmentTest : TestCase() {
 
     private companion object {
-        const val KEY_TOPIC_CHANNEL_NAME = "KEY_TOPIC_CHANNEL_NAME"
-        const val KEY_TOPIC_NAME = "KEY_TOPIC_NAME"
+        private const val KEY_CHAT_INFO = "KEY_CHAT_INFO"
 
         const val TEST_CHANNEL_NAME = "TEST_CHANNEL_NAME"
         const val TEST_TOPIC_NAME = "TEST_TOPIC_NAME"
@@ -30,8 +29,11 @@ class ChatFragmentTest : TestCase() {
         const val MY_MESSAGE = 3
 
         val testBundle = bundleOf(
-            KEY_TOPIC_CHANNEL_NAME to TEST_CHANNEL_NAME,
-            KEY_TOPIC_NAME to TEST_TOPIC_NAME
+            KEY_CHAT_INFO to ChatInfo(
+                channelId = 1,
+                channelName = TEST_CHANNEL_NAME,
+                topicName = TEST_TOPIC_NAME
+            )
         )
     }
 
@@ -122,8 +124,9 @@ class ChatFragmentTest : TestCase() {
                     longClick()
                 }
             }
-            step("Reactions bottom sheet opened") {
-                ChooseReactionsScreen.reactions.isVisible()
+            step("Action bottom sheet opened") {
+                addReactionAction.isVisible()
+                copyAction.isVisible()
             }
         }
     }

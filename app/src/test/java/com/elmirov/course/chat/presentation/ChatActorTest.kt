@@ -5,6 +5,9 @@ import com.elmirov.course.channels.domain.usecase.GetCachedChannelTopicsUseCase
 import com.elmirov.course.channels.domain.usecase.GetChannelTopicsUseCase
 import com.elmirov.course.chat.domain.entity.ChatInfo
 import com.elmirov.course.chat.domain.usecase.AddReactionToMessageUseCase
+import com.elmirov.course.chat.domain.usecase.ChangeTopicUseCase
+import com.elmirov.course.chat.domain.usecase.DeleteMessageUseCase
+import com.elmirov.course.chat.domain.usecase.EditMessageUseCase
 import com.elmirov.course.chat.domain.usecase.GetCachedChannelTopicMessagesUseCase
 import com.elmirov.course.chat.domain.usecase.GetChannelTopicMessagesUseCase
 import com.elmirov.course.chat.domain.usecase.GetLastMessagesUseCase
@@ -38,6 +41,9 @@ class ChatActorTest {
     private val getLastMessagesUseCase: GetLastMessagesUseCase = mock()
     private val getChannelTopicsUseCase: GetChannelTopicsUseCase = mock()
     private val getCachedChannelTopicsUseCase: GetCachedChannelTopicsUseCase = mock()
+    private val deleteMessageUseCase: DeleteMessageUseCase = mock()
+    private val editMessageUseCase: EditMessageUseCase = mock()
+    private val changeTopicUseCase: ChangeTopicUseCase = mock()
 
     private val actor = ChatActor(
         chatInfo,
@@ -51,7 +57,10 @@ class ChatActorTest {
         getUpdatedMessagesUseCase,
         getLastMessagesUseCase,
         getChannelTopicsUseCase,
-        getCachedChannelTopicsUseCase
+        getCachedChannelTopicsUseCase,
+        deleteMessageUseCase,
+        editMessageUseCase,
+        changeTopicUseCase,
     )
 
     @Test
@@ -248,7 +257,7 @@ class ChatActorTest {
     }
 
     @Test
-    fun `command Send error EXPECT event ChatLoadingError`() = runTest {
+    fun `command Send error EXPECT event SendError`() = runTest {
         ChatPresentationTestData.apply {
 
             whenever(
@@ -260,14 +269,14 @@ class ChatActorTest {
             ) doReturn resultError
 
             actor.execute(commandSend).test {
-                assertEquals(eventChatLoadingError, awaitItem())
+                assertEquals(eventSendError, awaitItem())
                 awaitComplete()
             }
         }
     }
 
     @Test
-    fun `command AddReactionSelected error EXPECT event ChatLoadingError`() = runTest {
+    fun `command AddReactionSelected error EXPECT event AddReactionError`() = runTest {
         ChatPresentationTestData.apply {
 
             whenever(
@@ -279,7 +288,7 @@ class ChatActorTest {
             ) doReturn resultError
 
             actor.execute(commandAddReactionSelected).test {
-                assertEquals(eventChatLoadingError, awaitItem())
+                assertEquals(eventAddReactionError, awaitItem())
                 awaitComplete()
             }
         }
@@ -340,7 +349,7 @@ class ChatActorTest {
         }
 
     @Test
-    fun `command AddReactionNoSelected error EXPECT event ChatLoadingError`() = runTest {
+    fun `command AddReactionNoSelected error EXPECT event AddReactionError`() = runTest {
         ChatPresentationTestData.apply {
 
             whenever(
@@ -352,7 +361,7 @@ class ChatActorTest {
             ) doReturn resultError
 
             actor.execute(commandAddReactionNoSelected).test {
-                assertEquals(eventChatLoadingError, awaitItem())
+                assertEquals(eventAddReactionError, awaitItem())
                 awaitComplete()
             }
         }
@@ -427,14 +436,14 @@ class ChatActorTest {
         }
 
     @Test
-    fun `command LoadTopics error EXPECT event ChatLoadingError`() =
+    fun `command LoadTopics error EXPECT event TopicsLoadingError`() =
         runTest {
             ChatPresentationTestData.apply {
 
                 whenever(getChannelTopicsUseCase(CHANNEL_ID)) doReturn resultError
 
                 actor.execute(commandLoadTopics).test {
-                    assertEquals(eventChatLoadingError, awaitItem())
+                    assertEquals(eventTopicsLoadingError, awaitItem())
                     awaitComplete()
                 }
             }

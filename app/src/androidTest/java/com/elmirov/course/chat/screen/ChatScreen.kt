@@ -22,6 +22,9 @@ object ChatScreen : KScreen<ChatScreen>() {
     val newMessage = KEditText { withId(R.id.new_message) }
     val sendOrAttach = KImageView { withId(R.id.send_or_attach) }
 
+    val addReactionAction = KTextView {withId(R.id.add_reaction)}
+    val copyAction = KTextView {withId(R.id.copy)}
+
     val messages = KRecyclerView(
         { withId(R.id.chat) },
         { itemType(::MessageItem) }

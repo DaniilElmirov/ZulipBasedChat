@@ -8,6 +8,7 @@
       "avatar_url": null,
       "sender_full_name": "MOCK: First FullName",
       "content": "MOCK: content 1",
+      "subject": "TEST_TOPIC_NAME",
       "reactions": []
     },
     {
@@ -17,6 +18,7 @@
       "avatar_url": null,
       "sender_full_name": "MOCK: Second FullName",
       "content": "MOCK: content 2",
+      "subject": "TEST_TOPIC_NAME",
       "reactions": []
     },
     {
@@ -26,6 +28,7 @@
       "avatar_url": null,
       "sender_full_name": "MOCK: My Message",
       "content": "MOCK: it's my message",
+      "subject": "TEST_TOPIC_NAME",
       "reactions": []
     }
   ]
