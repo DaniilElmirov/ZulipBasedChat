@@ -38,9 +38,8 @@
     <dimen name="anchor_height">8dp</dimen>
 
     <dimen name="divider_1">1dp</dimen>
-    <dimen name="placeholder_12">12dp</dimen>
-    <dimen name="placeholder_20">20dp</dimen>
     <dimen name="placeholder_24">24dp</dimen>
+    <dimen name="placeholder_48">48dp</dimen>
     <dimen name="placeholder_64">64dp</dimen>
     <dimen name="placeholder_72">72dp</dimen>
     <dimen name="placeholder_160">160dp</dimen>

@@ -12,14 +12,14 @@
 
     <View
         android:layout_width="@dimen/placeholder_236"
-        android:layout_height="@dimen/placeholder_20"
+        android:layout_height="@dimen/placeholder_48"
         android:layout_marginTop="@dimen/margin_16"
-        android:background="?attr/background_200" />
+        android:background="?attr/background_900" />
 
     <View
         android:layout_width="@dimen/placeholder_185"
-        android:layout_height="@dimen/placeholder_12"
+        android:layout_height="@dimen/placeholder_24"
         android:layout_marginTop="@dimen/margin_4"
-        android:background="?attr/background_200" />
+        android:background="?attr/background_900" />
 
 </LinearLayout>

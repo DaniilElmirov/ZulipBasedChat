@@ -21,7 +21,7 @@
         android:layout_height="@dimen/placeholder_24"
         android:layout_marginLeft="@dimen/margin_12"
         android:layout_marginTop="@dimen/margin_8"
-        android:background="?attr/background_200"
+        android:background="?attr/background_900"
         app:layout_constraintStart_toEndOf="@id/avatar"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,7 +30,7 @@
         android:layout_width="@dimen/placeholder_160"
         android:layout_height="@dimen/placeholder_24"
         android:layout_marginTop="@dimen/margin_4"
-        android:background="?attr/background_200"
+        android:background="?attr/background_900"
         app:layout_constraintStart_toStartOf="@id/name"
         app:layout_constraintTop_toBottomOf="@id/name" />
 

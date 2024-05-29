@@ -8,5 +8,5 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/placeholder_64"
-        android:background="?attr/background_300" />
+        android:background="?attr/background_900" />
 </LinearLayout>
