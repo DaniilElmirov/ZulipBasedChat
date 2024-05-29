@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import com.elmirov.course.R
 import com.elmirov.course.databinding.FragmentMainBinding
@@ -28,6 +29,7 @@ class MainFragment : Fragment(), OnItemSelectedListener {
 
     private lateinit var localRouter: Router
     private lateinit var localNavigatorHolder: NavigatorHolder
+    private lateinit var backPressedCallback: OnBackPressedCallback
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +55,22 @@ class MainFragment : Fragment(), OnItemSelectedListener {
         super.onViewCreated(view, savedInstanceState)
 
         binding.bottomNavigation.setOnItemSelectedListener(this)
+        setupBackPressedCallback()
+    }
+
+    private fun setupBackPressedCallback() {
+        backPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                when (binding.bottomNavigation.selectedItemId) {
+                    R.id.channels -> localRouter.exit()
+                    R.id.people, R.id.profile -> {
+                        binding.bottomNavigation.selectedItemId = R.id.channels
+                    }
+                }
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(backPressedCallback)
     }
 
     override fun onResume() {
@@ -71,18 +89,21 @@ class MainFragment : Fragment(), OnItemSelectedListener {
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
 
-        when (item.itemId) {
-            R.id.channels -> localRouter.navigateTo(Screens.ChannelsScreen())
+        if (binding.bottomNavigation.selectedItemId != item.itemId) {
+            when (item.itemId) {
+                R.id.channels -> localRouter.backTo(Screens.ChannelsScreen())
 
-            R.id.people -> localRouter.navigateTo(Screens.UsersScreen())
+                R.id.people -> localRouter.navigateTo(Screens.UsersScreen())
 
-            R.id.profile -> localRouter.navigateTo(Screens.OwnProfileScreen())
+                R.id.profile -> localRouter.navigateTo(Screens.OwnProfileScreen())
+            }
         }
 
         return true
     }
 
     override fun onDestroyView() {
+        backPressedCallback.remove()
         _binding = null
         super.onDestroyView()
     }
