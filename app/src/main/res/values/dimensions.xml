@@ -46,4 +46,10 @@
     <dimen name="placeholder_160">160dp</dimen>
     <dimen name="placeholder_185">185dp</dimen>
     <dimen name="placeholder_236">236dp</dimen>
+
+    <dimen name="size_16">16sp</dimen>
+    <dimen name="size_18">18sp</dimen>
+    <dimen name="size_20">20sp</dimen>
+    <dimen name="size_22">22sp</dimen>
+    <dimen name="size_32">32sp</dimen>
 </resources>
