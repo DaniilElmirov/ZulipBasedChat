@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/background_100">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/odd_topic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_arrow_left"
+        app:titleMarginStart="@dimen/margin_40"
+        app:titleTextAppearance="@style/TabText"
+        app:titleTextColor="?attr/text_300"
+        tools:title="#general" />
+
+    <TextView
+        android:id="@+id/topic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/background_200"
+        android:gravity="center"
+        android:paddingVertical="@dimen/padding_12"
+        android:textColor="?attr/text_100"
+        android:textSize="@dimen/size_20"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        tools:text="Topic: #testing" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chat"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/margin_4"
+        android:background="?attr/background_400"
+        android:orientation="vertical"
+        android:visibility="visible"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@id/topic_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topic"
+        tools:listitem="@layout/incoming_message_item" />
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topic">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/incoming_message_placeholder" />
+
+            <include layout="@layout/incoming_message_placeholder" />
+
+            <include layout="@layout/outgoing_message_placeholder" />
+
+            <include layout="@layout/outgoing_message_placeholder" />
+
+            <include layout="@layout/incoming_message_placeholder" />
+
+            <include layout="@layout/incoming_message_placeholder" />
+
+        </LinearLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <View
+        android:id="@+id/snack_anchor"
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_marginBottom="@dimen/margin_4"
+        app:layout_constraintBottom_toTopOf="@id/topic_name"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <AutoCompleteTextView
+        android:id="@+id/topic_name"
+        style="@style/ChatText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_12"
+        android:layout_marginEnd="@dimen/margin_16"
+        android:layout_marginBottom="@dimen/margin_8"
+        android:hint="@string/enter_topic_name"
+        android:paddingHorizontal="@dimen/padding_20"
+        android:paddingVertical="@dimen/padding_12"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/new_message"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/new_message"
+        style="@style/ChatText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_12"
+        android:layout_marginBottom="@dimen/margin_4"
+        android:hint="@string/write"
+        android:maxLines="3"
+        android:paddingHorizontal="@dimen/padding_20"
+        android:paddingVertical="@dimen/padding_16"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/send_or_attach"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/send_or_attach"
+        android:layout_width="@dimen/send_or_attach_width"
+        android:layout_height="@dimen/send_or_attach_height"
+        android:layout_margin="@dimen/margin_12"
+        android:contentDescription="@null"
+        android:src="@drawable/icon_attach"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/new_message" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

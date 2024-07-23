@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ReactionView">
+        <attr name="count" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="Default">
+        <attr name="background_100" format="color" />
+        <attr name="background_200" format="color" />
+        <attr name="background_300" format="color" />
+        <attr name="background_400" format="color" />
+        <attr name="background_500" format="color" />
+        <attr name="background_600" format="color" />
+        <attr name="background_700" format="color" />
+        <attr name="background_800" format="color" />
+        <attr name="background_900" format="color" />
+
+        <attr name="text_100" format="color" />
+        <attr name="text_200" format="color" />
+        <attr name="text_300" format="color" />
+        <attr name="text_400" format="color" />
+        <attr name="text_user_name" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="Channel">
+        <attr name="tab_indicator" format="color" />
+        <attr name="odd_topic" format="color" />
+        <attr name="even_topic" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="Chat">
+        <attr name="outgoing_start" format="color" />
+        <attr name="outgoing_end" format="color" />
+        <attr name="reaction_top_line" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="User">
+        <attr name="active" format="color" />
+        <attr name="idle" format="color" />
+        <attr name="offline" format="color" />
+    </declare-styleable>
+</resources>

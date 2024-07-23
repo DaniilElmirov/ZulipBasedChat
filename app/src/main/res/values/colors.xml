@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<color name="background_100">#1E1E1E</color>
+	<color name="background_200">#1C1C1C</color>
+	<color name="background_300">#282828</color>
+	<color name="background_400">#121212</color>
+	<color name="background_500">#070707</color>
+	<color name="background_600">#1B1B1B</color>
+	<color name="background_700">#3A3A3A</color>
+	<color name="background_800">#C4C4C4</color>
+	<color name="background_900">#555555</color>
+
+	<color name="text_100">#CCCCCC</color>
+	<color name="text_200">#FAFAFA</color>
+	<color name="text_300">#FFFFFF</color>
+	<color name="text_400">#999999</color>
+	<color name="text_user_name">#2A9D8F</color>
+
+	<color name="tab_indicator">#219653</color>
+	<color name="odd_topic">#2A9D8F</color>
+	<color name="even_topic">#E9C46A</color>
+
+	<color name="outgoing_start">#2A9D8F</color>
+	<color name="outgoing_end">#006153</color>
+	<color name="reaction_top_line">#555555</color>
+
+	<color name="active">#4AB54D</color>
+	<color name="idle">#FF9800</color>
+	<color name="offline">#ED1941</color>
+</resources>

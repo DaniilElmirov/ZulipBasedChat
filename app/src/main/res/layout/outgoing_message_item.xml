@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/outgoing_message"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/margin_40"
+    android:layout_marginTop="@dimen/margin_28"
+    android:layout_marginRight="@dimen/margin_12"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/message_text"
+        style="@style/MessageText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:background="@drawable/outgoing_message_shape"
+        android:paddingHorizontal="@dimen/padding_16"
+        android:paddingVertical="@dimen/padding_12"
+        tools:text="Сообщение" />
+
+    <com.elmirov.course.chat.ui.view.FlexBoxLayout
+        android:id="@+id/reactions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginVertical="@dimen/margin_8" />
+</LinearLayout>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:parentTag="com.elmirov.course.chat.ui.view.MessageLayout">
+
+    <ImageView
+        android:id="@+id/avatar"
+        android:layout_width="@dimen/message_avatar_width"
+        android:layout_height="@dimen/message_avatar_height"
+        android:layout_marginRight="@dimen/margin_8"
+        android:contentDescription="@null"
+        tools:src="@drawable/ic_launcher_background" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_4"
+        android:textColor="?attr/text_user_name"
+        android:textSize="14sp"
+        tools:text="Имя фамилия" />
+
+    <TextView
+        android:id="@+id/message"
+        style="@style/MessageText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Текст сообщения" />
+
+    <com.elmirov.course.chat.ui.view.FlexBoxLayout
+        android:id="@+id/reactions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/margin_8" />
+</merge>

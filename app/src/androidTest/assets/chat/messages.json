@@ -1,0 +1,25 @@
+{
+  "result": "success",
+  "messages": [
+    {
+      "id": 1,
+      "timestamp": 1527921326,
+      "sender_id": 1,
+      "avatar_url": null,
+      "sender_full_name": "MOCK: First FullName",
+      "content": "MOCK: content 1",
+      "subject": "TEST_TOPIC_NAME",
+      "reactions": []
+    },
+    {
+      "id": 2,
+      "timestamp": 1527921327,
+      "sender_id": 2,
+      "avatar_url": null,
+      "sender_full_name": "MOCK: Second FullName",
+      "content": "MOCK: content 2",
+      "subject": "TEST_TOPIC_NAME",
+      "reactions": []
+    }
+  ]
+}

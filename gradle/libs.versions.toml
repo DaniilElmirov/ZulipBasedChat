@@ -1,0 +1,84 @@
+[versions]
+agp = "8.3.0"
+fragmentKtx = "1.6.2"
+kotlin = "1.9.0"
+coreKtx = "1.12.0"
+appcompat = "1.6.1"
+material = "1.11.0"
+activity = "1.8.0"
+constraintlayout = "2.1.4"
+lifecycle = "2.5.1"
+dagger = "2.48.1"
+ksp = "1.9.22-1.0.16"
+cicerone = "7.1"
+shimmer = "0.5.0"
+retrofit = "2.9.0"
+interceptor = "4.12.0"
+coil = "2.5.0"
+elmslie = "3.0.0-alpha10"
+room = "2.6.1"
+rules = "1.5.0"
+junit = "4.13.2"
+androidxJunit = "1.1.5"
+junit-ktx = "1.1.5"
+hamcrest = "2.2"
+kaspresso = "1.5.5"
+espressoCore = "3.5.1"
+fragment-testing = "1.7.0"
+androidx-test = "1.5.0"
+httpclientAndroid = "4.3.5.1"
+wiremock = "2.27.2"
+mokito-kotlin = "4.1.0"
+mokito-junit = "5.3.0"
+turbine = "1.0.0"
+coroutines-test = "1.7.0"
+
+[libraries]
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentKtx" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
+dagger-core = { group = "com.google.dagger", name = "dagger", version.ref = "dagger" }
+dagger-compiler = { group = "com.google.dagger", name = "dagger-compiler", version.ref = "dagger" }
+cicerone = { group = "com.github.terrakok", name = "cicerone", version.ref = "cicerone" }
+shimmer = { module = "com.facebook.shimmer:shimmer", version.ref = "shimmer" }
+squareup-retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+squareup-retrofit-converter = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
+okhttp-loggin-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "interceptor" }
+coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
+elmslie-core = { module = "com.github.vivid-money.elmslie:elmslie-core", version.ref = "elmslie" }
+elmslie-android = { module = "com.github.vivid-money.elmslie:elmslie-android", version.ref = "elmslie" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+androidx-rules = { group = "androidx.test", name = "rules", version.ref = "rules" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidxJunit" }
+junit-ktx = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "junit-ktx" }
+hamcrest = { group = "org.hamcrest", name = "hamcrest", version.ref = "hamcrest" }
+kaspresso = { group = "com.kaspersky.android-components", name = "kaspresso", version.ref = "kaspresso" }
+androidx-espresso-intents = { module = "androidx.test.espresso:espresso-intents", version.ref = "espressoCore" }
+fragment-testing = { group = "androidx.fragment", name = "fragment-testing", version.ref = "fragment-testing" }
+androidx-test-core = { group = "androidx.test", name = "core", version.ref = "androidx-test" }
+httpclient-android = { module = "org.apache.httpcomponents:httpclient-android", version.ref = "httpclientAndroid" }
+wiremock = { group = "com.github.tomakehurst", name = "wiremock-standalone", version.ref = "wiremock" }
+mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mokito-kotlin" }
+mockito-junit = { group = "org.mockito", name = "mockito-junit-jupiter", version.ref = "mokito-junit" }
+turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
+coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines-test" }
+
+[plugins]
+androidApplication = { id = "com.android.application", version.ref = "agp" }
+jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
+
+[bundles]
+retrofit = ["squareup-retrofit", "squareup-retrofit-converter", "okhttp-loggin-interceptor"]
+elmslie = ["elmslie-core", "elmslie-android"]
+room = ["room-ktx", "room-runtime"]
+unit-test = ["junit", "mockito-kotlin", "mockito-junit", "turbine", "coroutines-test"]
+ui-test = ["androidx-junit", "junit-ktx", "hamcrest", "kaspresso", "androidx-espresso-intents", "httpclient-android"]

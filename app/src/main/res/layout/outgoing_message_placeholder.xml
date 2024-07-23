@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<View xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/placeholder_160"
+    android:layout_height="@dimen/placeholder_72"
+    android:layout_gravity="end"
+    android:background="@drawable/outgoing_message_shape"
+    android:layout_marginVertical="@dimen/margin_16"
+    android:layout_marginRight="@dimen/margin_12"/>

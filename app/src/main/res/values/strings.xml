@@ -1,0 +1,34 @@
+<resources>
+	<string name="app_name">ElmirovFinalWork</string>
+    <string name="write">Write…</string>
+    <string name="subscribed">Subscribed</string>
+	<string name="all_streams">All streams</string>
+	<string name="hashtag_with_stream_name">#%s</string>
+	<string name="search">Search...</string>
+	<string name="users">Users...</string>
+	<string name="message_count_mes">%d mes</string>
+	<string name="topic_with_name">Topic: #%s</string>
+    <string name="try_again">Try again</string>
+	<string name="unknown_error">Something wrong</string>
+	<string name="active">active</string>
+	<string name="idle">idle</string>
+	<string name="offline">offline</string>
+    <string name="enter_topic_name">Enter topic name</string>
+    <string name="create_channel">Create channel</string>
+    <string name="enter_name">Enter name</string>
+    <string name="enter_description">Enter description</string>
+	<string name="create_new_channel">Create new channel</string>
+    <string name="delete">Delete</string>
+    <string name="add_reaction">Add reaction</string>
+	<string name="edit_message">Edit message</string>
+	<string name="change_topic">Change topic</string>
+    <string name="copy">Copy</string>
+    <string name="enter_new_text">Enter new text</string>
+    <string name="edit_message_text">Edit message text</string>
+	<string name="edit">Edit</string>
+    <string name="enter_new_topic">Enter new topic</string>
+	<string name="change">Change</string>
+    <string name="channels">Channels</string>
+	<string name="people">People</string>
+	<string name="profile">Profile</string>
+</resources>
