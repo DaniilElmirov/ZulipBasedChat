@@ -13,4 +13,4 @@
   - Скопировать сообщение в буфер обмена.
 - Для сообщений других пользователей отсутствует возможность удаления, редактирования, перемещения (по этическим соображениям).
 
-[*Видео работы приложения*]([https://gitlab.com/DaniilElmirov/tfs_spring_2024/-/blob/final_work/app/src/main/res/raw/final_work.webm?ref_type=heads](https://github.com/DaniilElmirov/ZulipBasedChat/blob/main/app/src/main/res/raw/final_work.webm))
+[*Видео работы приложения*](https://github.com/DaniilElmirov/ZulipBasedChat/blob/main/app/src/main/res/raw/final_work.webm)
