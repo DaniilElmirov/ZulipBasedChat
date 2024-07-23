@@ -11,7 +11,7 @@
 - Первая Activity после получения ответа от второй Activity отображает результат в виде RecyclerView.
 - Текущее задание в отдельном модуле внутри проекта.
 
-[*Видео работы приложения*](https://gitlab.com/DaniilElmirov/tfs_spring_2024/-/blob/homework_2/homework_1/src/main/res/raw/homework_1.webm?ref_type=heads)
+[*Видео работы приложения*](https://drive.google.com/file/d/1KJGMvJ_Psrog6HdY0-DwC9HGhxH-ZK3l/view?usp=sharing)
 
 ---
 ## 2. Домашнее задание по лекции "View & ViewGroup"
@@ -28,4 +28,4 @@
   - Отображает: аватар пользователя, имя пользователя, текст сообщения, реакции.
 - Добавлена возможность устанавливать аватар пользователя, имя пользователя, текст сообщения из кода.
 
-[*Видео работы приложения*](https://gitlab.com/DaniilElmirov/tfs_spring_2024/-/blob/homework_2/app/src/main/res/raw/homework_2.mp4?ref_type=heads)
+[*Видео работы приложения*](https://drive.google.com/file/d/1oFFws2r4IgB-tqETMLM_jcWNKNPFSDmo/view?usp=sharing)
