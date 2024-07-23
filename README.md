@@ -13,4 +13,4 @@
   - Скопировать сообщение в буфер обмена.
 - Для сообщений других пользователей отсутствует возможность удаления, редактирования, перемещения (по этическим соображениям).
 
-[*Видео работы приложения*](https://github.com/DaniilElmirov/ZulipBasedChat/blob/main/app/src/main/res/raw/final_work.webm)
+[*Видео работы приложения*](https://drive.google.com/file/d/1PrmA3txPsbFECJw47z13EBsxqXp6Oto1/view?usp=sharing)
